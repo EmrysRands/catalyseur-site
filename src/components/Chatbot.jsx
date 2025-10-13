@@ -2,33 +2,35 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Chatbot() {
-  /* -----------------------------------------------------------
-   🧱 1. États principaux de Nova (mémorisation et affichage)
-  ----------------------------------------------------------- */
-  const [open, setOpen] = useState(false); // ouvre ou ferme la fenêtre du chatbot
-  const [chat, setChat] = useState([]); // contient tout l'historique local des échanges
-  const [input, setInput] = useState(""); // texte tapé par l'utilisateur
-  const [loading, setLoading] = useState(false); // indique que Nova "réfléchit"
-  const [userName, setUserName] = useState(""); // prénom utilisateur
-  const [userEmail, setUserEmail] = useState(""); // email utilisateur
-  const [conversationId] = useState(() => crypto.randomUUID()); // identifiant unique conversation
-  const [showSuggestions, setShowSuggestions] = useState(true); // affiche les messages prédéfinis au début
+  // 🧱 États principaux
+  const [open, setOpen] = useState(false);
+  const [chat, setChat] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [askedIdentity, setAskedIdentity] = useState(false);
+  const [conversationId] = useState(() => crypto.randomUUID());
+  const [showSuggestions, setShowSuggestions] = useState(true);
+  const [messageCount, setMessageCount] = useState(0);
 
-  /* -----------------------------------------------------------
-   💬 2. Message de bienvenue automatique de Nova
-  ----------------------------------------------------------- */
+  // 💬 Message d'accueil initial
   useEffect(() => {
     setChat([
       {
         from: "bot",
-        text: "👋 Salut ! Moi c’est **Nova**, ton guide Catalyseur Digital.\nAvant de commencer, peux-tu me dire ton prénom ? 😊",
+        text: "👋 Salut ! Moi c'est **Nova**, ton guide Catalyseur Digital.\n\nJe suis là pour t'accompagner face aux défis de l'IA et de la transformation professionnelle.\n\n**Dis-moi, où en es-tu aujourd'hui ?** 💬",
       },
     ]);
   }, []);
 
-  /* -----------------------------------------------------------
-   🧠 3. Détection émotionnelle simple (analyse lexicale)
-  ----------------------------------------------------------- */
+  // 🔍 Détection si l'utilisateur dit juste bonjour
+  const isGreeting = (msg) => {
+    const text = msg.trim().toLowerCase();
+    return /^(salut|bonjour|coucou|hey|yo|hello|bonsoir)$/.test(text);
+  };
+
+  // 🧠 Détection émotionnelle
   const detectEmotion = (message) => {
     const text = message.toLowerCase();
     if (/(peur|angoisse|flippé|stress|inquiet|inquiète)/.test(text)) return "peur";
@@ -37,48 +39,52 @@ export default function Chatbot() {
     return "neutre";
   };
 
-  /* -----------------------------------------------------------
-   💞 4. Ton empathique associé à chaque émotion détectée
-  ----------------------------------------------------------- */
+  // 💞 Ton empathique selon émotion détectée
   const emotionPrefix = {
     peur:
-      "Je comprends que ça puisse faire peur 💜. L’IA peut impressionner, mais je suis là pour t’aider à y voir clair, étape par étape.",
+      "Je comprends que ça puisse faire peur 💜. L'IA peut impressionner, mais je suis là pour t'aider à y voir clair, étape par étape.",
     fatigue:
-      "Tu sembles fatigué(e) ou à bout 😔. Respire un peu — on va aborder ça calmement, sans pression. Laisse-moi t’aider à remettre un peu de lumière dans ton parcours.",
+      "Tu sembles fatigué(e) ou à bout 😔. Respire un peu — on va aborder ça calmement, sans pression. Laisse-moi t'aider à remettre un peu de lumière dans ton parcours.",
     colere:
-      "Je sens un peu de frustration 😕. Et c’est ok. Tu n’es pas seul(e) à te sentir perdu(e) face à tous ces changements. On peut en parler sans jugement 💬.",
+      "Je sens un peu de frustration 😕. Et c'est ok. Tu n'es pas seul(e) à te sentir perdu(e) face à tous ces changements. On peut en parler sans jugement 💬.",
     neutre: "",
   };
 
-  /* -----------------------------------------------------------
-   🌐 5. Fonction d’envoi du message au webhook n8n
-  ----------------------------------------------------------- */
+  // 🌐 Envoi au webhook n8n
   const sendToNova = async (message, history) => {
     const payload = {
-      message,
-      userName,
-      userEmail,
-      conversationId,
-      // envoi des 6 derniers messages au format OpenAI
-      history: history.map((m) => ({
-        role: m.from === "user" ? "user" : "assistant",
-        content: m.text,
-      })),
+      body: {
+        message,
+        userName,
+        userEmail,
+        conversationId,
+        history: history.map((m) => ({
+          role: m.from === "user" ? "user" : "assistant",
+          content: m.text,
+        })),
+      },
     };
 
-    const res = await fetch("https://n8n.optimize-insight.com/webhook/chatbot-catalyseur", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    return await res.json();
+    try {
+      const res = await fetch("https://n8n.optimize-insight.com/webhook/chatbot-catalyseur", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+      if (data.reply) return data.reply;
+      if (data[0]?.json?.reply) return data[0].json.reply;
+      return "🤔 Je n'ai pas reçu de réponse de Nova, essaye de reformuler ton message.";
+    } catch (err) {
+      console.error("Erreur Nova →", err);
+      return "⚠️ Nova rencontre un petit souci de connexion.";
+    }
   };
 
-  /* -----------------------------------------------------------
-   🧩 6. Gestion principale des interactions (envoi message)
-  ----------------------------------------------------------- */
+  // 🧩 Gestion de l'envoi
   const handleSend = async (msg = null) => {
-    const messageToSend = msg || input; // permet aussi l'envoi via les boutons de suggestion
+    const messageToSend = msg || input;
     if (!messageToSend.trim()) return;
 
     const userMessage = { from: "user", text: messageToSend };
@@ -86,76 +92,129 @@ export default function Chatbot() {
     setInput("");
     setShowSuggestions(false);
     setLoading(true);
+    setMessageCount((prev) => prev + 1);
 
     try {
       let botReply = "";
 
-      // 🧍 Étape 1 — Demande prénom
-      if (!userName) {
-        setUserName(messageToSend.trim());
+      // 🎯 Cas spécial : salutations simples
+      if (isGreeting(messageToSend)) {
         botReply =
-          "Enchantée, " +
-          messageToSend.trim() +
-          " 🌟 ! Peux-tu maintenant me donner ton adresse email ?";
+          "Hello 👋 !\n\n**Tu veux qu'on discute librement ou tu préfères que je te guide** sur comment l'IA peut t'aider à rebondir professionnellement ? 🚀";
       }
 
-      // ✉️ Étape 2 — Demande email
-      else if (userName && !userEmail) {
-        setUserEmail(messageToSend.trim());
-        botReply =
-          "Merci " +
-          userName +
-          " ✅ ! Dis-moi maintenant ce qui t’amène ici ou ce que tu veux explorer avec Catalyseur Digital.";
-      }
-
-      // 🤖 Étape 3 — Conversation normale (avec ton émotionnel)
-      else {
-        const emotion = detectEmotion(messageToSend); // analyse du ton
-        const emotionIntro = emotionPrefix[emotion]; // récupère la phrase d’intro empathique
-        const history = chat.slice(-6); // conserve 6 derniers échanges
-
-        // Envoi au serveur n8n
+      // ⚡ Étape 1 : conversation émotionnelle
+      else if (!askedIdentity && messageCount < 2) {
+        const emotion = detectEmotion(messageToSend);
+        const emotionIntro = emotionPrefix[emotion];
+        const history = chat.slice(-6);
         const data = await sendToNova(messageToSend, history);
 
-        // Combine empathie + réponse IA
         botReply =
           (emotionIntro ? emotionIntro + "\n\n" : "") +
-          (data.reply ||
-            data ||
-            "🤔 Je réfléchis encore à la meilleure réponse...");
+          (data.reply || data || "🤔 Je réfléchis encore à la meilleure réponse...");
+
+        if (messageCount >= 1) {
+          setTimeout(() => {
+            setChat((prev) => [
+              ...prev,
+              {
+                from: "bot",
+                text:
+                  "Au fait, **j'aimerais mieux te connaître pour personnaliser mon accompagnement** 🎯\n\nC'est quoi ton prénom ? 😊",
+              },
+            ]);
+            setAskedIdentity(true);
+          }, 800);
+        }
       }
 
-      // Ajoute la réponse de Nova dans le chat
+      // 👤 Étape 2 : prénom
+      else if (askedIdentity && !userName) {
+        setUserName(messageToSend.trim());
+        botReply =
+          `Super, **${messageToSend.trim()}** ! 🌟\n\nPour qu'on reste en contact et que je puisse t'envoyer des ressources utiles, **tu peux me donner ton email ?** ✉️`;
+      }
+
+      // ✉️ Étape 3 : email
+      else if (userName && !userEmail) {
+        setUserEmail(messageToSend.trim().toLowerCase());
+        botReply =
+          `Parfait ${userName}, merci ! ✅\n\nMaintenant dis-moi : **qu'est-ce qui t'amène ici aujourd'hui ?**\n\n💡 Quelques pistes :\n• Rebondir professionnellement\n• Découvrir comment utiliser l'IA\n• Automatiser ton activité`;
+      }
+
+      // 🤖 Étape 4 : conversation complète
+      else {
+        const emotion = detectEmotion(messageToSend);
+        const emotionIntro = emotionPrefix[emotion];
+        const history = chat.slice(-6);
+        const data = await sendToNova(messageToSend, history);
+
+        botReply =
+          (emotionIntro ? emotionIntro + "\n\n" : "") +
+          (data.reply || data || "🤔 Je réfléchis encore à la meilleure réponse...");
+      }
+
       setChat((prev) => [...prev, { from: "bot", text: botReply }]);
     } catch (e) {
       console.error(e);
       setChat((prev) => [
         ...prev,
-        {
-          from: "bot",
-          text: "⚠️ Oups, Nova rencontre un petit souci de connexion.",
-        },
+        { from: "bot", text: "⚠️ Oups, Nova rencontre un petit souci de connexion." },
       ]);
     } finally {
       setLoading(false);
     }
   };
 
-  /* -----------------------------------------------------------
-   💬 7. Messages de suggestion au démarrage
-  ----------------------------------------------------------- */
-  const suggestions = [
-    "J'ai 42 ans, je suis au chômage depuis 6 mois, je ne sais pas quoi faire...",
-    "L'IA va prendre mon job, je suis flippé...",
-    "Encore un truc qui promet la lune...",
+  // 💬 Suggestions DYNAMIQUES et variées (5 sets différents)
+  const suggestionSets = [
+    // Set 1 : Peur / Anxiété face à l'IA
+    [
+      "L'IA va remplacer mon job, ça m'angoisse...",
+      "Je ne comprends rien à ChatGPT et tout le monde en parle",
+      "J'ai peur de devenir obsolète dans mon métier",
+    ],
+    
+    // Set 2 : Transition / Reconversion
+    [
+      "Je suis en reconversion, par où commencer ?",
+      "Mon secteur est en crise, je dois me réinventer",
+      "Je cherche à pivoter vers un métier d'avenir",
+    ],
+    
+    // Set 3 : Scepticisme / Fatigue
+    [
+      "Encore une formation qui promet la lune...",
+      "J'ai tout essayé, je ne crois plus en rien",
+      "Je suis submergé(e), je n'ai plus d'énergie",
+    ],
+    
+    // Set 4 : Action / Pragmatisme
+    [
+      "Je veux automatiser mes tâches répétitives",
+      "Comment l'IA peut m'aider concrètement ?",
+      "Je veux gagner du temps dans mon activité",
+    ],
+    
+    // Set 5 : Curiosité / Débutant
+    [
+      "C'est quoi Catalyseur Digital exactement ?",
+      "Je débute complètement avec l'IA",
+      "Je ne sais même pas par où commencer...",
+    ],
   ];
 
-  /* -----------------------------------------------------------
-   🖥️ 8. Rendu complet du widget (structure visuelle)
-  ----------------------------------------------------------- */
+  // 🎲 Sélection aléatoire d'un set de suggestions au chargement
+  const [suggestions] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * suggestionSets.length);
+    return suggestionSets[randomIndex];
+  });
+
+  // 🖥️ Rendu visuel
   return (
     <div className="fixed bottom-6 right-6 z-[50]">
-      {/* 🌟 Bouton flottant d’ouverture */}
+      {/* Bouton flottant */}
       {!open && (
         <motion.button
           onClick={() => setOpen(true)}
@@ -167,7 +226,7 @@ export default function Chatbot() {
         </motion.button>
       )}
 
-      {/* 🪟 Fenêtre de chat animée */}
+      {/* Fenêtre de chat */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -177,7 +236,7 @@ export default function Chatbot() {
             transition={{ duration: 0.3 }}
             className="w-80 md:w-96 h-[520px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-indigo-100"
           >
-            {/* 🧭 En-tête (barre supérieure) */}
+            {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center font-semibold text-lg">
               <span>⚡ Nova — IA Catalyseur</span>
               <button
@@ -188,9 +247,8 @@ export default function Chatbot() {
               </button>
             </div>
 
-            {/* 💬 Zone principale de messages */}
+            {/* Messages */}
             <div className="flex-1 p-4 overflow-y-auto bg-slate-50 text-sm">
-              {/* Affiche chaque message du chat */}
               {chat.map((msg, i) => (
                 <div
                   key={i}
@@ -210,7 +268,7 @@ export default function Chatbot() {
                 </div>
               ))}
 
-              {/* 🔮 Suggestions initiales type ManyChat */}
+              {/* Suggestions dynamiques */}
               {showSuggestions && !userName && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -218,12 +276,15 @@ export default function Chatbot() {
                   transition={{ delay: 0.5 }}
                   className="flex flex-col gap-2 mt-2"
                 >
+                  <p className="text-xs text-slate-500 mb-1 italic">
+                    💡 Quelques exemples pour démarrer :
+                  </p>
                   {suggestions.map((s, i) => (
                     <motion.button
                       key={i}
                       onClick={() => handleSend(s)}
                       whileHover={{ scale: 1.02 }}
-                      className="text-left text-sm bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 rounded-lg px-3 py-2 shadow-sm border border-slate-200 hover:border-indigo-200 hover:shadow-md transition-all"
+                      className="text-left text-sm bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 rounded-lg px-3 py-2 shadow-sm border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all"
                     >
                       {s}
                     </motion.button>
@@ -231,7 +292,7 @@ export default function Chatbot() {
                 </motion.div>
               )}
 
-              {/* ⏳ Animation “Nova réfléchit...” */}
+              {/* Animation "Nova réfléchit..." */}
               {loading && (
                 <motion.div
                   className="flex items-center gap-2 mt-2 text-slate-500 italic"
@@ -277,7 +338,7 @@ export default function Chatbot() {
               )}
             </div>
 
-            {/* 🖊️ Zone d’entrée utilisateur */}
+            {/* Input */}
             <div className="border-t border-indigo-100 bg-white p-3 flex items-center">
               <input
                 type="text"
