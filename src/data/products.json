@@ -10,12 +10,12 @@
         "Outils IA pour explorer des métiers émergents et alignés avec toi",
         "Plan de reconversion réaliste, même sans expérience technique"
       ],
-      "price": "29",
+      "price": "9",
       "image": "/images/ebook-reinvente.png",
       "sample": "/pdfs/REINVENTE TA CARRIERE AVEC L'IA.pdf",
       "upsell": {
         "title": "Bundle complet Renaissance IA",
-        "price": "79",
+        "price": "29",
         "save": "20"
       }
     },
@@ -29,13 +29,13 @@
         "Méthode 2H/jour pour automatiser ton activité sans coder",
         "Feuille de route 30 jours pour réduire ta charge mentale"
       ],
-      "price": "39",
+      "price": "9",
       "image": "/images/ebook-automatisation.png",
       "sample": "/pdfs/Ebooks Catalyseur Digital _ Automatise ton quotidien avec l'IA.pdf",
       "upsell": {
         "title": "Bundle complet Renaissance IA",
-        "price": "79",
-        "save": "25"
+        "price": "39",
+        "save": "9"
       }
     },
     {
@@ -48,12 +48,12 @@
         "Outils IA pour créer ton offre, ton site et ton audience",
         "Plan d’action hebdomadaire pour passer de salarié à indépendant digital"
       ],
-      "price": "39",
+      "price": "9",
       "image": "/images/ebook-liberte.png",
       "sample": "/pdfs/ebook-liberte-extrait.pdf",
       "upsell": {
         "title": "Bundle complet Renaissance IA",
-        "price": "79",
+        "price": "39",
         "save": "30"
       }
     },
@@ -61,7 +61,7 @@
       "type": "bundle",
       "title": "Bundle complet – 3 ebooks Renaissance IA",
       "description": "Accède à la collection complète : Réinvente ta carrière + Automatise ton quotidien + Construis ta liberté digitale. Le plan global pour transformer ta vie avec l’IA.",
-      "price": "79",
+      "price": "27",
       "image": "/images/ebook-bundle.png",
       "sample": "/pdfs/ebook-bundle-extrait.pdf"
     }
