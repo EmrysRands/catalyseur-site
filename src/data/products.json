@@ -15,8 +15,8 @@
       "sample": "/pdfs/REINVENTE TA CARRIERE AVEC L'IA.pdf",
       "upsell": {
         "title": "Bundle complet Renaissance IA",
-        "price": "29",
-        "save": "20"
+        "price": "19",
+        "save": "8"
       }
     },
     {
@@ -34,8 +34,8 @@
       "sample": "/pdfs/Ebooks Catalyseur Digital _ Automatise ton quotidien avec l'IA.pdf",
       "upsell": {
         "title": "Bundle complet Renaissance IA",
-        "price": "39",
-        "save": "9"
+        "price": "19",
+        "save": "8"
       }
     },
     {
@@ -53,15 +53,15 @@
       "sample": "/pdfs/ebook-liberte-extrait.pdf",
       "upsell": {
         "title": "Bundle complet Renaissance IA",
-        "price": "39",
-        "save": "30"
+        "price": "19",
+        "save": "8"
       }
     },
     {
       "type": "bundle",
       "title": "Bundle complet – 3 ebooks Renaissance IA",
       "description": "Accède à la collection complète : Réinvente ta carrière + Automatise ton quotidien + Construis ta liberté digitale. Le plan global pour transformer ta vie avec l’IA.",
-      "price": "27",
+      "price": "19",
       "image": "/images/ebook-bundle.png",
       "sample": "/pdfs/ebook-bundle-extrait.pdf"
     }
