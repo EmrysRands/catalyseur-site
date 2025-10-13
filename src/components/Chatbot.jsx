@@ -1,11 +1,12 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Chatbot() {
   const [open, setOpen] = useState(false);
   const [chat, setChat] = useState([
     {
       from: "bot",
-      text: "Bonjour 👋 Tu veux générer plus de leads, closer plus de deals, ou fidéliser tes clients ?",
+      text: "👋 Salut ! Moi c’est **Nova**, ton guide Catalyseur Digital. Tu veux explorer la Renaissance IA, booster ta carrière ou simplement discuter de ton projet ?",
     },
   ]);
   const [input, setInput] = useState("");
@@ -21,7 +22,7 @@ export default function Chatbot() {
 
     try {
       const res = await fetch(
-        "https://automate.optimizeinsight.com/webhook/chatbot-neurosales",
+        "https://automate.optimizeinsight.com/webhook/chatbot-catalyseur",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -30,17 +31,12 @@ export default function Chatbot() {
       );
 
       const data = await res.json();
-
-      // n8n doit renvoyer un JSON avec { reply: "..." }
-      const botReply = data.reply || data || "Je réfléchis...";
-
-
-
+      const botReply = data.reply || data || "Je réfléchis à ta question...";
       setChat((prev) => [...prev, { from: "bot", text: botReply }]);
     } catch (error) {
       setChat((prev) => [
         ...prev,
-        { from: "bot", text: "⚠️ Désolé, une erreur est survenue." },
+        { from: "bot", text: "⚠️ Oups, je rencontre un souci de connexion." },
       ]);
     } finally {
       setLoading(false);
@@ -48,157 +44,92 @@ export default function Chatbot() {
   };
 
   return (
-    <div
-      style={{
-        position: "fixed",
-        bottom: "20px",
-        right: "20px",
-        zIndex: 9999,
-      }}
-    >
+    <div className="fixed bottom-6 right-6 z-[9999]">
       {/* Bouton flottant */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          style={{
-            width: "60px",
-            height: "60px",
-            borderRadius: "50%",
-            background: "linear-gradient(90deg, var(--color-gold), #f8e287)",
-            border: "none",
-            cursor: "pointer",
-            boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
-            fontSize: "24px",
-          }}
-        >
-          💬
-        </button>
-      )}
+      <AnimatePresence>
+        {!open && (
+          <motion.button
+            onClick={() => setOpen(true)}
+            className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-2xl shadow-lg hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            💬
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Fenêtre de chat */}
-      {open && (
-        <div
-          style={{
-            width: "320px",
-            maxHeight: "450px",
-            background: "white",
-            borderRadius: "16px",
-            boxShadow: "0 6px 20px rgba(0,0,0,0.2)",
-            display: "flex",
-            flexDirection: "column",
-            overflow: "hidden",
-            fontFamily: "Arial, sans-serif",
-          }}
-        >
-          {/* Header chatbot */}
-          <div
-            style={{
-              background: "linear-gradient(90deg, var(--color-gold), #f8e287)",
-              padding: "12px",
-              fontWeight: "bold",
-              textAlign: "center",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="w-80 md:w-96 h-[480px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-indigo-100"
           >
-            💬 Chat NeuroSales
-            <button
-              onClick={() => setOpen(false)}
-              style={{
-                border: "none",
-                background: "transparent",
-                cursor: "pointer",
-                fontSize: "18px",
-                fontWeight: "bold",
-              }}
-            >
-              ✖
-            </button>
-          </div>
-
-          {/* Messages */}
-          <div
-            style={{
-              flex: 1,
-              padding: "10px",
-              overflowY: "auto",
-              fontSize: "0.95rem",
-            }}
-          >
-            {chat.map((msg, i) => (
-              <div
-                key={i}
-                style={{
-                  margin: "8px 0",
-                  textAlign: msg.from === "user" ? "right" : "left",
-                }}
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center font-semibold text-lg">
+              <span>⚡ Nova — IA Catalyseur</span>
+              <button
+                onClick={() => setOpen(false)}
+                className="text-white/80 hover:text-white text-xl font-bold"
               >
-                <span
-                  style={{
-                    display: "inline-block",
-                    padding: "8px 12px",
-                    borderRadius: "12px",
-                    background:
-                      msg.from === "user"
-                        ? "var(--color-gold)"
-                        : "var(--color-lightgrey)",
-                    color: msg.from === "user" ? "black" : "#333",
-                    maxWidth: "80%",
-                  }}
+                ✖
+              </button>
+            </div>
+
+            {/* Messages */}
+            <div className="flex-1 p-4 overflow-y-auto bg-slate-50 text-sm">
+              {chat.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`mb-3 flex ${
+                    msg.from === "user" ? "justify-end" : "justify-start"
+                  }`}
                 >
-                  {msg.text}
-                </span>
-              </div>
-            ))}
+                  <div
+                    className={`max-w-[80%] px-4 py-2 rounded-2xl ${
+                      msg.from === "user"
+                        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-br-none"
+                        : "bg-white border border-indigo-100 text-slate-800 rounded-bl-none"
+                    } shadow-sm`}
+                    style={{ whiteSpace: "pre-line" }}
+                  >
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+              {loading && (
+                <div className="italic text-slate-500">Nova écrit...</div>
+              )}
+            </div>
 
-            {loading && (
-              <div style={{ textAlign: "left", fontStyle: "italic" }}>
-                Le bot écrit<span className="dots"></span>
-              </div>
-            )}
-          </div>
-
-          {/* Input utilisateur */}
-          <div
-            style={{
-              display: "flex",
-              borderTop: "1px solid #ddd",
-              padding: "8px",
-              background: "#fafafa",
-            }}
-          >
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Écris ta réponse..."
-              style={{
-                flex: 1,
-                border: "none",
-                outline: "none",
-                padding: "8px",
-                borderRadius: "8px",
-              }}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
-            />
-            <button
-              onClick={handleSend}
-              style={{
-                marginLeft: "8px",
-                padding: "8px 12px",
-                background: "var(--color-gold)",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontWeight: "bold",
-              }}
-            >
-              ➤
-            </button>
-          </div>
-        </div>
-      )}
+            {/* Input */}
+            <div className="border-t border-indigo-100 bg-white p-3 flex items-center">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Écris ici..."
+                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 text-slate-700 text-sm"
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              />
+              <motion.button
+                onClick={handleSend}
+                className="ml-3 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm shadow-md hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                ➤
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
