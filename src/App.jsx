@@ -10,48 +10,52 @@ import Testimonials from "./components/Testimonials";
 
 export default function App() {
   return (
-    <motion.div
-      className="min-h-screen flex flex-col bg-dark text-gold font-sans overflow-x-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-    >
-      {/* Ton design global reste intact */}
-      <Header />
-
+    <>
+      {/* Bloc principal avec ton design premium */}
       <motion.div
-        className="flex flex-col items-center justify-center min-h-[70vh] text-center"
-        initial={{ y: -40, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1 }}
+        className="min-h-screen flex flex-col bg-dark text-gold font-sans overflow-x-hidden"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
       >
-        <motion.h1
-          className="text-5xl md:text-6xl font-bold mb-4 text-gold"
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          ⚡ Catalyseur Digital
-        </motion.h1>
+        <Header />
 
-        <motion.p
-          className="text-xl md:text-2xl text-gray-300"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1 }}
+        <motion.div
+          className="flex flex-col items-center justify-center min-h-[70vh] text-center"
+          initial={{ y: -40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1 }}
         >
-          Ta renaissance professionnelle à l’ère de l’IA
-        </motion.p>
+          <motion.h1
+            className="text-5xl md:text-6xl font-bold mb-4 text-gold"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            ⚡ Catalyseur Digital
+          </motion.h1>
+
+          <motion.p
+            className="text-xl md:text-2xl text-gray-300"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 1 }}
+          >
+            Ta renaissance professionnelle à l’ère de l’IA
+          </motion.p>
+        </motion.div>
+
+        {/* Sections */}
+        <Hero />
+        <Books />
+        <CTA />
+        <Testimonials />
+        <FAQ />
+        <Footer />
       </motion.div>
 
-      {/* Sections complètes */}
-      <Hero />
-      <Books />
-      <CTA />
-      <Testimonials />
-      <FAQ />
-      <Footer />
+      {/* Chatbot isolé (ne sera jamais affecté par les animations de page) */}
       <Chatbot />
-    </motion.div>
+    </>
   );
 }
