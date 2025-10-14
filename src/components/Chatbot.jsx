@@ -66,7 +66,7 @@ export default function Chatbot() {
     };
 
     try {
-      const res = await fetch("https://n8n.optimize-insight.com/webhook/chatbot-catalyseur", {
+      const res = await fetch("https://automate.optimizeinsight.com/webhook/chatbot-catalyseur", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
