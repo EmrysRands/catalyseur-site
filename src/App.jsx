@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
+import Features from "./components/Features";
 import Books from "./components/Books";
 import CTA from "./components/CTA";
 import FAQ from "./components/FAQ";
@@ -48,6 +49,7 @@ export default function App() {
         {/* Sections */}
         <Hero />
         <Books />
+        <Features />
         <CTA />
         <Testimonials />
         <FAQ />

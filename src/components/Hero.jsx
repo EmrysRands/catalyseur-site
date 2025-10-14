@@ -1,8 +1,21 @@
 import { motion } from "framer-motion";
 
 export default function Hero() {
+  // 🌈 Fonction de scroll fluide vers une section cible
+  const handleSmoothScroll = (e, target) => {
+    e.preventDefault();
+    const el = document.querySelector(target);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  
   return (
-    <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#581c87] text-white overflow-hidden">
+    <section
+      id="hero"
+      className="min-h-screen flex flex-col justify-center items-center text-center px-6 pt-32 bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#581c87] text-white overflow-hidden"
+    >
+
       {/* Titre principal */}
       <motion.h1
         className="text-4xl md:text-6xl font-bold font-[Inter] mb-6 leading-tight"
@@ -59,17 +72,13 @@ export default function Hero() {
 
       {/* CTA principal */}
       <motion.a
-        href="#cta"
-        className="inline-block bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold py-3 px-10 rounded-full text-lg md:text-xl hover:scale-105 transition-transform duration-300 shadow-[0_0_25px_rgba(59,130,246,0.4)]"
-        whileHover={{
-          scale: 1.08,
-          boxShadow:
-            "0 0 25px rgba(139,92,246,0.8), 0 0 45px rgba(59,130,246,0.6)",
-        }}
-        whileTap={{ scale: 0.95 }}
+        href="#books"
+        onClick={(e) => handleSmoothScroll(e, "#books")}
+        className="px-6 py-3 mt-8 text-lg font-semibold rounded-full bg-gradient-to-r from-blue-500 to-purple-600 shadow-md hover:scale-105 transition-all"
       >
         ✨ Découvrir la collection Renaissance IA
       </motion.a>
+
 
       {/* Texte complémentaire */}
       <motion.p

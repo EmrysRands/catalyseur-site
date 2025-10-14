@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect } from "react";
 
 export default function Features() {
   const features = [
@@ -28,16 +29,59 @@ export default function Features() {
     },
   ];
 
+  // 🎬 Animation parent orchestrant les enfants (stagger)
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25,
+        delayChildren: 0.6,
+      },
+    },
+  };
+
+  // ✨ Animation individuelle
+  const item = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    show: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+    },
+  };
+
+  // 🌊 Wave reveal diagonal
+  const waveControls = useAnimation();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      waveControls.start({
+        x: "120%",
+        transition: { duration: 1.5, ease: "easeInOut" },
+      });
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [waveControls]);
+
   return (
     <section
       id="features"
-      className="py-20 px-6 text-center bg-gradient-to-b from-slate-50 to-indigo-50"
+      className="relative py-20 px-6 text-center bg-gradient-to-b from-slate-50 to-indigo-50 overflow-hidden"
     >
-      {/* Titre */}
+      {/* 🌊 Overlay diagonal (effet de vague reveal) */}
+      <motion.div
+        initial={{ x: "-120%" }}
+        animate={waveControls}
+        className="absolute top-0 left-0 w-[200%] h-full rotate-[-12deg] bg-gradient-to-br from-purple-500/30 via-violet-400/20 to-amber-300/20 pointer-events-none"
+      />
+
+      {/* 🎯 Titre principal */}
       <motion.h2
-        className="text-4xl md:text-5xl font-bold font-[Inter] mb-12 text-slate-900"
+        className="relative text-4xl md:text-5xl font-bold font-[Inter] mb-16 text-slate-900"
         initial={{ opacity: 0, y: -40 }}
-        animate={{ opacity: 1, y: 0 }}
+        whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
         Comment{" "}
@@ -47,23 +91,39 @@ export default function Features() {
         te transforme
       </motion.h2>
 
-      {/* Grille des features */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
-        {features.map((f, index) => (
+      {/* 🧩 Grille avec effet stagger */}
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.3 }}
+        className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto z-[2]"
+      >
+        {features.map((f, i) => (
           <motion.div
-            key={index}
-            className="bg-white rounded-2xl shadow-md hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] p-8 flex flex-col justify-center items-center transition-all duration-300"
+            key={i}
+            variants={item}
             whileHover={{
               y: -8,
               scale: 1.03,
               boxShadow:
                 "0 0 25px rgba(139,92,246,0.3), 0 8px 20px rgba(0,0,0,0.1)",
             }}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.2, duration: 0.8 }}
+            className="bg-white rounded-2xl shadow-md hover:shadow-[0_0_30px_rgba(139,92,246,0.2)] p-8 flex flex-col justify-center items-center transition-all duration-300 backdrop-blur-sm"
           >
-            <div className="text-3xl mb-4">{f.icon}</div>
+            <motion.div
+              className="text-4xl mb-4"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 20,
+                delay: i * 0.3,
+              }}
+            >
+              {f.icon}
+            </motion.div>
             <h3 className="text-lg md:text-xl font-semibold text-slate-900 mb-3">
               {f.title}
             </h3>
@@ -72,7 +132,7 @@ export default function Features() {
             </p>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }
