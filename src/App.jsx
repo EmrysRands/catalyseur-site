@@ -48,8 +48,8 @@ export default function App() {
 
         {/* Sections */}
         <Hero />
-        <Books />
         <Features />
+        <Books />
         <CTA />
         <Testimonials />
         <FAQ />
