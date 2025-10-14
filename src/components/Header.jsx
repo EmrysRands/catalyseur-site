@@ -27,7 +27,7 @@ export default function Header() {
     { label: "Pourquoi Catalyseur ?", href: "#features" },
     { label: "Collection Renaissance IA", href: "#books" },
     { label: "FAQ", href: "#faq" },
-    { label: "Commencer", href: "#cta" },
+    { label: "Commencer", href: "#hero" },
   ];
 
   return (
