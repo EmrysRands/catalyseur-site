@@ -216,7 +216,21 @@ export default function Chatbot() {
         const emotion = detectEmotion(messageToSend);
         const emotionIntro = emotionPrefix[emotion];
         const history = chat.slice(-6);
-        const data = await sendToNova(messageToSend, history);
+
+        // 🧠 N'envoie à n8n que si on a déjà l'email
+        let botReply;
+        if (userEmail) {
+          const data = await sendToNova(messageToSend, history);
+          botReply =
+            (emotionIntro ? emotionIntro + "\n\n" : "") +
+            (data.reply || data || "🤔 Je réfléchis encore à la meilleure réponse...");
+        } else {
+          // Animation locale uniquement
+          botReply =
+            (emotionIntro ? emotionIntro + "\n\n" : "") +
+            "Intéressant ! Parlons un peu de toi d’abord avant que je te donne des conseils concrets. 😊";
+        }
+
 
         botReply =
           (emotionIntro ? emotionIntro + "\n\n" : "") +
