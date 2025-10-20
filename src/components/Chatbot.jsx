@@ -73,7 +73,6 @@ export default function Chatbot() {
     neutre: "",
   };
 
-  // 🌐 Envoi au webhook n8n (avec timeout intelligent)
   const sendToNova = async (message, history) => {
     const payload = {
       message,
@@ -111,15 +110,47 @@ export default function Chatbot() {
       clearTimeout(timeout);
       clearTimeout(delayMessage);
 
-      const data = await res.json();
-      if (data.reply) return data.reply;
-      if (data[0]?.json?.reply) return data[0].json.reply;
-      return "🤔 Je n'ai pas reçu de réponse de Nova, essaye de reformuler ton message.";
+      // 🔍 Lecture intelligente de la réponse
+      let data;
+      try {
+        data = await res.json();
+        console.log("Réponse brute Nova →", data); // utile pour debug
+      } catch (e) {
+        console.error("Erreur JSON parsing →", e);
+        return "⚠️ Nova a bien répondu, mais je n'ai pas pu lire correctement la réponse.";
+      }
+
+      // 🧠 Cas 1 : réponse directe (ton cas actuel)
+      if (data && typeof data === "object" && data.reply) {
+        return data.reply;
+      }
+
+      // 🧩 Cas 2 : structure n8n typique [{ json: { reply: ... } }]
+      if (Array.isArray(data) && data[0]?.json?.reply) {
+        return data[0].json.reply;
+      }
+
+      // 🔁 Cas 3 : JSON renvoyé sous forme de texte
+      if (typeof data === "string" && data.includes('"reply"')) {
+        try {
+          const parsed = JSON.parse(data);
+          return parsed.reply || "⚠️ Message reçu partiellement.";
+        } catch {
+          return data;
+        }
+      }
+
+      // 🪶 Cas 4 : fallback
+      return "🤔 Je n'ai pas pu lire la réponse de Nova. Essaie de reformuler ton message.";
     } catch (err) {
       console.error("Erreur Nova →", err);
+      if (err.name === "AbortError") {
+        return "⚠️ Nova met trop de temps à répondre. Réessaie dans quelques instants.";
+      }
       return "⚠️ Nova rencontre un petit souci de connexion.";
     }
   };
+
 
   // 🧩 Gestion de l'envoi
   const handleSend = async (msg = null) => {
