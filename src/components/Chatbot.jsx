@@ -1,328 +1,381 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function Chatbot() {
-  // 🧱 États principaux
+export default function ChatbotOptimized() {
+  // 🆔 User ID stable (fingerprint)
+  const [userId, setUserId] = useState(() => {
+    let id = localStorage.getItem("nova_user_id");
+    if (!id) {
+      // Génération d'un ID stable basé sur navigateur
+      id = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      localStorage.setItem("nova_user_id", id);
+    }
+    return id;
+  });
+
+  // 🧱 États principaux (minimalistes)
   const [open, setOpen] = useState(false);
-  const [chat, setChat] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
-  const [userName, setUserName] = useState("");
-  const [userEmail, setUserEmail] = useState("");
-  const [askedIdentity, setAskedIdentity] = useState(false);
-  const [conversationId, setConversationId] = useState(
-    () => localStorage.getItem("nova_conversationId") || crypto.randomUUID()
-  );
+  const [error, setError] = useState(null);
   const [showSuggestions, setShowSuggestions] = useState(true);
-  const [messageCount, setMessageCount] = useState(0);
+  
+  // 📊 Métriques (pour analytics)
+  const [sessionStarted] = useState(Date.now());
+  const messagesEndRef = useRef(null);
+  const retryCountRef = useRef(0);
 
-  // 💾 Charger la mémoire locale
+  // 🎯 Configuration API
+  const API_CONFIG = {
+    endpoint: "https://automate.optimizeinsight.com/webhook/chatbot-catalyseur",
+    timeout: 25000,
+    maxRetries: 2,
+    retryDelay: 2000
+  };
+
+  // 💾 Charger l'historique depuis localStorage (cache uniquement)
   useEffect(() => {
-    const savedChat = localStorage.getItem("nova_chat");
-    const savedName = localStorage.getItem("nova_userName");
-    const savedEmail = localStorage.getItem("nova_userEmail");
-
-    if (savedChat) setChat(JSON.parse(savedChat));
-    if (savedName) setUserName(savedName);
-    if (savedEmail) setUserEmail(savedEmail);
-  }, []);
-
-  // 💾 Sauvegarde automatique
-  useEffect(() => {
-    localStorage.setItem("nova_chat", JSON.stringify(chat));
-    localStorage.setItem("nova_userName", userName);
-    localStorage.setItem("nova_userEmail", userEmail);
-    localStorage.setItem("nova_conversationId", conversationId);
-  }, [chat, userName, userEmail, conversationId]);
-
-  // 💬 Message d'accueil si première visite
-  useEffect(() => {
-    if (chat.length === 0) {
-      setChat([
-        {
-          from: "bot",
-          text: "👋 Salut ! Moi c'est **Nova**, ton guide Catalyseur Digital.\n\nJe suis là pour t'accompagner face aux défis de l'IA et de la transformation professionnelle.\n\n**Dis-moi, où en es-tu aujourd'hui ?** 💬",
-        },
-      ]);
+    const cached = localStorage.getItem(`nova_chat_${userId}`);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        // Limiter à 50 derniers messages pour éviter overflow
+        setMessages(parsed.slice(-50));
+      } catch (e) {
+        console.error("Cache corrompu:", e);
+        localStorage.removeItem(`nova_chat_${userId}`);
+      }
     }
-  }, [chat]);
+  }, [userId]);
 
-  // 🔍 Détection de salutations
-  const isGreeting = (msg) => {
-    const text = msg.trim().toLowerCase();
-    return /^(salut|bonjour|coucou|hey|yo|hello|bonsoir)$/.test(text);
-  };
+  // 💾 Sauvegarder dans cache local
+  useEffect(() => {
+    if (messages.length > 0) {
+      localStorage.setItem(`nova_chat_${userId}`, JSON.stringify(messages));
+    }
+  }, [messages, userId]);
 
-  // 🧠 Détection émotionnelle
-  const detectEmotion = (message) => {
-    const text = message.toLowerCase();
-    if (/(peur|angoisse|stress|inquiet|inquiète)/.test(text)) return "peur";
-    if (/(fatigué|épuisé|lassé|démotivé)/.test(text)) return "fatigue";
-    if (/(colère|énervé|frustré|déçu|marre)/.test(text)) return "colere";
-    return "neutre";
-  };
+  // 📜 Auto-scroll vers le bas
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
-  // 💞 Ton empathique
-  const emotionPrefix = {
-    peur:
-      "Je comprends que ça puisse faire peur 💜. L'IA peut impressionner, mais je suis là pour t'aider à y voir clair, étape par étape.",
-    fatigue:
-      "Tu sembles fatigué(e) 😔. Respire un peu — on va avancer calmement. Laisse-moi t’aider à remettre un peu de lumière dans ton parcours.",
-    colere:
-      "Je sens un peu de frustration 😕. C’est normal. On peut en parler sans jugement 💬.",
-    neutre: "",
-  };
-
-  // 🚀 Fonction d'envoi vers n8n
-  const sendToNova = async (message, history) => {
-    const payload = {
-      message,
-      userName,
-      userEmail,
-      conversationId,
-      history: history.map((m) => ({
-        role: m.from === "user" ? "user" : "assistant",
-        content: m.text,
-      })),
-    };
+  // 🔄 Fonction d'envoi avec retry et exponential backoff
+  const sendToAPI = async (message, retryCount = 0) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.timeout);
 
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000);
-      const delayMessage = setTimeout(() => {
-        setChat((prev) => [
-          ...prev,
-          {
-            from: "bot",
-            text: "⏳ Nova met un peu plus de temps que prévu... merci de ta patience 🙏",
-          },
-        ]);
-      }, 15000);
+      const response = await fetch(API_CONFIG.endpoint, {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "X-User-ID": userId,
+          "X-Session-Start": sessionStarted.toString()
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          message: message,
+          platform: "web",
+          timestamp: new Date().toISOString(),
+          metadata: {
+            user_agent: navigator.userAgent,
+            screen_width: window.innerWidth,
+            referrer: document.referrer || "direct"
+          }
+        }),
+        signal: controller.signal,
+      });
 
-      const res = await fetch(
-        "https://automate.optimizeinsight.com/webhook/chatbot-catalyseur",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-          signal: controller.signal,
-        }
-      );
+      clearTimeout(timeoutId);
 
-      clearTimeout(timeout);
-      clearTimeout(delayMessage);
-
-      let data;
-      try {
-        data = await res.json();
-        console.log("Réponse brute Nova →", data);
-      } catch {
-        return "⚠️ Nova a répondu, mais le format est illisible.";
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
 
-      // Cas 1 : réponse directe
-      if (data && data.reply) return data.reply;
-
-      // Cas 2 : tableau simple [{ reply: "..."}]
-      if (Array.isArray(data) && data[0]?.reply) return data[0].reply;
-
-      // Cas 3 : tableau n8n [{ json: { reply: "..."} }]
-      if (Array.isArray(data) && data[0]?.json?.reply) return data[0].json.reply;
-
-      // Cas 4 : JSON stringifié
-      if (typeof data === "string" && data.includes('"reply"')) {
-        try {
-          const parsed = JSON.parse(data);
-          return parsed.reply || "⚠️ Message reçu partiellement.";
-        } catch {
-          return data;
-        }
+      const data = await response.json();
+      
+      // ✅ Parser la réponse N8N (flexible)
+      let botReply = null;
+      
+      // Format 1: { success: true, response: "..." }
+      if (data.success && data.response) {
+        botReply = data.response;
+      }
+      // Format 2: { reply: "..." }
+      else if (data.reply) {
+        botReply = data.reply;
+      }
+      // Format 3: [{ json: { response: "..." } }]
+      else if (Array.isArray(data) && data[0]?.json?.response) {
+        botReply = data[0].json.response;
+      }
+      // Format 4: { message: "..." }
+      else if (data.message) {
+        botReply = data.message;
       }
 
+      if (!botReply) {
+        console.error("Format de réponse inconnu:", data);
+        throw new Error("Format de réponse invalide");
+      }
 
-      return "🤔 Je n'ai pas pu lire la réponse de Nova.";
+      retryCountRef.current = 0; // Reset retry count on success
+      return botReply;
+
     } catch (err) {
-      if (err.name === "AbortError")
-        return "⚠️ Nova met trop de temps à répondre. Réessaie dans quelques instants.";
-      return "⚠️ Nova rencontre un petit souci de connexion.";
+      clearTimeout(timeoutId);
+
+      // 🔄 Retry logic avec exponential backoff
+      if (retryCount < API_CONFIG.maxRetries) {
+        const delay = API_CONFIG.retryDelay * Math.pow(2, retryCount);
+        console.log(`Retry ${retryCount + 1}/${API_CONFIG.maxRetries} après ${delay}ms`);
+        
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return sendToAPI(message, retryCount + 1);
+      }
+
+      // 🚨 Erreur finale après tous les retries
+      if (err.name === "AbortError") {
+        throw new Error("⏱️ Nova prend trop de temps à répondre. Vérifie ta connexion.");
+      }
+      
+      throw new Error(
+        err.message.includes("Failed to fetch")
+          ? "🔌 Impossible de contacter Nova. Vérifie ta connexion internet."
+          : `⚠️ ${err.message}`
+      );
     }
   };
 
-  // 🧩 Gestion des messages
-  const handleSend = async (msg = null) => {
-    const messageToSend = msg || input;
-    if (!messageToSend.trim()) return;
+  // 📤 Envoi de message
+  const handleSend = async (customMessage = null) => {
+    const messageToSend = customMessage || input.trim();
+    if (!messageToSend) return;
 
-    const userMessage = { from: "user", text: messageToSend };
-    setChat((prev) => [...prev, userMessage]);
+    // Ajouter message user immédiatement
+    const userMsg = {
+      id: Date.now(),
+      role: "user",
+      content: messageToSend,
+      timestamp: new Date().toISOString()
+    };
+
+    setMessages(prev => [...prev, userMsg]);
     setInput("");
     setShowSuggestions(false);
     setLoading(true);
-    setMessageCount((prev) => prev + 1);
+    setError(null);
 
     try {
-      let botReply = "";
+      // 🚀 Appel API (toute la logique est côté N8N)
+      const botReply = await sendToAPI(messageToSend);
 
-      if (isGreeting(messageToSend)) {
-        botReply =
-          "Hello 👋 !\n\n**Tu veux qu'on discute librement ou tu préfères que je te guide** sur comment l'IA peut t'aider à rebondir professionnellement ? 🚀";
-      } else if (!askedIdentity && messageCount < 2) {
-        const emotion = detectEmotion(messageToSend);
-        const emotionIntro = emotionPrefix[emotion];
-        botReply =
-          (emotionIntro ? emotionIntro + "\n\n" : "") +
-          "Intéressant… dis-m’en un peu plus, je t’écoute 👂";
-        if (messageCount >= 1) {
-          setTimeout(() => {
-            setChat((prev) => [
-              ...prev,
-              {
-                from: "bot",
-                text:
-                  "Au fait, **j'aimerais mieux te connaître pour personnaliser mon accompagnement** 🎯\n\nC'est quoi ton prénom ? 😊",
-              },
-            ]);
-            setAskedIdentity(true);
-          }, 800);
-        }
-      } else if (askedIdentity && !userName) {
-        setUserName(messageToSend.trim());
-        botReply = `Super, **${messageToSend.trim()}** ! 🌟\n\nPour qu'on reste en contact, **tu peux me donner ton email ?** ✉️`;
-      } else if (userName && !userEmail) {
-        setUserEmail(messageToSend.trim().toLowerCase());
-        botReply = `Parfait ${userName}, merci ! ✅\n\nMaintenant dis-moi : **qu'est-ce qui t'amène ici aujourd'hui ?**\n💡 Quelques pistes :\n• Rebondir professionnellement\n• Découvrir comment utiliser l'IA\n• Automatiser ton activité`;
-      } else {
-        const emotion = detectEmotion(messageToSend);
-        const emotionIntro = emotionPrefix[emotion];
-        const history = chat.slice(-6);
+      // Ajouter réponse bot
+      const botMsg = {
+        id: Date.now() + 1,
+        role: "assistant",
+        content: botReply,
+        timestamp: new Date().toISOString()
+      };
 
-        if (userEmail) {
-          const data = await sendToNova(messageToSend, history);
-          botReply =
-            (emotionIntro ? emotionIntro + "\n\n" : "") +
-            (data || "🤔 Je réfléchis encore à la meilleure réponse...");
-        } else {
-          botReply =
-            (emotionIntro ? emotionIntro + "\n\n" : "") +
-            "Intéressant ! Parlons un peu de toi d’abord avant que je te donne des conseils concrets. 😊";
-        }
-      }
+      setMessages(prev => [...prev, botMsg]);
 
-      setChat((prev) => [...prev, { from: "bot", text: botReply }]);
-    } catch (e) {
-      console.error(e);
-      setChat((prev) => [
-        ...prev,
-        { from: "bot", text: "⚠️ Oups, Nova rencontre un petit souci de connexion." },
-      ]);
+    } catch (err) {
+      console.error("Erreur d'envoi:", err);
+      
+      // Message d'erreur user-friendly
+      const errorMsg = {
+        id: Date.now() + 1,
+        role: "assistant",
+        content: err.message,
+        isError: true,
+        timestamp: new Date().toISOString()
+      };
+
+      setMessages(prev => [...prev, errorMsg]);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  // 💬 Suggestions initiales
-  const suggestionSets = [
-    [
-      "L'IA va remplacer mon job, ça m'angoisse...",
-      "Je ne comprends rien à ChatGPT",
-      "J'ai peur de devenir obsolète",
-    ],
-    [
-      "Je suis en reconversion, par où commencer ?",
-      "Mon secteur est en crise",
-      "Je cherche à pivoter vers un métier d'avenir",
-    ],
-    [
-      "Encore une formation qui promet la lune...",
-      "Je suis submergé(e), je n'ai plus d'énergie",
-      "Je ne crois plus en rien",
-    ],
-    [
-      "Je veux automatiser mes tâches répétitives",
-      "Comment l'IA peut m'aider concrètement ?",
-      "Je veux gagner du temps",
-    ],
-    [
-      "C'est quoi Catalyseur Digital ?",
-      "Je débute avec l'IA",
-      "Je ne sais pas par où commencer...",
-    ],
+  // 🔄 Réessayer le dernier message
+  const handleRetry = () => {
+    const lastUserMessage = [...messages]
+      .reverse()
+      .find(m => m.role === "user");
+    
+    if (lastUserMessage) {
+      // Retirer les messages d'erreur
+      setMessages(prev => prev.filter(m => !m.isError));
+      handleSend(lastUserMessage.content);
+    }
+  };
+
+  // 🧹 Réinitialiser la conversation
+  const handleReset = () => {
+    if (window.confirm("Réinitialiser la conversation ? L'historique sera effacé.")) {
+      setMessages([]);
+      setShowSuggestions(true);
+      localStorage.removeItem(`nova_chat_${userId}`);
+      
+      // Message d'accueil
+      setTimeout(() => {
+        setMessages([{
+          id: Date.now(),
+          role: "assistant",
+          content: "👋 Salut ! Moi c'est **Nova**, ton guide Catalyseur Digital.\n\nJe suis là pour t'accompagner face aux défis de l'IA et de la transformation professionnelle.\n\n**Dis-moi, où en es-tu aujourd'hui ?** 💬",
+          timestamp: new Date().toISOString()
+        }]);
+      }, 300);
+    }
+  };
+
+  // 💬 Suggestions dynamiques (simplifiées)
+  const suggestions = [
+    "Je veux gagner du temps avec l'IA",
+    "L'IA va remplacer mon job...",
+    "Je suis en reconversion",
+    "Comment automatiser mes tâches ?",
+    "C'est quoi Catalyseur Digital ?"
   ];
 
-  const [suggestions] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * suggestionSets.length);
-    return suggestionSets[randomIndex];
-  });
+  // 🎨 Rendu du message avec markdown basique
+  const renderMessage = (text) => {
+    return text
+      .split('\n')
+      .map((line, i) => {
+        // Gras **texte**
+        line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Italique *texte*
+        line = line.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        // Liens [texte](url)
+        line = line.replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" target="_blank" class="text-blue-500 underline">$1</a>');
+        
+        return <span key={i} dangerouslySetInnerHTML={{ __html: line }} />;
+      })
+      .reduce((acc, curr, i) => [...acc, curr, <br key={`br-${i}`} />], [])
+      .slice(0, -1); // Retirer dernier <br>
+  };
 
-  // 🖥️ Rendu visuel
+  // 🖥️ Rendu principal
   return (
-    <div className="fixed bottom-6 right-6 z-[50]">
+    <div className="fixed bottom-6 right-6 z-50">
+      {/* 🔘 Bouton flottant */}
       {!open && (
         <motion.button
           onClick={() => setOpen(true)}
-          className="w-14 h-14 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-2xl shadow-lg hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all"
+          className="relative w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-3xl shadow-xl hover:shadow-2xl transition-all"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
+          aria-label="Ouvrir le chat Nova"
         >
           💬
+          {/* Badge notification (optionnel) */}
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center animate-pulse">
+            1
+          </span>
         </motion.button>
       )}
 
+      {/* 💬 Fenêtre de chat */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0, scale: 0.8, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
-            transition={{ duration: 0.3 }}
-            className="w-80 md:w-96 h-[520px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-indigo-100"
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="w-[380px] h-[600px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border-2 border-purple-200"
           >
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center font-semibold text-lg">
-              <span>⚡ Nova — IA Catalyseur</span>
-              <button
-                onClick={() => setOpen(false)}
-                className="text-white/80 hover:text-white text-xl font-bold"
-              >
-                ✖
-              </button>
+            {/* 📌 Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">⚡</span>
+                <div>
+                  <div className="font-bold text-lg">Nova</div>
+                  <div className="text-xs text-blue-100">IA Catalyseur Digital</div>
+                </div>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleReset}
+                  className="text-white/80 hover:text-white transition p-1"
+                  title="Réinitialiser"
+                >
+                  🔄
+                </button>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="text-white/80 hover:text-white text-xl font-bold transition"
+                  title="Fermer"
+                >
+                  ✖
+                </button>
+              </div>
             </div>
 
-            <div className="flex-1 p-4 overflow-y-auto bg-slate-50 text-sm">
-              {chat.map((msg, i) => (
-                <div
-                  key={i}
+            {/* 💬 Zone de messages */}
+            <div className="flex-1 p-4 overflow-y-auto bg-gradient-to-b from-slate-50 to-slate-100">
+              {messages.length === 0 && (
+                <div className="text-center text-slate-500 mt-8">
+                  <div className="text-5xl mb-4">👋</div>
+                  <p className="text-sm">Démarre une conversation avec Nova !</p>
+                </div>
+              )}
+
+              {messages.map((msg) => (
+                <motion.div
+                  key={msg.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
                   className={`mb-3 flex ${
-                    msg.from === "user" ? "justify-end" : "justify-start"
+                    msg.role === "user" ? "justify-end" : "justify-start"
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] px-4 py-2 rounded-2xl ${
-                      msg.from === "user"
-                        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-br-none"
-                        : "bg-white border border-indigo-100 text-slate-800 rounded-bl-none"
-                    } shadow-sm whitespace-pre-line`}
+                    className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                      msg.role === "user"
+                        ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-br-none shadow-md"
+                        : msg.isError
+                        ? "bg-red-50 border-2 border-red-300 text-red-700 rounded-bl-none"
+                        : "bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-sm"
+                    }`}
                   >
-                    {msg.text}
+                    {renderMessage(msg.content)}
+                    {msg.isError && (
+                      <button
+                        onClick={handleRetry}
+                        className="mt-2 text-xs underline hover:no-underline"
+                      >
+                        Réessayer
+                      </button>
+                    )}
                   </div>
-                </div>
+                </motion.div>
               ))}
 
-              {showSuggestions && !userName && (
+              {/* 💡 Suggestions */}
+              {showSuggestions && messages.length === 0 && (
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
-                  className="flex flex-col gap-2 mt-2"
+                  className="flex flex-col gap-2 mt-4"
                 >
-                  <p className="text-xs text-slate-500 mb-1 italic">
-                    💡 Quelques exemples pour démarrer :
+                  <p className="text-xs text-slate-500 mb-1 font-medium">
+                    💡 Quelques idées pour démarrer :
                   </p>
                   {suggestions.map((s, i) => (
                     <motion.button
                       key={i}
                       onClick={() => handleSend(s)}
                       whileHover={{ scale: 1.02 }}
-                      className="text-left text-sm bg-gradient-to-r from-slate-100 to-slate-200 text-slate-700 rounded-lg px-3 py-2 shadow-sm border border-slate-200 hover:border-indigo-300 hover:shadow-md transition-all"
+                      whileTap={{ scale: 0.98 }}
+                      className="text-left text-sm bg-white text-slate-700 rounded-xl px-4 py-3 shadow-sm border border-slate-200 hover:border-purple-300 hover:shadow-md transition-all"
                     >
                       {s}
                     </motion.button>
@@ -330,68 +383,67 @@ export default function Chatbot() {
                 </motion.div>
               )}
 
+              {/* ⏳ Loading */}
               {loading && (
                 <motion.div
-                  className="flex items-center gap-2 mt-2 text-slate-500 italic"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3 }}
+                  className="flex items-center gap-3 mt-3 text-slate-500 italic text-sm"
                 >
                   <span>Nova réfléchit</span>
-                  <motion.span
-                    className="flex space-x-1"
-                    initial="hidden"
-                    animate="visible"
-                    variants={{
-                      hidden: { opacity: 0 },
-                      visible: {
-                        opacity: 1,
-                        transition: {
-                          delayChildren: 0,
-                          staggerChildren: 0.2,
-                          repeat: Infinity,
-                        },
-                      },
-                    }}
-                  >
+                  <div className="flex gap-1">
                     {[0, 1, 2].map((i) => (
-                      <motion.span
+                      <motion.div
                         key={i}
-                        className="w-2 h-2 bg-slate-400 rounded-full"
-                        variants={{
-                          hidden: { opacity: 0.3, y: 0 },
-                          visible: { opacity: 1, y: -3 },
+                        className="w-2 h-2 bg-purple-400 rounded-full"
+                        animate={{
+                          y: [0, -8, 0],
+                          opacity: [0.4, 1, 0.4]
                         }}
                         transition={{
-                          repeat: Infinity,
-                          repeatType: "reverse",
                           duration: 0.6,
-                          delay: i * 0.2,
+                          repeat: Infinity,
+                          delay: i * 0.15
                         }}
                       />
                     ))}
-                  </motion.span>
+                  </div>
                 </motion.div>
               )}
+
+              <div ref={messagesEndRef} />
             </div>
 
-            <div className="border-t border-indigo-100 bg-white p-3 flex items-center">
+            {/* ⌨️ Input */}
+            <div className="border-t-2 border-slate-200 bg-white p-3 flex items-center gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Écris ici..."
-                className="flex-1 px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 text-slate-700 text-sm"
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                disabled={loading}
+                className="flex-1 px-4 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-400 text-slate-700 text-sm disabled:bg-slate-100 disabled:cursor-not-allowed"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSend();
+                  }
+                }}
               />
               <motion.button
                 onClick={() => handleSend()}
-                className="ml-3 px-3 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm shadow-md hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                disabled={loading || !input.trim()}
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold text-sm shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                whileHover={{ scale: loading ? 1 : 1.05 }}
+                whileTap={{ scale: loading ? 1 : 0.95 }}
               >
                 ➤
               </motion.button>
+            </div>
+
+            {/* 🔒 Footer privacy */}
+            <div className="bg-slate-50 px-3 py-2 text-center text-xs text-slate-500 border-t border-slate-200">
+              🔒 Tes données sont sécurisées • User ID: {userId.slice(-8)}
             </div>
           </motion.div>
         )}
