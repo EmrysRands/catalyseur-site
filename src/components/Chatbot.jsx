@@ -13,6 +13,24 @@ export default function ChatbotOptimized() {
     return id;
   });
 
+  useEffect(() => {
+    const hasWelcomed = localStorage.getItem(`nova_welcome_${userId}`);
+    if (!hasWelcomed) {
+      setTimeout(() => {
+        setMessages([
+          {
+            id: Date.now(),
+            role: "assistant",
+            content: "👋 Salut ! Moi c’est **Nova**, ton guide Catalyseur Digital.\n\nJe t’aide à faire le tri entre confusion, opportunités et vraie transformation à l’ère de l’IA.\n\nDis-moi, **où en es-tu aujourd’hui ?** 💬\n\nMais avant ça, comment t’appelles-tu ? 😊",
+            timestamp: new Date().toISOString(),
+          },
+        ]);
+        localStorage.setItem(`nova_welcome_${userId}`, "true");
+      }, 400);
+    }
+  }, [userId]);
+
+
   // 🧱 États principaux (minimalistes)
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -154,52 +172,72 @@ export default function ChatbotOptimized() {
     const messageToSend = customMessage || input.trim();
     if (!messageToSend) return;
 
-    // Ajouter message user immédiatement
+    // 🎯 Détection prénom simple
+    const regexPrenom = /(je m'appelle|moi c'?est|je suis|mon nom est)\s+([a-zA-ZÀ-ÿ\-]+)/i;
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const matchPrenom = messageToSend.match(regexPrenom);
+    const isEmail = regexEmail.test(messageToSend.trim());
+
+    // Ajouter message utilisateur dans la conversation
     const userMsg = {
       id: Date.now(),
       role: "user",
       content: messageToSend,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
-
     setMessages(prev => [...prev, userMsg]);
     setInput("");
-    setShowSuggestions(false);
     setLoading(true);
-    setError(null);
 
     try {
-      // 🚀 Appel API (toute la logique est côté N8N)
-      const botReply = await sendToAPI(messageToSend);
+      let botReply;
 
-      // Ajouter réponse bot
+      // 🔹 Si prénom détecté → enregistrer et demander email
+      if (matchPrenom) {
+        const prenom = matchPrenom[2].trim();
+        localStorage.setItem("nova_prenom", prenom);
+        botReply = `Enchanté **${prenom}** 😄 ! Et ton email, pour que je t’envoie ton diagnostic IA personnalisé ? ✉️`;
+      }
+      // 🔹 Si email détecté → créer user local + appeler API
+      else if (isEmail) {
+        const prenom = localStorage.getItem("nova_prenom") || "Ami";
+        localStorage.setItem("nova_email", messageToSend.trim());
+        botReply = `Parfait ${prenom} ! ✅\nJe prépare ton espace personnel...`;
+
+        // 🔧 Envoi initial vers ton n8n pour créer le user
+        await sendToAPI(
+          JSON.stringify({
+            user_id: userId,
+            message: `new_user:${prenom}:${messageToSend.trim()}`,
+            platform: "web",
+            timestamp: new Date().toISOString(),
+          })
+        );
+      }
+      // 🔹 Sinon → comportement normal
+      else {
+        botReply = await sendToAPI(messageToSend);
+      }
+
       const botMsg = {
         id: Date.now() + 1,
         role: "assistant",
         content: botReply,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
-
       setMessages(prev => [...prev, botMsg]);
-
     } catch (err) {
       console.error("Erreur d'envoi:", err);
-      
-      // Message d'erreur user-friendly
-      const errorMsg = {
-        id: Date.now() + 1,
-        role: "assistant",
-        content: err.message,
-        isError: true,
-        timestamp: new Date().toISOString()
-      };
-
-      setMessages(prev => [...prev, errorMsg]);
-      setError(err.message);
+      setMessages(prev => [
+        ...prev,
+        { id: Date.now(), role: "assistant", content: "⚠️ Erreur de connexion." },
+      ]);
     } finally {
       setLoading(false);
     }
   };
+
 
   // 🔄 Réessayer le dernier message
   const handleRetry = () => {
