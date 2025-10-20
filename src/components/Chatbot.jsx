@@ -120,12 +120,25 @@ export default function Chatbot() {
         return "⚠️ Nova a répondu, mais le format est illisible.";
       }
 
+      // Cas 1 : réponse directe
       if (data && data.reply) return data.reply;
+
+      // Cas 2 : tableau simple [{ reply: "..."}]
+      if (Array.isArray(data) && data[0]?.reply) return data[0].reply;
+
+      // Cas 3 : tableau n8n [{ json: { reply: "..."} }]
       if (Array.isArray(data) && data[0]?.json?.reply) return data[0].json.reply;
+
+      // Cas 4 : JSON stringifié
       if (typeof data === "string" && data.includes('"reply"')) {
-        const parsed = JSON.parse(data);
-        return parsed.reply;
+        try {
+          const parsed = JSON.parse(data);
+          return parsed.reply || "⚠️ Message reçu partiellement.";
+        } catch {
+          return data;
+        }
       }
+
 
       return "🤔 Je n'ai pas pu lire la réponse de Nova.";
     } catch (err) {
