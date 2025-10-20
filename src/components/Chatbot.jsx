@@ -50,27 +50,43 @@ export default function Chatbot() {
     neutre: "",
   };
 
-  // 🌐 Envoi au webhook n8n
+  // 🌐 Envoi au webhook n8n (standard + timeout intelligent)
   const sendToNova = async (message, history) => {
     const payload = {
-      body: {
-        message,
-        userName,
-        userEmail,
-        conversationId,
-        history: history.map((m) => ({
-          role: m.from === "user" ? "user" : "assistant",
-          content: m.text,
-        })),
-      },
+      message,
+      userName,
+      userEmail,
+      conversationId,
+      history: history.map((m) => ({
+        role: m.from === "user" ? "user" : "assistant",
+        content: m.text,
+      })),
     };
 
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 30000); // ⏱️ 30 secondes max
+
+      // ⏳ Message automatique après 15 secondes
+      const delayMessage = setTimeout(() => {
+        setChat((prev) => [
+          ...prev,
+          {
+            from: "bot",
+            text: "⏳ Nova met un peu plus de temps que prévu... merci de ta patience 🙏",
+          },
+        ]);
+      }, 15000);
+
       const res = await fetch("https://automate.optimizeinsight.com/webhook/chatbot-catalyseur", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
+        signal: controller.signal,
       });
+
+      clearTimeout(timeout);
+      clearTimeout(delayMessage);
 
       const data = await res.json();
       if (data.reply) return data.reply;
@@ -81,6 +97,7 @@ export default function Chatbot() {
       return "⚠️ Nova rencontre un petit souci de connexion.";
     }
   };
+
 
   // 🧩 Gestion de l'envoi
   const handleSend = async (msg = null) => {
@@ -132,15 +149,13 @@ export default function Chatbot() {
       // 👤 Étape 2 : prénom
       else if (askedIdentity && !userName) {
         setUserName(messageToSend.trim());
-        botReply =
-          `Super, **${messageToSend.trim()}** ! 🌟\n\nPour qu'on reste en contact et que je puisse t'envoyer des ressources utiles, **tu peux me donner ton email ?** ✉️`;
+        botReply = `Super, **${messageToSend.trim()}** ! 🌟\n\nPour qu'on reste en contact et que je puisse t'envoyer des ressources utiles, **tu peux me donner ton email ?** ✉️`;
       }
 
       // ✉️ Étape 3 : email
       else if (userName && !userEmail) {
         setUserEmail(messageToSend.trim().toLowerCase());
-        botReply =
-          `Parfait ${userName}, merci ! ✅\n\nMaintenant dis-moi : **qu'est-ce qui t'amène ici aujourd'hui ?**\n\n💡 Quelques pistes :\n• Rebondir professionnellement\n• Découvrir comment utiliser l'IA\n• Automatiser ton activité`;
+        botReply = `Parfait ${userName}, merci ! ✅\n\nMaintenant dis-moi : **qu'est-ce qui t'amène ici aujourd'hui ?**\n\n💡 Quelques pistes :\n• Rebondir professionnellement\n• Découvrir comment utiliser l'IA\n• Automatiser ton activité`;
       }
 
       // 🤖 Étape 4 : conversation complète
@@ -167,37 +182,28 @@ export default function Chatbot() {
     }
   };
 
-  // 💬 Suggestions DYNAMIQUES et variées (5 sets différents)
+  // 💬 Suggestions dynamiques
   const suggestionSets = [
-    // Set 1 : Peur / Anxiété face à l'IA
     [
       "L'IA va remplacer mon job, ça m'angoisse...",
       "Je ne comprends rien à ChatGPT et tout le monde en parle",
       "J'ai peur de devenir obsolète dans mon métier",
     ],
-    
-    // Set 2 : Transition / Reconversion
     [
       "Je suis en reconversion, par où commencer ?",
       "Mon secteur est en crise, je dois me réinventer",
       "Je cherche à pivoter vers un métier d'avenir",
     ],
-    
-    // Set 3 : Scepticisme / Fatigue
     [
       "Encore une formation qui promet la lune...",
       "J'ai tout essayé, je ne crois plus en rien",
       "Je suis submergé(e), je n'ai plus d'énergie",
     ],
-    
-    // Set 4 : Action / Pragmatisme
     [
       "Je veux automatiser mes tâches répétitives",
       "Comment l'IA peut m'aider concrètement ?",
       "Je veux gagner du temps dans mon activité",
     ],
-    
-    // Set 5 : Curiosité / Débutant
     [
       "C'est quoi Catalyseur Digital exactement ?",
       "Je débute complètement avec l'IA",
@@ -205,7 +211,6 @@ export default function Chatbot() {
     ],
   ];
 
-  // 🎲 Sélection aléatoire d'un set de suggestions au chargement
   const [suggestions] = useState(() => {
     const randomIndex = Math.floor(Math.random() * suggestionSets.length);
     return suggestionSets[randomIndex];
@@ -214,7 +219,6 @@ export default function Chatbot() {
   // 🖥️ Rendu visuel
   return (
     <div className="fixed bottom-6 right-6 z-[50]">
-      {/* Bouton flottant */}
       {!open && (
         <motion.button
           onClick={() => setOpen(true)}
@@ -226,7 +230,6 @@ export default function Chatbot() {
         </motion.button>
       )}
 
-      {/* Fenêtre de chat */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -268,7 +271,6 @@ export default function Chatbot() {
                 </div>
               ))}
 
-              {/* Suggestions dynamiques */}
               {showSuggestions && !userName && (
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -292,7 +294,6 @@ export default function Chatbot() {
                 </motion.div>
               )}
 
-              {/* Animation "Nova réfléchit..." */}
               {loading && (
                 <motion.div
                   className="flex items-center gap-2 mt-2 text-slate-500 italic"
