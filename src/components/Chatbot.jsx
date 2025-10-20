@@ -10,19 +10,42 @@ export default function Chatbot() {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [askedIdentity, setAskedIdentity] = useState(false);
-  const [conversationId] = useState(() => crypto.randomUUID());
+  const [conversationId, setConversationId] = useState(
+    () => localStorage.getItem("nova_conversationId") || crypto.randomUUID()
+  );
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [messageCount, setMessageCount] = useState(0);
 
-  // 💬 Message d'accueil initial
+  // 💾 Charger la mémoire locale à l’ouverture
   useEffect(() => {
-    setChat([
-      {
-        from: "bot",
-        text: "👋 Salut ! Moi c'est **Nova**, ton guide Catalyseur Digital.\n\nJe suis là pour t'accompagner face aux défis de l'IA et de la transformation professionnelle.\n\n**Dis-moi, où en es-tu aujourd'hui ?** 💬",
-      },
-    ]);
+    const savedChat = localStorage.getItem("nova_chat");
+    const savedName = localStorage.getItem("nova_userName");
+    const savedEmail = localStorage.getItem("nova_userEmail");
+
+    if (savedChat) setChat(JSON.parse(savedChat));
+    if (savedName) setUserName(savedName);
+    if (savedEmail) setUserEmail(savedEmail);
   }, []);
+
+  // 💾 Sauvegarder en mémoire à chaque changement
+  useEffect(() => {
+    localStorage.setItem("nova_chat", JSON.stringify(chat));
+    localStorage.setItem("nova_userName", userName);
+    localStorage.setItem("nova_userEmail", userEmail);
+    localStorage.setItem("nova_conversationId", conversationId);
+  }, [chat, userName, userEmail, conversationId]);
+
+  // 💬 Message d'accueil si première visite
+  useEffect(() => {
+    if (chat.length === 0) {
+      setChat([
+        {
+          from: "bot",
+          text: "👋 Salut ! Moi c'est **Nova**, ton guide Catalyseur Digital.\n\nJe suis là pour t'accompagner face aux défis de l'IA et de la transformation professionnelle.\n\n**Dis-moi, où en es-tu aujourd'hui ?** 💬",
+        },
+      ]);
+    }
+  }, [chat]);
 
   // 🔍 Détection si l'utilisateur dit juste bonjour
   const isGreeting = (msg) => {
@@ -50,7 +73,7 @@ export default function Chatbot() {
     neutre: "",
   };
 
-  // 🌐 Envoi au webhook n8n (standard + timeout intelligent)
+  // 🌐 Envoi au webhook n8n (avec timeout intelligent)
   const sendToNova = async (message, history) => {
     const payload = {
       message,
@@ -65,7 +88,7 @@ export default function Chatbot() {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000); // ⏱️ 30 secondes max
+      const timeout = setTimeout(() => controller.abort(), 30000); // 30s max
 
       // ⏳ Message automatique après 15 secondes
       const delayMessage = setTimeout(() => {
@@ -97,7 +120,6 @@ export default function Chatbot() {
       return "⚠️ Nova rencontre un petit souci de connexion.";
     }
   };
-
 
   // 🧩 Gestion de l'envoi
   const handleSend = async (msg = null) => {
@@ -216,7 +238,7 @@ export default function Chatbot() {
     return suggestionSets[randomIndex];
   });
 
-  // 🖥️ Rendu visuel
+  // 🖥️ Rendu visuel identique
   return (
     <div className="fixed bottom-6 right-6 z-[50]">
       {!open && (
@@ -292,7 +314,7 @@ export default function Chatbot() {
                     </motion.button>
                   ))}
                 </motion.div>
-              )}
+              ))}
 
               {loading && (
                 <motion.div
