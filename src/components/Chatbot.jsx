@@ -28,7 +28,7 @@ export default function ChatbotOptimized() {
 
   // 🎯 Configuration API
   const API_CONFIG = {
-    endpoint: "https://automate.optimizeinsight.com/webhook/chatbot-catalyseur",
+    endpoint: "https://automate.optimizeinsight.com/webhook/nova-chat",
     timeout: 25000,
     maxRetries: 2,
     retryDelay: 2000
