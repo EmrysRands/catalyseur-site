@@ -16,7 +16,7 @@ export default function Chatbot() {
   const [showSuggestions, setShowSuggestions] = useState(true);
   const [messageCount, setMessageCount] = useState(0);
 
-  // 💾 Charger la mémoire locale à l’ouverture
+  // 💾 Charger la mémoire locale
   useEffect(() => {
     const savedChat = localStorage.getItem("nova_chat");
     const savedName = localStorage.getItem("nova_userName");
@@ -27,7 +27,7 @@ export default function Chatbot() {
     if (savedEmail) setUserEmail(savedEmail);
   }, []);
 
-  // 💾 Sauvegarder en mémoire à chaque changement
+  // 💾 Sauvegarde automatique
   useEffect(() => {
     localStorage.setItem("nova_chat", JSON.stringify(chat));
     localStorage.setItem("nova_userName", userName);
@@ -47,7 +47,7 @@ export default function Chatbot() {
     }
   }, [chat]);
 
-  // 🔍 Détection si l'utilisateur dit juste bonjour
+  // 🔍 Détection de salutations
   const isGreeting = (msg) => {
     const text = msg.trim().toLowerCase();
     return /^(salut|bonjour|coucou|hey|yo|hello|bonsoir)$/.test(text);
@@ -56,23 +56,24 @@ export default function Chatbot() {
   // 🧠 Détection émotionnelle
   const detectEmotion = (message) => {
     const text = message.toLowerCase();
-    if (/(peur|angoisse|flippé|stress|inquiet|inquiète)/.test(text)) return "peur";
-    if (/(fatigué|épuisé|lassé|démotivé|épuisement|vide)/.test(text)) return "fatigue";
-    if (/(colère|énervé|marre|frustré|déçu|ras le bol|encore un truc)/.test(text)) return "colere";
+    if (/(peur|angoisse|stress|inquiet|inquiète)/.test(text)) return "peur";
+    if (/(fatigué|épuisé|lassé|démotivé)/.test(text)) return "fatigue";
+    if (/(colère|énervé|frustré|déçu|marre)/.test(text)) return "colere";
     return "neutre";
   };
 
-  // 💞 Ton empathique selon émotion détectée
+  // 💞 Ton empathique
   const emotionPrefix = {
     peur:
       "Je comprends que ça puisse faire peur 💜. L'IA peut impressionner, mais je suis là pour t'aider à y voir clair, étape par étape.",
     fatigue:
-      "Tu sembles fatigué(e) ou à bout 😔. Respire un peu — on va aborder ça calmement, sans pression. Laisse-moi t'aider à remettre un peu de lumière dans ton parcours.",
+      "Tu sembles fatigué(e) 😔. Respire un peu — on va avancer calmement. Laisse-moi t’aider à remettre un peu de lumière dans ton parcours.",
     colere:
-      "Je sens un peu de frustration 😕. Et c'est ok. Tu n'es pas seul(e) à te sentir perdu(e) face à tous ces changements. On peut en parler sans jugement 💬.",
+      "Je sens un peu de frustration 😕. C’est normal. On peut en parler sans jugement 💬.",
     neutre: "",
   };
 
+  // 🚀 Fonction d'envoi vers n8n
   const sendToNova = async (message, history) => {
     const payload = {
       message,
@@ -87,9 +88,7 @@ export default function Chatbot() {
 
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 30000); // 30s max
-
-      // ⏳ Message automatique après 15 secondes
+      const timeout = setTimeout(() => controller.abort(), 30000);
       const delayMessage = setTimeout(() => {
         setChat((prev) => [
           ...prev,
@@ -100,59 +99,43 @@ export default function Chatbot() {
         ]);
       }, 15000);
 
-      const res = await fetch("https://automate.optimizeinsight.com/webhook/chatbot-catalyseur", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
+      const res = await fetch(
+        "https://automate.optimizeinsight.com/webhook/chatbot-catalyseur",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          signal: controller.signal,
+        }
+      );
 
       clearTimeout(timeout);
       clearTimeout(delayMessage);
 
-      // 🔍 Lecture intelligente de la réponse
       let data;
       try {
         data = await res.json();
-        console.log("Réponse brute Nova →", data); // utile pour debug
-      } catch (e) {
-        console.error("Erreur JSON parsing →", e);
-        return "⚠️ Nova a bien répondu, mais je n'ai pas pu lire correctement la réponse.";
+        console.log("Réponse brute Nova →", data);
+      } catch {
+        return "⚠️ Nova a répondu, mais le format est illisible.";
       }
 
-      // 🧠 Cas 1 : réponse directe (ton cas actuel)
-      if (data && typeof data === "object" && data.reply) {
-        return data.reply;
-      }
-
-      // 🧩 Cas 2 : structure n8n typique [{ json: { reply: ... } }]
-      if (Array.isArray(data) && data[0]?.json?.reply) {
-        return data[0].json.reply;
-      }
-
-      // 🔁 Cas 3 : JSON renvoyé sous forme de texte
+      if (data && data.reply) return data.reply;
+      if (Array.isArray(data) && data[0]?.json?.reply) return data[0].json.reply;
       if (typeof data === "string" && data.includes('"reply"')) {
-        try {
-          const parsed = JSON.parse(data);
-          return parsed.reply || "⚠️ Message reçu partiellement.";
-        } catch {
-          return data;
-        }
+        const parsed = JSON.parse(data);
+        return parsed.reply;
       }
 
-      // 🪶 Cas 4 : fallback
-      return "🤔 Je n'ai pas pu lire la réponse de Nova. Essaie de reformuler ton message.";
+      return "🤔 Je n'ai pas pu lire la réponse de Nova.";
     } catch (err) {
-      console.error("Erreur Nova →", err);
-      if (err.name === "AbortError") {
+      if (err.name === "AbortError")
         return "⚠️ Nova met trop de temps à répondre. Réessaie dans quelques instants.";
-      }
       return "⚠️ Nova rencontre un petit souci de connexion.";
     }
   };
 
-
-  // 🧩 Gestion de l'envoi
+  // 🧩 Gestion des messages
   const handleSend = async (msg = null) => {
     const messageToSend = msg || input;
     if (!messageToSend.trim()) return;
@@ -167,23 +150,15 @@ export default function Chatbot() {
     try {
       let botReply = "";
 
-      // 🎯 Cas spécial : salutations simples
       if (isGreeting(messageToSend)) {
         botReply =
           "Hello 👋 !\n\n**Tu veux qu'on discute librement ou tu préfères que je te guide** sur comment l'IA peut t'aider à rebondir professionnellement ? 🚀";
-      }
-
-      // ⚡ Étape 1 : conversation émotionnelle
-      else if (!askedIdentity && messageCount < 2) {
+      } else if (!askedIdentity && messageCount < 2) {
         const emotion = detectEmotion(messageToSend);
         const emotionIntro = emotionPrefix[emotion];
-        const history = chat.slice(-6);
-        const data = await sendToNova(messageToSend, history);
-
         botReply =
           (emotionIntro ? emotionIntro + "\n\n" : "") +
-          (data.reply || data || "🤔 Je réfléchis encore à la meilleure réponse...");
-
+          "Intéressant… dis-m’en un peu plus, je t’écoute 👂";
         if (messageCount >= 1) {
           setTimeout(() => {
             setChat((prev) => [
@@ -197,44 +172,27 @@ export default function Chatbot() {
             setAskedIdentity(true);
           }, 800);
         }
-      }
-
-      // 👤 Étape 2 : prénom
-      else if (askedIdentity && !userName) {
+      } else if (askedIdentity && !userName) {
         setUserName(messageToSend.trim());
-        botReply = `Super, **${messageToSend.trim()}** ! 🌟\n\nPour qu'on reste en contact et que je puisse t'envoyer des ressources utiles, **tu peux me donner ton email ?** ✉️`;
-      }
-
-      // ✉️ Étape 3 : email
-      else if (userName && !userEmail) {
+        botReply = `Super, **${messageToSend.trim()}** ! 🌟\n\nPour qu'on reste en contact, **tu peux me donner ton email ?** ✉️`;
+      } else if (userName && !userEmail) {
         setUserEmail(messageToSend.trim().toLowerCase());
-        botReply = `Parfait ${userName}, merci ! ✅\n\nMaintenant dis-moi : **qu'est-ce qui t'amène ici aujourd'hui ?**\n\n💡 Quelques pistes :\n• Rebondir professionnellement\n• Découvrir comment utiliser l'IA\n• Automatiser ton activité`;
-      }
-
-      // 🤖 Étape 4 : conversation complète
-      else {
+        botReply = `Parfait ${userName}, merci ! ✅\n\nMaintenant dis-moi : **qu'est-ce qui t'amène ici aujourd'hui ?**\n💡 Quelques pistes :\n• Rebondir professionnellement\n• Découvrir comment utiliser l'IA\n• Automatiser ton activité`;
+      } else {
         const emotion = detectEmotion(messageToSend);
         const emotionIntro = emotionPrefix[emotion];
         const history = chat.slice(-6);
 
-        // 🧠 N'envoie à n8n que si on a déjà l'email
-        let botReply;
         if (userEmail) {
           const data = await sendToNova(messageToSend, history);
           botReply =
             (emotionIntro ? emotionIntro + "\n\n" : "") +
-            (data.reply || data || "🤔 Je réfléchis encore à la meilleure réponse...");
+            (data || "🤔 Je réfléchis encore à la meilleure réponse...");
         } else {
-          // Animation locale uniquement
           botReply =
             (emotionIntro ? emotionIntro + "\n\n" : "") +
             "Intéressant ! Parlons un peu de toi d’abord avant que je te donne des conseils concrets. 😊";
         }
-
-
-        botReply =
-          (emotionIntro ? emotionIntro + "\n\n" : "") +
-          (data.reply || data || "🤔 Je réfléchis encore à la meilleure réponse...");
       }
 
       setChat((prev) => [...prev, { from: "bot", text: botReply }]);
@@ -249,32 +207,32 @@ export default function Chatbot() {
     }
   };
 
-  // 💬 Suggestions dynamiques
+  // 💬 Suggestions initiales
   const suggestionSets = [
     [
       "L'IA va remplacer mon job, ça m'angoisse...",
-      "Je ne comprends rien à ChatGPT et tout le monde en parle",
-      "J'ai peur de devenir obsolète dans mon métier",
+      "Je ne comprends rien à ChatGPT",
+      "J'ai peur de devenir obsolète",
     ],
     [
       "Je suis en reconversion, par où commencer ?",
-      "Mon secteur est en crise, je dois me réinventer",
+      "Mon secteur est en crise",
       "Je cherche à pivoter vers un métier d'avenir",
     ],
     [
       "Encore une formation qui promet la lune...",
-      "J'ai tout essayé, je ne crois plus en rien",
       "Je suis submergé(e), je n'ai plus d'énergie",
+      "Je ne crois plus en rien",
     ],
     [
       "Je veux automatiser mes tâches répétitives",
       "Comment l'IA peut m'aider concrètement ?",
-      "Je veux gagner du temps dans mon activité",
+      "Je veux gagner du temps",
     ],
     [
-      "C'est quoi Catalyseur Digital exactement ?",
-      "Je débute complètement avec l'IA",
-      "Je ne sais même pas par où commencer...",
+      "C'est quoi Catalyseur Digital ?",
+      "Je débute avec l'IA",
+      "Je ne sais pas par où commencer...",
     ],
   ];
 
@@ -283,7 +241,7 @@ export default function Chatbot() {
     return suggestionSets[randomIndex];
   });
 
-  // 🖥️ Rendu visuel identique
+  // 🖥️ Rendu visuel
   return (
     <div className="fixed bottom-6 right-6 z-[50]">
       {!open && (
@@ -306,7 +264,6 @@ export default function Chatbot() {
             transition={{ duration: 0.3 }}
             className="w-80 md:w-96 h-[520px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-indigo-100"
           >
-            {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex justify-between items-center font-semibold text-lg">
               <span>⚡ Nova — IA Catalyseur</span>
               <button
@@ -317,7 +274,6 @@ export default function Chatbot() {
               </button>
             </div>
 
-            {/* Messages */}
             <div className="flex-1 p-4 overflow-y-auto bg-slate-50 text-sm">
               {chat.map((msg, i) => (
                 <div
@@ -359,7 +315,7 @@ export default function Chatbot() {
                     </motion.button>
                   ))}
                 </motion.div>
-              ))}
+              )}
 
               {loading && (
                 <motion.div
@@ -406,7 +362,6 @@ export default function Chatbot() {
               )}
             </div>
 
-            {/* Input */}
             <div className="border-t border-indigo-100 bg-white p-3 flex items-center">
               <input
                 type="text"
