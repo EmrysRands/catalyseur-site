@@ -3,33 +3,23 @@
     {
       "type": "ebook1",
       "title": "Réinvente ta carrière avec l’IA",
-      "description": "Transforme ta crise en opportunité grâce au digital et à l’intelligence artificielle.",
       "price": 9,
       "image": "/images/ebook1.jpg",
-      "sample": "/pdfs/Ebook 1 - Réinvente ta carrière avec l'IA (Extrait).pdf"
+      "sample": "/pdfs/ebook1-reinvente-carriere.pdf"
     },
     {
       "type": "ebook2",
       "title": "Automatise ton quotidien avec l’IA",
-      "description": "Libère ton temps, simplifie tes tâches et retrouve ta créativité grâce à l’automatisation.",
       "price": 9,
       "image": "/images/ebook2.jpg",
-      "sample": "/pdfs/Ebook2 - Automatise ton quotidien avec l’IA.pdf"
+      "sample": "/pdfs/ebook2-automatise-quotidien.pdf"
     },
     {
       "type": "ebook3",
       "title": "Construis ta liberté digitale",
-      "description": "Apprends à créer ton système de revenus durables et deviens libre grâce au digital.",
       "price": 9,
       "image": "/images/ebook3.jpg",
-      "sample": "/pdfs/Ebook 3 - Construis ta liberté digitale.pdf"
+      "sample": "/pdfs/ebook3-liberte-digitale.pdf"
     }
-  ],
-  "bundle": {
-    "title": "Bundle Renaissance IA",
-    "price": 19,
-    "oldPrice": "27€",
-    "image": "/images/bundle.jpg",
-    "description": "Les 3 ebooks essentiels pour transformer ta carrière, automatiser ton quotidien et bâtir ta liberté digitale."
-  }
+  ]
 }
