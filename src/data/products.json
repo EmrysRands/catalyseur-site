@@ -1,69 +1,35 @@
 {
   "ebooks": [
     {
-      "type": "reconversion",
+      "type": "ebook1",
       "title": "Réinvente ta carrière avec l’IA",
-      "description": "💡 Le guide pour redonner du sens à ta vie professionnelle et bâtir une carrière alignée avec les opportunités du numérique et de l’intelligence artificielle.",
-      "features": [
-        "Méthode en 5 étapes pour identifier ton nouveau profil professionnel",
-        "Exercices guidés pour révéler tes forces et motivations profondes",
-        "Outils IA pour explorer des métiers émergents et alignés avec toi",
-        "Plan de reconversion réaliste, même sans expérience technique"
-      ],
-      "price": "9",
-      "image": "/images/ebook-reinvente.png",
-      "sample": "/pdfs/REINVENTE TA CARRIERE AVEC L'IA.pdf",
-      "upsell": {
-        "title": "Bundle complet Renaissance IA",
-        "price": "19",
-        "save": "8"
-      }
+      "description": "Transforme ta crise en opportunité grâce au digital et à l’intelligence artificielle.",
+      "price": 9,
+      "image": "/images/ebook1.jpg",
+      "sample": "/pdfs/Ebook 1 - Réinvente ta carrière avec l'IA (Extrait).pdf"
     },
     {
-      "type": "automatisation",
+      "type": "ebook2",
       "title": "Automatise ton quotidien avec l’IA",
-      "description": "⚙️ Apprends à déléguer les tâches répétitives à l’intelligence artificielle pour retrouver du temps, de la sérénité et de la concentration sur ce qui compte vraiment.",
-      "features": [
-        "Systèmes IA simples pour automatiser emails, prospection et gestion clients",
-        "10 outils testés et gratuits pour simplifier ton quotidien",
-        "Méthode 2H/jour pour automatiser ton activité sans coder",
-        "Feuille de route 30 jours pour réduire ta charge mentale"
-      ],
-      "price": "9",
-      "image": "/images/ebook-automatisation.png",
-      "sample": "/pdfs/Ebooks Catalyseur Digital _ Automatise ton quotidien avec l'IA.pdf",
-      "upsell": {
-        "title": "Bundle complet Renaissance IA",
-        "price": "19",
-        "save": "8"
-      }
+      "description": "Libère ton temps, simplifie tes tâches et retrouve ta créativité grâce à l’automatisation.",
+      "price": 9,
+      "image": "/images/ebook2.jpg",
+      "sample": "/pdfs/Ebook2 - Automatise ton quotidien avec l’IA.pdf"
     },
     {
-      "type": "liberte",
+      "type": "ebook3",
       "title": "Construis ta liberté digitale",
-      "description": "🚀 Découvre comment créer ta propre activité à l’ère de l’IA — même sans diplôme, réseau ou capital. Ton plan d’émancipation pour vivre du digital, à ton rythme.",
-      "features": [
-        "Stratégies concrètes pour générer des revenus en ligne dès les 30 premiers jours",
-        "Les 4 modèles de liberté (freelance, créateur, automate, bâtisseur)",
-        "Outils IA pour créer ton offre, ton site et ton audience",
-        "Plan d’action hebdomadaire pour passer de salarié à indépendant digital"
-      ],
-      "price": "9",
-      "image": "/images/ebook-liberte.png",
-      "sample": "/pdfs/ebook-liberte-extrait.pdf",
-      "upsell": {
-        "title": "Bundle complet Renaissance IA",
-        "price": "19",
-        "save": "8"
-      }
-    },
-    {
-      "type": "bundle",
-      "title": "Bundle complet – 3 ebooks Renaissance IA",
-      "description": "Accède à la collection complète : Réinvente ta carrière + Automatise ton quotidien + Construis ta liberté digitale. Le plan global pour transformer ta vie avec l’IA.",
-      "price": "19",
-      "image": "/images/ebook-bundle.png",
-      "sample": "/pdfs/ebook-bundle-extrait.pdf"
+      "description": "Apprends à créer ton système de revenus durables et deviens libre grâce au digital.",
+      "price": 9,
+      "image": "/images/ebook3.jpg",
+      "sample": "/pdfs/Ebook 3 - Construis ta liberté digitale.pdf"
     }
-  ]
+  ],
+  "bundle": {
+    "title": "Bundle Renaissance IA",
+    "price": 19,
+    "oldPrice": "27€",
+    "image": "/images/bundle.jpg",
+    "description": "Les 3 ebooks essentiels pour transformer ta carrière, automatiser ton quotidien et bâtir ta liberté digitale."
+  }
 }
