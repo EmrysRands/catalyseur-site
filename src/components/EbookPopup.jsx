@@ -3,6 +3,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import products from "../data/products.json";
 
+const paypalOptions = {
+  "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+  currency: "EUR",
+  intent: "capture",
+};
+
 export default function EbookPopup({ isOpen, onClose, ebook }) {
   const [zoomOpen, setZoomOpen] = useState(false);
 
@@ -15,12 +21,6 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
 
   const product = products.ebooks.find((p) => p.type === ebook.type) || ebook;
 
-  const initialOptions = {
-    "client-id": import.meta.env.VITE_PAYPAL_CLIENT_ID,
-    currency: "EUR",
-    intent: "capture",
-  };
-
   const handleStripeCheckout = () => {
     window.location.href = `/checkout/stripe?product=${product.type}`;
   };
@@ -31,10 +31,8 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
       const cta = document.getElementById("cta");
       if (cta) {
         cta.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState({}, "", `/#cta?from=popup&type=${product.type}`);
-      } else {
-        window.location.href = `/#cta?from=popup&type=${product.type}`;
       }
+      window.history.pushState({}, "", `/#cta?from=popup&type=${product.type}`);
     }, 300);
   };
 
@@ -56,11 +54,10 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Bouton de fermeture */}
+            {/* Bouton fermeture */}
             <button
               onClick={onClose}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition"
-              aria-label="Fermer"
             >
               ✕
             </button>
@@ -85,32 +82,27 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
               )}
             </motion.div>
 
-            {/* Contenu du popup */}
+            {/* Contenu */}
             <div className="p-6 space-y-4 text-left">
-              <h2 className="text-2xl font-bold text-slate-900">{product.title}</h2>
+              <h2 className="text-2xl font-bold text-gray-900">{product.title}</h2>
 
-              {/* Description courte */}
               {product.shortDescription && (
-                <p className="text-blue-700 font-medium">
-                  {product.shortDescription}
-                </p>
+                <p className="text-blue-700 font-medium">{product.shortDescription}</p>
               )}
 
-              {/* Description principale */}
-              <p className="text-slate-600 leading-relaxed">
+              <p className="text-gray-600 leading-relaxed">
                 {product.description || (
                   <span className="italic text-gray-400">Description à venir...</span>
                 )}
               </p>
 
-              {/* Prix */}
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xl font-semibold text-blue-600">
                   {product.price} €
                 </span>
               </div>
 
-              {/* Lien vers extrait */}
+              {/* Télécharger un extrait */}
               {product.sample && (
                 <motion.a
                   href={product.sample}
@@ -146,7 +138,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
 
               {/* Paiement PayPal */}
               <div className="mt-4">
-                <PayPalScriptProvider options={initialOptions}>
+                <PayPalScriptProvider options={paypalOptions}>
                   <PayPalButtons
                     style={{
                       layout: "vertical",
@@ -171,7 +163,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
                     }
                     onError={(err) => {
                       console.error("Erreur PayPal :", err);
-                      alert("Une erreur est survenue lors du paiement.");
+                      alert("Une erreur est survenue lors du paiement PayPal.");
                     }}
                   />
                 </PayPalScriptProvider>
@@ -179,7 +171,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
             </div>
           </motion.div>
 
-          {/* Zoom image plein écran */}
+          {/* Zoom plein écran */}
           <AnimatePresence>
             {zoomOpen && (
               <motion.div
