@@ -7,7 +7,7 @@
       "description": "Ce guide te montre comment rebondir après une crise professionnelle et construire ta nouvelle carrière digitale pas à pas.",
       "price": 9,
       "image": "/images/ebook1-reinvente-ta-carriere.jpg",
-      "sample": "/pdfs/extrait-ebook1.pdf"
+      "sample": "/pdfs/ebook1-reinvente-carriere.pdf"
     },
     {
       "type": "ebook2",
@@ -16,7 +16,7 @@
       "description": "Un guide pratique pour automatiser ton business et libérer du temps grâce à l’IA, Notion, Make, et n8n.",
       "price": 9,
       "image": "/images/ebook2-automatise-ton-quotidien.jpg",
-      "sample": "/pdfs/extrait-ebook2.pdf"
+      "sample": "/pdfs/ebook2-automatise-quotidien.pdf"
     },
     {
       "type": "ebook3",
@@ -25,7 +25,7 @@
       "description": "Découvre comment créer ton activité indépendante rentable en ligne, pas à pas, sans repartir de zéro.",
       "price": 9,
       "image": "/images/ebook3-liberte-digitale.jpg",
-      "sample": "/pdfs/extrait-ebook3.pdf"
+      "sample": "/pdfs/ebook3-liberte-digitale.pdf"
     }
   ]
 }
