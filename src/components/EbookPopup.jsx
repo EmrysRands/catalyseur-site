@@ -6,7 +6,6 @@ import products from "../data/products.json";
 export default function EbookPopup({ isOpen, onClose, ebook }) {
   const [zoomOpen, setZoomOpen] = useState(false);
 
-  // Bloquer le scroll arrière-plan quand le popup est ouvert
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
     return () => (document.body.style.overflow = "auto");
@@ -22,9 +21,8 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
     intent: "capture",
   };
 
-  const handleMobileMoney = () => {
-    alert(`Paiement Mobile Money simulé pour ${product.title} (${product.price} €).`);
-    window.location.href = `/merci?type=${product.type}`;
+  const handleStripeCheckout = () => {
+    window.location.href = `/checkout/stripe?product=${product.type}`;
   };
 
   const handleReserve = () => {
@@ -50,16 +48,15 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
-          {/* Popup principal */}
           <motion.div
             className="relative bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden"
             initial={{ scale: 0.9, y: 50, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.85, y: 40, opacity: 0 }}
-            transition={{ duration: 0.4, ease: 'easeInOut' }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Bouton fermeture */}
+            {/* Bouton de fermeture */}
             <button
               onClick={onClose}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition"
@@ -68,33 +65,40 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
               ✕
             </button>
 
-            {/* Image principale */}
+            {/* Image du livre */}
             <motion.div
-              className="h-60 w-full bg-gradient-to-r from-blue-600 to-purple-700 flex items-center justify-center cursor-zoom-in overflow-hidden"
+              className="h-60 w-full flex items-center justify-center overflow-hidden bg-gray-100 cursor-zoom-in"
               onClick={() => setZoomOpen(true)}
               initial={{ scale: 0.95 }}
               animate={{ scale: 1 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
+              transition={{ duration: 0.5 }}
             >
-              <motion.img
-                src={product.image}
-                alt={product.title}
-                className="h-full w-full object-cover rounded-md shadow-lg"
-                whileHover={{ scale: 1.05 }}
-              />
+              {product.image ? (
+                <motion.img
+                  src={product.image}
+                  alt={product.title}
+                  className="h-full w-full object-cover"
+                  whileHover={{ scale: 1.05 }}
+                />
+              ) : (
+                <span className="text-gray-400 italic">Image à venir…</span>
+              )}
             </motion.div>
 
-            {/* Contenu du popup */}
+            {/* Contenu */}
             <div className="p-6 space-y-4 text-left">
-              <h2 className="text-2xl font-bold text-slate-900">
-                {product.title}
-              </h2>
+              <h2 className="text-2xl font-bold text-slate-900">{product.title}</h2>
+
+              {/* Description courte */}
+              {product.shortDescription && (
+                <p className="text-blue-700 font-medium">
+                  {product.shortDescription}
+                </p>
+              )}
 
               <p className="text-slate-600 leading-relaxed">
                 {product.description || (
-                  <span className="italic text-gray-400">
-                    Description à venir...
-                  </span>
+                  <span className="italic text-gray-400">Description à venir...</span>
                 )}
               </p>
 
@@ -105,7 +109,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
                 </span>
               </div>
 
-              {/* Télécharger un extrait */}
+              {/* Extrait */}
               {product.sample && (
                 <motion.a
                   href={product.sample}
@@ -119,7 +123,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
                 </motion.a>
               )}
 
-              {/* Réserver */}
+              {/* CTA principal */}
               <motion.button
                 onClick={handleReserve}
                 className="w-full py-3 rounded-xl font-semibold text-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-md hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-300"
@@ -158,43 +162,24 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
                   }
                   onError={(err) => {
                     console.error("Erreur PayPal :", err);
-                    alert("Une erreur est survenue lors du paiement.");
+                    alert("Une erreur est survenue lors du paiement PayPal.");
                   }}
                 />
               </PayPalScriptProvider>
 
-              {/* Paiement Mobile Money */}
+              {/* Paiement Stripe */}
               <motion.button
-                onClick={handleMobileMoney}
-                className="w-full mt-4 py-3 rounded-xl font-semibold text-lg bg-yellow-400 text-black shadow-md hover:shadow-yellow-400/50 transition-all duration-300"
+                onClick={handleStripeCheckout}
+                className="w-full mt-4 py-3 rounded-xl font-semibold text-lg bg-black text-white shadow-md hover:bg-gray-800 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                📱 Payer par Mobile Money
+                💳 Payer avec Stripe
               </motion.button>
-
-              {/* Section Upsell */}
-              {product.upsell && (
-                <motion.div
-                  className="mt-4 p-4 rounded-lg bg-indigo-50 border border-indigo-200"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <p className="text-sm text-slate-700">
-                    💡 Profite de{" "}
-                    <span className="font-semibold text-blue-600">
-                      {product.upsell.title}
-                    </span>{" "}
-                    ({product.upsell.price} €) et économise{" "}
-                    {product.upsell.save} €.
-                  </p>
-                </motion.div>
-              )}
             </div>
           </motion.div>
 
-          {/* Zoom image plein écran */}
+          {/* Zoom plein écran */}
           <AnimatePresence>
             {zoomOpen && (
               <motion.div
