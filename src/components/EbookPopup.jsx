@@ -133,40 +133,6 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
                 🚀 Commencer ma renaissance
               </motion.button>
 
-              {/* Paiement PayPal */}
-              <PayPalScriptProvider options={initialOptions}>
-                <PayPalButtons
-                  style={{
-                    layout: "vertical",
-                    color: "blue",
-                    shape: "rect",
-                    label: "paypal",
-                  }}
-                  createOrder={(data, actions) =>
-                    actions.order.create({
-                      purchase_units: [
-                        {
-                          description: product.title,
-                          amount: {
-                            value: product.price,
-                            currency_code: "EUR",
-                          },
-                        },
-                      ],
-                    })
-                  }
-                  onApprove={(data, actions) =>
-                    actions.order.capture().then(() => {
-                      window.location.href = `/merci?type=${product.type}`;
-                    })
-                  }
-                  onError={(err) => {
-                    console.error("Erreur PayPal :", err);
-                    alert("Une erreur est survenue lors du paiement PayPal.");
-                  }}
-                />
-              </PayPalScriptProvider>
-
               {/* Paiement Stripe */}
               <motion.button
                 onClick={handleStripeCheckout}
@@ -176,6 +142,44 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
               >
                 💳 Payer avec Stripe
               </motion.button>
+
+              {/* Paiement PayPal */}
+              <div className="mt-4">
+                <PayPalScriptProvider options={initialOptions}>
+                  <PayPalButtons
+                    style={{
+                      layout: "vertical",
+                      color: "blue",
+                      shape: "rect",
+                      label: "paypal",
+                      tagline: false,
+                    }}
+                    forceReRender={[product.price, product.title]}
+                    createOrder={(data, actions) =>
+                      actions.order.create({
+                        purchase_units: [
+                          {
+                            description: product.title,
+                            amount: {
+                              value: product.price.toString(),
+                              currency_code: "EUR",
+                            },
+                          },
+                        ],
+                      })
+                    }
+                    onApprove={(data, actions) =>
+                      actions.order.capture().then(() => {
+                        window.location.href = `/merci?type=${product.type}`;
+                      })
+                    }
+                    onError={(err) => {
+                      console.error("Erreur PayPal :", err);
+                      alert("Une erreur est survenue lors du paiement PayPal.");
+                    }}
+                  />
+                </PayPalScriptProvider>
+              </div>
             </div>
           </motion.div>
 
