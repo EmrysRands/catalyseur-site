@@ -12,26 +12,20 @@ const paypalOptions = {
 export default function EbookPopup({ isOpen, onClose, ebook }) {
   const [zoomOpen, setZoomOpen] = useState(false);
 
+  // ✅ Scroll autorisé pendant le popup
   useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "auto";
-    return () => (document.body.style.overflow = "auto");
+    document.body.style.overflow = isOpen ? "auto" : "auto";
   }, [isOpen]);
 
   if (!ebook) return null;
 
   const product = products.ebooks.find((p) => p.type === ebook.type) || ebook;
 
-  const handleStripeCheckout = () => {
-    window.location.href = `/checkout/stripe?product=${product.type}`;
-  };
-
   const handleReserve = () => {
     onClose();
     setTimeout(() => {
       const cta = document.getElementById("cta");
-      if (cta) {
-        cta.scrollIntoView({ behavior: "smooth" });
-      }
+      if (cta) cta.scrollIntoView({ behavior: "smooth" });
       window.history.pushState({}, "", `/#cta?from=popup&type=${product.type}`);
     }, 300);
   };
@@ -40,7 +34,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm overflow-y-auto py-10"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -51,7 +45,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
             initial={{ scale: 0.9, y: 50, opacity: 0 }}
             animate={{ scale: 1, y: 0, opacity: 1 }}
             exit={{ scale: 0.85, y: 40, opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: 'easeInOut' }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Bouton fermeture */}
@@ -126,17 +120,7 @@ export default function EbookPopup({ isOpen, onClose, ebook }) {
                 🚀 Commencer ma renaissance
               </motion.button>
 
-              {/* Paiement Stripe */}
-              <motion.button
-                onClick={handleStripeCheckout}
-                className="w-full mt-4 py-3 rounded-xl font-semibold text-lg bg-black text-white shadow-md hover:bg-gray-800 transition-all duration-300"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                💳 Payer avec Stripe
-              </motion.button>
-
-              {/* Paiement PayPal */}
+              {/* ✅ Paiement PayPal seulement */}
               <div className="mt-4">
                 <PayPalScriptProvider options={paypalOptions}>
                   <PayPalButtons
