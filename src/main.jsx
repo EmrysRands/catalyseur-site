@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import App from "./App.jsx";
 import ThankYou from "./components/ThankYou.jsx";
 import Access from "./components/Access.jsx";
-import NotFound from "./components/NotFound.jsx"; // optionnelle
+import NotFound from "./components/NotFound.jsx";
 import "./index.css";
 
 const PageTransition = ({ children }) => {
@@ -36,7 +36,7 @@ function AnimatedRoutes() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/merci" element={<ThankYou />} />
-        <Route path="/acces" element={<Access />} />
+        <Route path="/access" element={<Access />} /> {/* ✅ corrigé ici */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </PageTransition>
