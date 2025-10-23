@@ -9,7 +9,7 @@ import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 import Chatbot from "./components/Chatbot";
 import Testimonials from "./components/Testimonials";
-import Access from "./pages/Access"; // ✅ importe ta page membre
+import Access from "./components/Access"; // ✅ importe ta page membre
 
 export default function App() {
   return (
