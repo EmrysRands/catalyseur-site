@@ -46,6 +46,7 @@ export default function Features() {
         initial={{ y: -30, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
       >
         Les 4 Strates de Transformation
       </motion.h2>
@@ -55,10 +56,12 @@ export default function Features() {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 1 }}
+        viewport={{ once: true }}
       >
         Le Catalyseur Digital 3.0 est un parcours progressif qui t’aide à passer
         du chaos digital à la clarté, puis à la liberté.
       </motion.p>
+
 
       {/* CARTES */}
       <div className="relative z-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-6xl w-full">
