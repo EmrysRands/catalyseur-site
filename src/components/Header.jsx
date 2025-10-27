@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -18,23 +17,21 @@ export default function Header() {
   const handleSmoothScroll = (e, target) => {
     e.preventDefault();
     const el = document.querySelector(target);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
 
-  const menuLinks = [
+  // 🌐 Liens principaux visibles sur desktop
+  const desktopLinks = [
     { label: "Pourquoi Catalyseur ?", href: "#features" },
-    { label: "Collection Renaissance IA", href: "#books" },
-    { label: "FAQ", href: "#faq" },
     { label: "Commencer", href: "#hero" },
   ];
 
-  const pageLinks = [
-    { label: "À propos", path: "/a-propos" },
-    { label: "Contact", path: "/contact" },
-    { label: "Ressources", path: "/ressources" },
+  // 📱 Liens supplémentaires visibles uniquement dans le menu mobile
+  const mobileExtraLinks = [
+    { label: "À propos", href: "#about" },
+    { label: "Contact", href: "#contact" },
+    { label: "Ressources", href: "#resources" },
   ];
 
   return (
@@ -61,7 +58,7 @@ export default function Header() {
         <motion.div
           className="flex items-center gap-3 cursor-pointer select-none"
           whileHover={{ scale: 1.05 }}
-          onClick={(e) => handleSmoothScroll(e, "body")}
+          onClick={(e) => handleSmoothScroll(e, "#hero")}
         >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-md">
             <span className="text-2xl">⚡</span>
@@ -73,7 +70,7 @@ export default function Header() {
 
         {/* 🔗 Menu Desktop */}
         <div className="hidden md:flex items-center gap-8 text-slate-200 font-semibold">
-          {menuLinks.map((item, i) => (
+          {desktopLinks.map((item, i) => (
             <motion.a
               key={i}
               href={item.href}
@@ -84,26 +81,7 @@ export default function Header() {
               {item.label}
             </motion.a>
           ))}
-
-          {/* Liens vers les vraies pages */}
-          {pageLinks.map((item, i) => (
-            <motion.div whileHover={{ scale: 1.05 }} key={i}>
-              <Link to={item.path} className="hover:text-gold transition">
-                {item.label}
-              </Link>
-            </motion.div>
-          ))}
         </div>
-
-        {/* CTA Desktop */}
-        <motion.a
-          href="#hero"
-          onClick={(e) => handleSmoothScroll(e, "#hero")}
-          className="hidden md:inline-block px-6 py-2 rounded-full text-white font-bold text-base bg-gradient-to-r from-blue-500 to-purple-600 shadow-md hover:shadow-lg hover:scale-105 transition-all"
-          whileTap={{ scale: 0.95 }}
-        >
-          ✨ Commencer
-        </motion.a>
 
         {/* ☰ Burger Menu Mobile */}
         <div
@@ -137,28 +115,16 @@ export default function Header() {
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="absolute top-[70px] left-0 w-full bg-gradient-to-br from-indigo-900/95 to-purple-900/95 flex flex-col items-center gap-4 py-6 text-white text-lg font-medium shadow-2xl border-t border-white/10 md:hidden"
             >
-              {[...menuLinks, ...pageLinks].map((item, i) => (
-                item.path ? (
-                  <motion.div key={i} whileHover={{ scale: 1.05 }}>
-                    <Link
-                      to={item.path}
-                      onClick={() => setMenuOpen(false)}
-                      className="hover:text-purple-300"
-                    >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ) : (
-                  <motion.a
-                    key={i}
-                    href={item.href}
-                    onClick={(e) => handleSmoothScroll(e, item.href)}
-                    whileHover={{ scale: 1.05 }}
-                    className="hover:text-purple-300"
-                  >
-                    {item.label}
-                  </motion.a>
-                )
+              {[...desktopLinks, ...mobileExtraLinks].map((item, i) => (
+                <motion.a
+                  key={i}
+                  href={item.href}
+                  onClick={(e) => handleSmoothScroll(e, item.href)}
+                  whileHover={{ scale: 1.05 }}
+                  className="hover:text-purple-300"
+                >
+                  {item.label}
+                </motion.a>
               ))}
             </motion.nav>
           )}
