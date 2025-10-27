@@ -26,9 +26,9 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        Le Pont entre{" "}
-        <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-          Humain & IA
+        Passe du chaos digital{" "}
+        <span className="bg-gradient-to-r from-[#D4AF37] to-[#FFD700] bg-clip-text text-transparent">
+          à la clarté
         </span>
       </motion.h1>
 
@@ -39,62 +39,53 @@ export default function Hero() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 1 }}
       >
-        Tu n’as pas besoin d’un autre outil.  
-        Tu as besoin de comprendre le système.  
+        Tu n'as pas besoin d'un autre outil.  
+        Tu as besoin de <strong>comprendre le système</strong>.
         <br />
-        Catalyseur Digital t’aide à passer du chaos à la clarté - grâce à
-        l’automatisation et à l’intelligence artificielle.
-      </motion.p>
-
-      {/* Phrase pivot */}
-      <motion.p
-        className="text-blue-400 text-xl md:text-2xl font-semibold mb-6 relative z-10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.8 }}
-      >
-        Ton nouveau départ commence ici.
+        <br />
+        Nous t'accompagnons pour transformer l'IA en levier — pas en obstacle.
       </motion.p>
 
       {/* Bloc narratif inspirant */}
       <motion.div
-        className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10 mb-8 max-w-3xl 
-        backdrop-blur-sm shadow-[0_0_25px_rgba(139,92,246,0.15)] relative z-10"
+        className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-10 mb-10 max-w-3xl 
+        backdrop-blur-sm shadow-[0_0_25px_rgba(212,175,55,0.15)] relative z-10"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 1 }}
+        transition={{ delay: 0.6, duration: 1 }}
       >
         <p className="text-lg md:text-xl text-slate-100 leading-relaxed">
-          <strong className="text-blue-400">Le monde change : </strong>  
-           ceux qui savent connecter les bons leviers - humain, IA et
-          automatisation - deviennent les vrais leaders de demain.
+          <strong className="text-[#D4AF37]">Le monde change.</strong>
+          <br />
+          Ceux qui savent connecter humain, IA et automatisation deviennent les vrais leaders de demain.
           <br />
           <br />
-          Ici, on t’apprend à piloter ton système, pas à subir la technologie.
+          Ici, on t'apprend à <span className="text-[#D4AF37] font-semibold">piloter ton système</span>, 
+          pas à subir la technologie.
         </p>
       </motion.div>
 
       {/* CTA principal */}
       <motion.a
-        href="#strates"
-        onClick={(e) => handleSmoothScroll(e, "#strates")}
-        className="px-8 py-4 mt-8 text-lg font-semibold rounded-full 
-        bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg hover:scale-105 
-        transition-all duration-300 relative z-10"
+        href="#parcours"
+        onClick={(e) => handleSmoothScroll(e, "#parcours")}
+        className="px-8 py-4 text-lg font-semibold rounded-full 
+        bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-black shadow-lg 
+        hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transition-all duration-300 relative z-10"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.97 }}
       >
-        🚀 Découvrir les 4 Strates de Transformation
+        🚀 Découvre ton parcours de transformation
       </motion.a>
 
       {/* Texte complémentaire */}
       <motion.p
-        className="mt-8 text-sm md:text-base text-purple-300 font-semibold relative z-10"
+        className="mt-8 text-sm md:text-base text-slate-300 relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.3, duration: 0.8 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
       >
-        🌍 Un parcours pour passer du chaos digital à la liberté durable.
+        ✨ Du déclic à l'action, de l'action aux résultats
       </motion.p>
     </section>
   );
