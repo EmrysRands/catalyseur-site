@@ -7,7 +7,7 @@ export default function Features() {
       title: "Réinvention",
       desc: "Clarifie ta vision, reconnecte ton potentiel et découvre comment l’IA peut libérer ton temps et ton esprit.",
       link: "/reinvention",
-      btn: "Découvrir la Strate 1",
+      btn: "Découvre la Strate 1",
     },
     {
       icon: "⚙️",
@@ -31,6 +31,7 @@ export default function Features() {
       btn: "Découvrir ton accompagnement",
     },
   ];
+
 
   return (
     <section
