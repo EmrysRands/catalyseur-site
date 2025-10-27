@@ -1,4 +1,4 @@
-// main.jsx (Catalyseur Digital 3.0)
+// main.jsx — Catalyseur Digital 3.0 (structure allégée)
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -9,23 +9,17 @@ import {
 } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import App from "./App.jsx";
-import Nova from "./pages/Nova.jsx";
-import Contact from "./pages/Contact.jsx";
-import Resources from "./pages/Resources.jsx";
 import Layout from "./components/Layout";
 import StrateReinvention from "./pages/StrateReinvention.jsx";
 import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
 import StrateApplication from "./pages/StrateApplication.jsx";
 import StrateLiberte from "./pages/StrateLiberte.jsx";
-import NotFound from "./components/NotFound.jsx";
 import "./index.css";
 
 function BackgroundGradient() {
   const location = useLocation();
   const gradients = {
     "/": "from-[#0f172a] via-[#1e3a8a] to-[#581c87]",
-    "/nova": "from-indigo-800 via-blue-500 to-cyan-400",
-    "/contact": "from-yellow-600 via-yellow-500 to-yellow-300",
     "/reinvention": "from-blue-900 via-purple-700 to-indigo-900",
     "/automatisation": "from-indigo-700 via-blue-500 to-sky-400",
     "/application": "from-cyan-700 via-blue-600 to-indigo-800",
@@ -33,8 +27,7 @@ function BackgroundGradient() {
     default: "from-[#0f0f0f] via-[#111] to-[#1a1a1a]",
   };
 
-  const gradientClass =
-    gradients[location.pathname] || gradients.default;
+  const gradientClass = gradients[location.pathname] || gradients.default;
 
   return (
     <motion.div
@@ -57,7 +50,7 @@ function PageTransition({ children }) {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
       >
         {children}
       </motion.div>
@@ -75,7 +68,7 @@ function AnimatedRoutes() {
             path="/"
             element={
               <Layout>
-                <App /> {/* Accueil complète */}
+                <App />
               </Layout>
             }
           />
@@ -111,23 +104,6 @@ function AnimatedRoutes() {
               </Layout>
             }
           />
-          <Route
-            path="/nova"
-            element={
-              <Layout>
-                <Nova />
-              </Layout>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <Layout>
-                <Contact />
-              </Layout>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
         </Routes>
       </PageTransition>
     </>
