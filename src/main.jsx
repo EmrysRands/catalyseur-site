@@ -14,9 +14,6 @@ import StrateReinvention from "./pages/StrateReinvention.jsx";
 import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
 import StrateApplication from "./pages/StrateApplication.jsx";
 import StrateLiberte from "./pages/StrateLiberte.jsx";
-import About from "./pages/About.jsx";
-import Contact from "./pages/Contact.jsx";
-import Resources from "./pages/Resources.jsx";
 import "./index.css";
 
 function BackgroundGradient() {
