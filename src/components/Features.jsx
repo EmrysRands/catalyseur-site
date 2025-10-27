@@ -6,40 +6,45 @@ export default function Features() {
       icon: "🧠",
       title: "Réinvention",
       desc: "Clarifie ta vision, reconnecte ton potentiel et découvre comment l’IA peut libérer ton temps et ton esprit.",
-      link: "/reinvention",
+      link: "#about",
       btn: "Découvre la Réinvention",
     },
     {
       icon: "⚙️",
       title: "Automatisation",
       desc: "Simplifie ton quotidien en transformant tes processus en systèmes IA. Gagne 2 à 3h par jour sans effort.",
-      link: "/automatisation",
+      link: "#contact",
       btn: "Passe à l’Automatisation",
     },
     {
       icon: "🧩",
       title: "Application",
       desc: "Applique ce que tu apprends à travers nos outils, modèles et démos interactives. Vois les résultats concrets.",
-      link: "/application",
+      link: "#resources",
       btn: "Découvre les Outils",
     },
     {
       icon: "🏆",
       title: "Liberté",
       desc: "Ancre tes résultats avec un accompagnement personnalisé et des systèmes durables. Crée ta stabilité digitale.",
-      link: "/liberte",
+      link: "#resources",
       btn: "Atteins ta Liberté Digitale",
     },
   ];
 
-
+  // 🎯 Scroll fluide vers la section ciblée
+  const handleSmoothScroll = (e, target) => {
+    e.preventDefault();
+    const el = document.querySelector(target);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section
-      id="strates"
+      id="features"
       className="relative py-32 bg-gradient-to-b from-[#1a1444] via-[#0f172a] to-[#0b0b17] text-gold flex flex-col items-center px-6 overflow-hidden"
     >
-      {/* Lueur douce d’arrière-plan */}
+      {/* 🌌 Lueur douce d’arrière-plan */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-indigo-600/10 via-purple-500/10 to-transparent blur-3xl opacity-60 pointer-events-none"></div>
 
       {/* TITRE */}
@@ -64,7 +69,6 @@ export default function Features() {
         du chaos digital à la clarté, puis à la liberté.
       </motion.p>
 
-
       {/* CARTES */}
       <div className="relative z-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-6xl w-full">
         {strates.map((strate, index) => (
@@ -82,6 +86,7 @@ export default function Features() {
             </p>
             <a
               href={strate.link}
+              onClick={(e) => handleSmoothScroll(e, strate.link)}
               className="inline-block bg-gold text-dark font-bold px-6 py-3 rounded-xl hover:bg-yellow-400 transition"
             >
               {strate.btn}

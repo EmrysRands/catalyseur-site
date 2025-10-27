@@ -23,9 +23,12 @@ export default function Header() {
 
   // 🌐 Liens principaux visibles sur desktop
   const desktopLinks = [
-    { label: "Pourquoi Catalyseur ?", href: "#features" },
-    { label: "Commencer", href: "#hero" },
+    { label: "Les Strates", href: "#strates" },
+    { label: "À propos", href: "#about" },
+    { label: "Contact", href: "#contact" },
+    { label: "Ressources", href: "#resources" },
   ];
+
 
   // 📱 Liens supplémentaires visibles uniquement dans le menu mobile
   const mobileExtraLinks = [

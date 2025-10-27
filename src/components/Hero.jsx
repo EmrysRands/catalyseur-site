@@ -67,8 +67,8 @@ export default function Hero() {
 
       {/* CTA principal */}
       <motion.a
-        href="#parcours"
-        onClick={(e) => handleSmoothScroll(e, "#parcours")}
+        href="#features"
+        onClick={(e) => handleSmoothScroll(e, "#features")}
         className="px-8 py-4 text-lg font-semibold rounded-full 
         bg-gradient-to-r from-[#D4AF37] to-[#FFD700] text-black shadow-lg 
         hover:shadow-[0_0_30px_rgba(212,175,55,0.5)] transition-all duration-300 relative z-10"
