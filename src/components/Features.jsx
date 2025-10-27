@@ -6,38 +6,31 @@ export default function Features() {
       icon: "🧠",
       title: "Réinvention",
       desc: "Clarifie ta vision, reconnecte ton potentiel et découvre comment l’IA peut libérer ton temps et ton esprit.",
-      link: "#about",
+      link: "/reinvention",
       btn: "Découvre la Réinvention",
     },
     {
       icon: "⚙️",
       title: "Automatisation",
       desc: "Simplifie ton quotidien en transformant tes processus en systèmes IA. Gagne 2 à 3h par jour sans effort.",
-      link: "#contact",
+      link: "/automatisation",
       btn: "Passe à l’Automatisation",
     },
     {
       icon: "🧩",
       title: "Application",
       desc: "Applique ce que tu apprends à travers nos outils, modèles et démos interactives. Vois les résultats concrets.",
-      link: "#resources",
+      link: "/application",
       btn: "Découvre les Outils",
     },
     {
       icon: "🏆",
       title: "Liberté",
       desc: "Ancre tes résultats avec un accompagnement personnalisé et des systèmes durables. Crée ta stabilité digitale.",
-      link: "#resources",
+      link: "/liberte",
       btn: "Atteins ta Liberté Digitale",
     },
   ];
-
-  // 🎯 Scroll fluide vers la section ciblée
-  const handleSmoothScroll = (e, target) => {
-    e.preventDefault();
-    const el = document.querySelector(target);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <section
@@ -86,7 +79,6 @@ export default function Features() {
             </p>
             <a
               href={strate.link}
-              onClick={(e) => handleSmoothScroll(e, strate.link)}
               className="inline-block bg-gold text-dark font-bold px-6 py-3 rounded-xl hover:bg-yellow-400 transition"
             >
               {strate.btn}
