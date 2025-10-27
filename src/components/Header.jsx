@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [menuOpen]);
 
-  // 🌈 Navigation fluide au clic
+  // 🌈 Navigation fluide au clic (pour les ancres internes)
   const handleSmoothScroll = (e, target) => {
     e.preventDefault();
     const el = document.querySelector(target);
@@ -28,6 +29,12 @@ export default function Header() {
     { label: "Collection Renaissance IA", href: "#books" },
     { label: "FAQ", href: "#faq" },
     { label: "Commencer", href: "#hero" },
+  ];
+
+  const pageLinks = [
+    { label: "À propos", path: "/a-propos" },
+    { label: "Contact", path: "/contact" },
+    { label: "Ressources", path: "/ressources" },
   ];
 
   return (
@@ -64,6 +71,30 @@ export default function Header() {
           </span>
         </motion.div>
 
+        {/* 🔗 Menu Desktop */}
+        <div className="hidden md:flex items-center gap-8 text-slate-200 font-semibold">
+          {menuLinks.map((item, i) => (
+            <motion.a
+              key={i}
+              href={item.href}
+              onClick={(e) => handleSmoothScroll(e, item.href)}
+              whileHover={{ scale: 1.05, color: "#d4af37" }}
+              className="hover:text-gold transition"
+            >
+              {item.label}
+            </motion.a>
+          ))}
+
+          {/* Liens vers les vraies pages */}
+          {pageLinks.map((item, i) => (
+            <motion.div whileHover={{ scale: 1.05 }} key={i}>
+              <Link to={item.path} className="hover:text-gold transition">
+                {item.label}
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+
         {/* CTA Desktop */}
         <motion.a
           href="#hero"
@@ -73,7 +104,6 @@ export default function Header() {
         >
           ✨ Commencer
         </motion.a>
-
 
         {/* ☰ Burger Menu Mobile */}
         <div
@@ -107,20 +137,28 @@ export default function Header() {
               transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="absolute top-[70px] left-0 w-full bg-gradient-to-br from-indigo-900/95 to-purple-900/95 flex flex-col items-center gap-4 py-6 text-white text-lg font-medium shadow-2xl border-t border-white/10 md:hidden"
             >
-              {menuLinks.map((item, i) => (
-                <motion.a
-                  key={i}
-                  href={item.href}
-                  onClick={(e) => handleSmoothScroll(e, item.href)}
-                  whileHover={{ scale: 1.05 }}
-                  className={`${
-                    item.href === "#cta"
-                      ? "bg-gradient-to-r from-blue-500 to-purple-600 px-5 py-2 rounded-lg shadow-md font-bold"
-                      : "hover:text-purple-300"
-                  }`}
-                >
-                  {item.label}
-                </motion.a>
+              {[...menuLinks, ...pageLinks].map((item, i) => (
+                item.path ? (
+                  <motion.div key={i} whileHover={{ scale: 1.05 }}>
+                    <Link
+                      to={item.path}
+                      onClick={() => setMenuOpen(false)}
+                      className="hover:text-purple-300"
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                ) : (
+                  <motion.a
+                    key={i}
+                    href={item.href}
+                    onClick={(e) => handleSmoothScroll(e, item.href)}
+                    whileHover={{ scale: 1.05 }}
+                    className="hover:text-purple-300"
+                  >
+                    {item.label}
+                  </motion.a>
+                )
               ))}
             </motion.nav>
           )}

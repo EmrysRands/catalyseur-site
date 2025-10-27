@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import Nova from "./components/Nova";
-import Footer from "./components/Footer";
+
 
 export default function App() {
   return (
@@ -23,7 +23,6 @@ export default function App() {
       {/* 💡 Les 4 Strates de Transformation */}
       <Features />
       <Nova /> {/* 🧠 Guide IA après les 4 blocs */}
-      <Footer />
     </motion.div>
   );
 }
