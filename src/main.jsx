@@ -1,4 +1,4 @@
-// main.jsx — Catalyseur Digital 3.0 (structure allégée)
+// main.jsx — Catalyseur Digital 3.0 (structure modulaire complète)
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -14,6 +14,9 @@ import StrateReinvention from "./pages/StrateReinvention.jsx";
 import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
 import StrateApplication from "./pages/StrateApplication.jsx";
 import StrateLiberte from "./pages/StrateLiberte.jsx";
+import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
+import Resources from "./pages/Resources.jsx";
 import "./index.css";
 
 function BackgroundGradient() {
@@ -23,7 +26,10 @@ function BackgroundGradient() {
     "/reinvention": "from-blue-900 via-purple-700 to-indigo-900",
     "/automatisation": "from-indigo-700 via-blue-500 to-sky-400",
     "/application": "from-cyan-700 via-blue-600 to-indigo-800",
-    "/liberte": "from-amber-500 via-yellow-400 to-orange-500",
+    "/liberte": "from-[#1a1444] via-[#312e81] to-[#0f172a]",
+    "/a-propos": "from-[#0f172a] via-[#312e81] to-[#581c87]",
+    "/contact": "from-[#0f172a] via-[#1e3a8a] to-[#581c87]",
+    "/ressources": "from-[#0f172a] via-[#1e3a8a] to-[#581c87]",
     default: "from-[#0f0f0f] via-[#111] to-[#1a1a1a]",
   };
 
@@ -64,6 +70,7 @@ function AnimatedRoutes() {
       <BackgroundGradient />
       <PageTransition>
         <Routes>
+          {/* Page d'accueil */}
           <Route
             path="/"
             element={
@@ -72,6 +79,8 @@ function AnimatedRoutes() {
               </Layout>
             }
           />
+
+          {/* Parcours de transformation */}
           <Route
             path="/reinvention"
             element={
@@ -101,6 +110,32 @@ function AnimatedRoutes() {
             element={
               <Layout>
                 <StrateLiberte />
+              </Layout>
+            }
+          />
+
+          {/* Pages structurelles */}
+          <Route
+            path="/a-propos"
+            element={
+              <Layout>
+                <About />
+              </Layout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Layout>
+                <Contact />
+              </Layout>
+            }
+          />
+          <Route
+            path="/ressources"
+            element={
+              <Layout>
+                <Resources />
               </Layout>
             }
           />

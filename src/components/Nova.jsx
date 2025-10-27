@@ -113,7 +113,7 @@ export default function Nova() {
                 onClick={() => handleRedirect("liberté")}
                     className="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 text-[#1a1444] font-bold py-3 rounded-lg shadow-lg hover:from-yellow-300 hover:to-yellow-400 hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] transition mt-4"
               >
-                🏆 Atteindre la Liberté Digitale
+                Atteindre la Liberté Digitale
               </button>
             </div>
           </>
