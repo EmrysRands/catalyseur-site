@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import SectionTitle from "../components/shared/SectionTitle";
-import LoginForm from "../components/resources/LoginForm";
-import DownloadsList from "../components/resources/DownloadsList";
+import LoginForm from "../components/resources/LoginForm.jsx";
+import DownloadsList from "../components/resources/DownloadsList.jsx";
 
 export default function Resources() {
   return (
