@@ -1,7 +1,6 @@
 // App.jsx (Catalyseur Digital 3.0 - Version sans Books)
 import { motion } from "framer-motion";
 import Header from "./components/Header";
-import Features from "./components/Features";
 import Hero from "./components/Hero";
 import Features from "./components/Features"; // ← ici, Features = Strates / Parcours
 import CTA from "./components/CTA";
