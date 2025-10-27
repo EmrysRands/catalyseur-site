@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#581c87] text-center text-white py-16 px-6 relative overflow-hidden">
+    <footer className="mt-[-4rem] bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#581c87] text-center text-white py-16 px-6 relative overflow-hidden">
       {/* Halo décoratif */}
       <motion.div
         className="absolute inset-0 bg-gradient-to-t from-blue-600/20 via-purple-600/20 to-transparent blur-3xl opacity-40"
@@ -135,7 +135,7 @@ export default function Footer() {
         transformer tes compétences en liberté et en impact réel.
       </motion.p>
 
-      {/* Lien bas */}
+      {/* Bas de page */}
       <motion.p
         className="text-xs text-slate-400 relative z-10"
         initial={{ opacity: 0 }}

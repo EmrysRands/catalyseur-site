@@ -2,7 +2,11 @@ import { motion } from "framer-motion";
 
 export default function ResourcesSection() {
   return (
-    <section id="resources" className="py-24 bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#581c87] text-white px-6 text-center">
+    <section
+      id="resources"
+      className="relative py-24 bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#1a1035] text-white px-6 text-center overflow-hidden"
+    >
+      {/* Titre principal */}
       <motion.h2
         className="text-4xl md:text-5xl font-bold mb-8 text-gold"
         initial={{ opacity: 0, y: 30 }}
@@ -16,7 +20,8 @@ export default function ResourcesSection() {
         Connecte-toi pour retrouver tes ebooks, templates ou formations achetées.
       </p>
 
-      <div className="bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl max-w-md mx-auto text-left">
+      {/* Formulaire de connexion */}
+      <div className="bg-white/10 backdrop-blur-md border border-white/10 p-8 rounded-2xl max-w-md mx-auto text-left shadow-xl">
         <label className="block mb-4">
           <span className="text-gold font-semibold">Email</span>
           <input
@@ -41,6 +46,17 @@ export default function ResourcesSection() {
       <p className="mt-12 text-slate-300">
         Pas encore de compte ? Les téléchargements seront disponibles après ton premier achat.
       </p>
+
+      {/* Halo de transition vers le footer */}
+      <motion.div
+        className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#581c87]/40 via-transparent to-transparent blur-2xl"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 1.2 }}
+      />
+
+      {/* Pont visuel */}
+      <div className="h-20 bg-gradient-to-b from-transparent to-[#0f172a]" />
     </section>
   );
 }
