@@ -93,25 +93,25 @@ export default function Nova() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={() => handleRedirect("clarté")}
-                className="bg-gold text-dark font-semibold py-3 rounded-lg hover:bg-yellow-400 transition"
+                  className="bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600 text-white font-semibold py-3 rounded-lg shadow-lg hover:from-indigo-400 hover:to-purple-400 hover:shadow-[0_0_25px_rgba(147,197,253,0.3)] transition"
               >
                 Plus de clarté
               </button>
               <button
                 onClick={() => handleRedirect("temps")}
-                className="bg-gold text-dark font-semibold py-3 rounded-lg hover:bg-yellow-400 transition"
+                  className="bg-gradient-to-r from-sky-500 via-cyan-400 to-blue-500 text-white font-semibold py-3 rounded-lg shadow-lg hover:from-sky-400 hover:to-cyan-300 hover:shadow-[0_0_25px_rgba(125,211,252,0.4)] transition"
               >
                 Plus de temps
               </button>
               <button
                 onClick={() => handleRedirect("résultats")}
-                className="bg-gold text-dark font-semibold py-3 rounded-lg hover:bg-yellow-400 transition"
+                  className="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 text-[#1a1444] font-bold py-3 rounded-lg shadow-lg hover:from-yellow-300 hover:to-yellow-400 hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] transition mt-4"
               >
                 Plus de résultats
               </button>
               <button
                 onClick={() => handleRedirect("liberté")}
-                className="bg-white text-dark font-bold py-3 rounded-lg hover:bg-gray-200 transition mt-4"
+                    className="bg-gradient-to-r from-yellow-400 via-amber-400 to-yellow-500 text-[#1a1444] font-bold py-3 rounded-lg shadow-lg hover:from-yellow-300 hover:to-yellow-400 hover:shadow-[0_0_25px_rgba(255,215,0,0.4)] transition mt-4"
               >
                 🏆 Atteindre la Liberté Digitale
               </button>
