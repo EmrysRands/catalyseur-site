@@ -65,7 +65,7 @@ export default function Hero() {
         transition={{ delay: 0.8, duration: 1 }}
       >
         <p className="text-lg md:text-xl text-slate-100 leading-relaxed">
-          <strong className="text-blue-400">Le monde change :</strong>  
+          <strong className="text-blue-400">Le monde change : </strong>  
            ceux qui savent connecter les bons leviers - humain, IA et
           automatisation - deviennent les vrais leaders de demain.
           <br />
