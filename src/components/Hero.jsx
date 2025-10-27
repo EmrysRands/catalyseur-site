@@ -42,7 +42,7 @@ export default function Hero() {
         Tu n’as pas besoin d’un autre outil.  
         Tu as besoin de comprendre le système.  
         <br />
-        Catalyseur Digital t’aide à passer du chaos à la clarté — grâce à
+        Catalyseur Digital t’aide à passer du chaos à la clarté - grâce à
         l’automatisation et à l’intelligence artificielle.
       </motion.p>
 
@@ -66,8 +66,8 @@ export default function Hero() {
       >
         <p className="text-lg md:text-xl text-slate-100 leading-relaxed">
           <strong className="text-blue-400">Le monde change :</strong>  
-          ceux qui savent connecter les bons leviers — humain, IA et
-          automatisation — deviennent les vrais leaders de demain.
+           ceux qui savent connecter les bons leviers - humain, IA et
+          automatisation - deviennent les vrais leaders de demain.
           <br />
           <br />
           Ici, on t’apprend à piloter ton système, pas à subir la technologie.
