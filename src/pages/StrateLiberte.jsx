@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 export default function StrateLiberte() {
   return (
     <motion.main
-      className="flex flex-col items-center min-h-screen bg-dark text-gold overflow-x-hidden"
+      className="flex flex-col items-center min-h-screen bg-gradient-to-br from-amber-500 via-yellow-400 to-orange-500 text-white overflow-x-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
