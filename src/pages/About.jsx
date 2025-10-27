@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import SectionTitle from "../components/shared/SectionTitle";
 import HistorySection from "../components/about/HistorySection";
 import ArchetypesList from "../components/about/ArchetypesList";
-import ValuesList from "../components/about/ValuesList";
+import ValuesList from "../components/about/ValuesList.jsx";
 
 export default function About() {
   return (
