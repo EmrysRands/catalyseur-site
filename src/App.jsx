@@ -5,7 +5,6 @@ import Nova from "./components/Nova";
 import AboutSection from "./components/sections/AboutSection";
 import ContactSection from "./components/sections/ContactSection";
 import ResourcesSection from "./components/sections/ResourcesSection";
-import Footer from "./components/Footer";
 
 export default function App() {
   return (
@@ -17,7 +16,6 @@ export default function App() {
       <AboutSection />
       <ContactSection />
       <ResourcesSection />
-      <Footer />
     </div>
   );
 }
