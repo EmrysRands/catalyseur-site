@@ -7,30 +7,31 @@ export default function Features() {
       title: "Réinvention",
       desc: "Clarifie ta vision, reconnecte ton potentiel et découvre comment l’IA peut libérer ton temps et ton esprit.",
       link: "/reinvention",
-      btn: "Découvre la Strate 1",
+      btn: "Découvre la Réinvention",
     },
     {
       icon: "⚙️",
       title: "Automatisation",
       desc: "Simplifie ton quotidien en transformant tes processus en systèmes IA. Gagne 2 à 3h par jour sans effort.",
       link: "/automatisation",
-      btn: "Commencer à automatiser",
+      btn: "Passe à l’Automatisation",
     },
     {
       icon: "🧩",
       title: "Application",
       desc: "Applique ce que tu apprends à travers nos outils, modèles et démos interactives. Vois les résultats concrets.",
       link: "/application",
-      btn: "Tester un système en action",
+      btn: "Découvre les Outils",
     },
     {
       icon: "🏆",
       title: "Liberté",
       desc: "Ancre tes résultats avec un accompagnement personnalisé et des systèmes durables. Crée ta stabilité digitale.",
       link: "/liberte",
-      btn: "Découvrir ton accompagnement",
+      btn: "Atteins ta Liberté Digitale",
     },
   ];
+
 
 
   return (
