@@ -1,21 +1,13 @@
-// App.jsx (Catalyseur Digital 3.0)
-import { Routes, Route } from "react-router-dom";
+// App.jsx (Catalyseur Digital 3.0 - Version sans Books)
 import { motion } from "framer-motion";
 import Header from "./components/Header";
+import Hero from "./components/Hero";
+import Features from "./components/Features"; // ← ici, Features = Strates / Parcours
+import CTA from "./components/CTA";
+import Testimonials from "./components/Testimonials";
+import FAQ from "./components/FAQ";
 import Footer from "./components/Footer";
 import Chatbot from "./components/Chatbot";
-
-// ✅ Import des 4 Strates + Pages globales
-import Home from "./pages/Home";
-import StrateReinvention from "./pages/StrateReinvention";
-import StrateAutomatisation from "./pages/StrateAutomatisation";
-import StrateApplication from "./pages/StrateApplication";
-import StrateLiberte from "./pages/StrateLiberte";
-import Nova from "./pages/Nova";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Resources from "./pages/Resources";
-import NotFound from "./components/NotFound";
 
 export default function App() {
   return (
@@ -25,32 +17,27 @@ export default function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6 }}
     >
+      {/* 🧭 Navigation principale */}
       <Header />
 
-      <Routes>
-        {/* 🏠 Page d’accueil */}
-        <Route path="/" element={<Home />} />
+      {/* 🦸‍♂️ Hero = promesse + message clé */}
+      <Hero />
 
-        {/* 🌱 Les 4 Strates */}
-        <Route path="/reinvention" element={<StrateReinvention />} />
-        <Route path="/automatisation" element={<StrateAutomatisation />} />
-        <Route path="/application" element={<StrateApplication />} />
-        <Route path="/liberte" element={<StrateLiberte />} />
+      {/* 💡 Les 4 Strates de transformation (ex-Features) */}
+      <Features />
 
-        {/* 🤖 Nova IA */}
-        <Route path="/nova" element={<Nova />} />
+      {/* 🎯 Appel à l’action central */}
+      <CTA />
 
-        {/* 📘 Pages secondaires */}
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/resources" element={<Resources />} />
+      {/* 💬 Témoignages / preuve sociale */}
+      <Testimonials />
 
-        {/* 🚫 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      {/* ❓ Questions fréquentes */}
+      <FAQ />
 
-      <Footer />
+      {/* 🤖 Chatbot Nova + Footer */}
       <Chatbot />
+      <Footer />
     </motion.div>
   );
 }
