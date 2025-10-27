@@ -17,11 +17,12 @@ export default function StrateReinvention() {
         </p>
 
         <a
-          href="/automatisation"
+          href="/strate-automatisation"
           className="inline-block bg-gold text-dark font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition"
         >
           ⚙️ Passer à l’Automatisation
         </a>
+
       </section>
     </motion.main>
   );

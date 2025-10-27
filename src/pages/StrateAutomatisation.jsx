@@ -17,11 +17,12 @@ export default function StrateAutomatisation() {
         </p>
 
         <a
-          href="/application"
+          href="/strate-application"
           className="inline-block bg-gold text-dark font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition"
         >
           🧩 Voir les Outils en Action
         </a>
+
       </section>
     </motion.main>
   );

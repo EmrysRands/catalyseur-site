@@ -17,11 +17,12 @@ export default function StrateApplication() {
         </p>
 
         <a
-          href="/liberte"
+          href="/strate-liberte"
           className="inline-block bg-gold text-dark font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition"
         >
           🏆 Découvrir ton Accompagnement
         </a>
+
       </section>
     </motion.main>
   );
