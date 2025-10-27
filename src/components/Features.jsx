@@ -4,31 +4,31 @@ export default function Features() {
   const strates = [
     {
       icon: "🧠",
-      title: "Réinvention",
+      title: "Strate 1 – Réinvention",
       desc: "Clarifie ta vision, reconnecte ton potentiel et découvre comment l’IA peut libérer ton temps et ton esprit.",
-      link: "/reinvention",
-      btn: "Découvre la Réinvention",
+      link: "/strate-reinvention",
+      btn: "Découvrir la Réinvention",
     },
     {
       icon: "⚙️",
-      title: "Automatisation",
+      title: "Strate 2 – Automatisation",
       desc: "Simplifie ton quotidien en transformant tes processus en systèmes IA. Gagne 2 à 3h par jour sans effort.",
-      link: "/automatisation",
-      btn: "Passe à l’Automatisation",
+      link: "/strate-automatisation",
+      btn: "Passer à l’Automatisation",
     },
     {
       icon: "🧩",
-      title: "Application",
+      title: "Strate 3 – Application",
       desc: "Applique ce que tu apprends à travers nos outils, modèles et démos interactives. Vois les résultats concrets.",
-      link: "/application",
-      btn: "Découvre les Outils",
+      link: "/strate-application",
+      btn: "Explorer l’Application",
     },
     {
       icon: "🏆",
-      title: "Liberté",
+      title: "Strate 4 – Liberté",
       desc: "Ancre tes résultats avec un accompagnement personnalisé et des systèmes durables. Crée ta stabilité digitale.",
-      link: "/liberte",
-      btn: "Atteins ta Liberté Digitale",
+      link: "/strate-liberte",
+      btn: "Atteindre la Liberté Digitale",
     },
   ];
 

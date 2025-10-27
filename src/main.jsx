@@ -1,4 +1,5 @@
-// main.jsx — Catalyseur Digital 3.0 (structure modulaire fluide et stable)
+// main.jsx
+
 import React from "react";
 import ReactDOM from "react-dom/client";
 import {
@@ -11,11 +12,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import App from "./App.jsx";
 import Layout from "./components/Layout";
 
-// ⚙️ Si tu veux réactiver les pages de transformation plus tard
-// import StrateReinvention from "./pages/StrateReinvention.jsx";
-// import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
-// import StrateApplication from "./pages/StrateApplication.jsx";
-// import StrateLiberte from "./pages/StrateLiberte.jsx";
+// ✅ Active les pages Strate
+import StrateReinvention from "./pages/StrateReinvention.jsx";
+import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
+import StrateApplication from "./pages/StrateApplication.jsx";
+import StrateLiberte from "./pages/StrateLiberte.jsx";
 
 import "./index.css";
 
@@ -24,10 +25,10 @@ function BackgroundGradient() {
   const location = useLocation();
   const gradients = {
     "/": "from-[#0f172a] via-[#1e3a8a] to-[#581c87]",
-    "/reinvention": "from-blue-900 via-purple-700 to-indigo-900",
-    "/automatisation": "from-indigo-700 via-blue-500 to-sky-400",
-    "/application": "from-cyan-700 via-blue-600 to-indigo-800",
-    "/liberte": "from-[#1a1444] via-[#312e81] to-[#0f172a]",
+    "/strate-reinvention": "from-blue-900 via-purple-700 to-indigo-900",
+    "/strate-automatisation": "from-indigo-700 via-blue-500 to-sky-400",
+    "/strate-application": "from-cyan-700 via-blue-600 to-indigo-800",
+    "/strate-liberte": "from-[#1a1444] via-[#312e81] to-[#0f172a]",
     default: "from-[#0f0f0f] via-[#111] to-[#1a1a1a]",
   };
 
@@ -70,7 +71,7 @@ function AnimatedRoutes() {
       <BackgroundGradient />
       <PageTransition>
         <Routes>
-          {/* 🏠 Page d’accueil complète */}
+          {/* 🏠 Page d’accueil */}
           <Route
             path="/"
             element={
@@ -80,13 +81,39 @@ function AnimatedRoutes() {
             }
           />
 
-          {/* 
-          🚀 Si tu veux réactiver les pages suivantes plus tard :
-          <Route path="/reinvention" element={<Layout><StrateReinvention /></Layout>} />
-          <Route path="/automatisation" element={<Layout><StrateAutomatisation /></Layout>} />
-          <Route path="/application" element={<Layout><StrateApplication /></Layout>} />
-          <Route path="/liberte" element={<Layout><StrateLiberte /></Layout>} />
-          */}
+          {/* ⚡️ Pages Strates */}
+          <Route
+            path="/strate-reinvention"
+            element={
+              <Layout>
+                <StrateReinvention />
+              </Layout>
+            }
+          />
+          <Route
+            path="/strate-automatisation"
+            element={
+              <Layout>
+                <StrateAutomatisation />
+              </Layout>
+            }
+          />
+          <Route
+            path="/strate-application"
+            element={
+              <Layout>
+                <StrateApplication />
+              </Layout>
+            }
+          />
+          <Route
+            path="/strate-liberte"
+            element={
+              <Layout>
+                <StrateLiberte />
+              </Layout>
+            }
+          />
         </Routes>
       </PageTransition>
     </>
