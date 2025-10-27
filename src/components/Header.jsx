@@ -23,7 +23,7 @@ export default function Header() {
 
   // 🌐 Liens principaux visibles sur desktop
   const desktopLinks = [
-    { label: "Les Strates", href: "#strates" },
+    { label: "Les Strates", href: "#features" },
     { label: "À propos", href: "#about" },
     { label: "Contact", href: "#contact" },
     { label: "Ressources", href: "#resources" },
