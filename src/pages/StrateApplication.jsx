@@ -1,8 +1,6 @@
 // src/pages/StrateApplication.jsx
 import { motion } from "framer-motion";
 import { useState } from "react";
-import CTA from "../components/CTA";
-import Testimonials from "../components/Testimonials";
 
 export default function StrateApplication() {
   // États pour la mini démo interactive

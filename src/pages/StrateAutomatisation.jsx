@@ -1,7 +1,5 @@
 // src/pages/StrateAutomatisation.jsx
 import { motion } from "framer-motion";
-import CTA from "../components/CTA";
-import Testimonials from "../components/Testimonials";
 
 export default function StrateAutomatisation() {
   return (

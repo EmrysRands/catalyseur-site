@@ -12,6 +12,7 @@ import App from "./App.jsx";
 import Nova from "./pages/Nova.jsx";
 import Contact from "./pages/Contact.jsx";
 import Resources from "./pages/Resources.jsx";
+import Layout from "./components/Layout";
 import StrateReinvention from "./pages/StrateReinvention.jsx";
 import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
 import StrateApplication from "./pages/StrateApplication.jsx";
@@ -70,14 +71,62 @@ function AnimatedRoutes() {
       <BackgroundGradient />
       <PageTransition>
         <Routes>
-          <Route path="/" element={<App />} />
-          <Route path="/nova" element={<Nova />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/resources" element={<Resources />} />
-          <Route path="/reinvention" element={<StrateReinvention />} />
-          <Route path="/automatisation" element={<StrateAutomatisation />} />
-          <Route path="/application" element={<StrateApplication />} />
-          <Route path="/liberte" element={<StrateLiberte />} />
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <App /> {/* Accueil complète */}
+              </Layout>
+            }
+          />
+          <Route
+            path="/reinvention"
+            element={
+              <Layout>
+                <StrateReinvention />
+              </Layout>
+            }
+          />
+          <Route
+            path="/automatisation"
+            element={
+              <Layout>
+                <StrateAutomatisation />
+              </Layout>
+            }
+          />
+          <Route
+            path="/application"
+            element={
+              <Layout>
+                <StrateApplication />
+              </Layout>
+            }
+          />
+          <Route
+            path="/liberte"
+            element={
+              <Layout>
+                <StrateLiberte />
+              </Layout>
+            }
+          />
+          <Route
+            path="/nova"
+            element={
+              <Layout>
+                <Nova />
+              </Layout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Layout>
+                <Contact />
+              </Layout>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </PageTransition>
