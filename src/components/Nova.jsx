@@ -14,12 +14,13 @@ export default function Nova() {
 
   const handleRedirect = (goal) => {
     let target = "/";
-    if (goal === "clarté") target = "/reinvention";
-    if (goal === "temps") target = "/automatisation";
-    if (goal === "résultats") target = "/application";
-    if (goal === "liberté") target = "/liberte";
+    if (goal === "clarté") target = "/strate-reinvention";
+    if (goal === "temps") target = "/strate-automatisation";
+    if (goal === "résultats") target = "/strate-application";
+    if (goal === "liberté") target = "/strate-liberte";
     navigate(target);
   };
+
 
   return (
     <section
