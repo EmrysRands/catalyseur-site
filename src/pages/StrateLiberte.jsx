@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function StrateLiberte() {
+  const navigate = useNavigate();
+
   const handleBooking = async () => {
     await fetch("https://automate.optimizeinsight.com/webhook/audit_booked", {
       method: "POST",
@@ -77,7 +80,7 @@ export default function StrateLiberte() {
           </p>
           <p className="text-purple-400 font-semibold text-lg mb-4">Sur sélection</p>
           <ul className="text-gray-200 text-sm mb-6 space-y-2">
-            <li>✅ Accès direct à Haga</li>
+            <li>✅ Accès direct à Emrys Rands</li>
             <li>✅ Masterclass IA & Leadership</li>
             <li>✅ Accès anticipé aux produits Catalyseur</li>
           </ul>
@@ -110,7 +113,7 @@ export default function StrateLiberte() {
         </div>
 
         <a
-          href="https://calendly.com/optimizeinsight/diagnostic"
+          href="https://calendly.com/tiana-optimizeinsight/diagnostic"
           target="_blank"
           rel="noopener noreferrer"
           onClick={handleBooking}
@@ -118,15 +121,17 @@ export default function StrateLiberte() {
         >
           🧭 Réserver mon diagnostic
         </a>
-      </motion.section>
 
-      {/* Retour */}
-      <a
-        href="/"
-        className="mb-16 inline-block text-gray-400 hover:text-yellow-300 transition"
-      >
-        ← Revenir à l’accueil
-      </a>
+        {/* Bouton retour à l’accueil */}
+        <div className="mt-8">
+          <button
+            onClick={() => navigate("/")}
+            className="text-gray-300 underline hover:text-yellow-300 transition"
+          >
+            ⬅️ Retour à l’accueil
+          </button>
+        </div>
+      </motion.section>
     </motion.main>
   );
 }

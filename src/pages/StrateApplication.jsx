@@ -9,12 +9,12 @@ export default function StrateApplication() {
 
   const handleDemo = async () => {
     if (!input) return alert("Ajoute une tâche à automatiser ⚡");
-    const saved = Math.floor(Math.random() * 25) + 5; // simulation gain de temps
+    const saved = Math.floor(Math.random() * 25) + 5; // simulation
     setMinutesSaved(saved);
     const text = `✅ Tâche automatisée : ${input}\n💡 Gain estimé : +${saved} min/jour`;
     setOutput(text);
 
-    // 🔗 webhook n8n
+    // 🔗 webhook n8n → demo_success
     await fetch("https://automate.optimizeinsight.com/webhook/demo_success", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,11 +41,10 @@ export default function StrateApplication() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-      {/* En-tête */}
       <section className="max-w-3xl text-center mt-24 mb-16">
         <h1 className="text-5xl font-bold mb-6 text-gold">🧩 Strate 3 – Application</h1>
         <p className="text-lg text-gray-300 mb-8">
-          Découvre **en direct** le pouvoir de l’automatisation.  
+          Découvre <strong>en direct</strong> le pouvoir de l’automatisation.  
           En 30 secondes, visualise comment l’IA peut transformer une tâche répétitive.
         </p>
       </section>
@@ -91,13 +90,23 @@ export default function StrateApplication() {
         )}
       </div>
 
-      {/* CTA vers la Strate 4 */}
+      {/* CTA vers la Strate suivante */}
       <a
         href="/strate-liberte"
         className="mt-16 inline-block bg-gradient-to-r from-yellow-500 to-orange-500 text-black font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition"
       >
         🏆 Recevoir ton système personnalisé
       </a>
+
+      {/* Bouton retour */}
+      <div className="mt-8 text-center mb-24">
+        <a
+          href="/strate-automatisation"
+          className="text-gray-300 underline hover:text-yellow-300 transition"
+        >
+          ⬅️ Retour à la Strate précédente
+        </a>
+      </div>
     </motion.main>
   );
 }
