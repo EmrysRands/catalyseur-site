@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 export default function StrateReinvention() {
   const [step, setStep] = useState(0);
@@ -7,8 +8,8 @@ export default function StrateReinvention() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // --- Quiz questions (5) ---
   const questions = [
     { id: 1, text: "Comment décrirais-tu ton rapport actuel au digital ?", options: ["Curieux mais perdu", "Déjà actif", "Je veux en vivre"] },
     { id: 2, text: "Ton objectif principal aujourd’hui ?", options: ["Trouver ma voie", "Automatiser mes tâches", "Créer un revenu libre"] },
@@ -20,6 +21,17 @@ export default function StrateReinvention() {
   const handleAnswer = (questionId, option) => {
     setAnswers({ ...answers, [questionId]: option });
     if (step < questions.length) setStep(step + 1);
+  };
+
+  const handlePrev = () => {
+    if (step > 0) setStep(step - 1);
+  };
+
+  const handleRestart = () => {
+    setStep(0);
+    setAnswers({});
+    setEmail("");
+    setSubmitted(false);
   };
 
   const handleSubmit = async () => {
@@ -83,6 +95,28 @@ export default function StrateReinvention() {
                   </button>
                 ))}
               </div>
+
+              <div className="flex justify-between mt-6">
+                <button
+                  onClick={handlePrev}
+                  disabled={step === 0}
+                  className={`px-4 py-2 rounded-lg font-semibold ${
+                    step === 0
+                      ? "opacity-30 cursor-not-allowed"
+                      : "bg-gray-300 text-black hover:bg-gray-200"
+                  }`}
+                >
+                  ⬅️ Retour
+                </button>
+
+                <button
+                  onClick={handleRestart}
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-400"
+                >
+                  🔄 Recommencer
+                </button>
+              </div>
+
               <p className="text-sm mt-6 text-gray-300">
                 Question {step + 1} / {questions.length}
               </p>
@@ -110,6 +144,13 @@ export default function StrateReinvention() {
               >
                 {loading ? "Envoi..." : "📩 Recevoir mon pack"}
               </button>
+
+              <button
+                onClick={handleRestart}
+                className="block mx-auto mt-4 text-sm text-gray-300 underline hover:text-white"
+              >
+                🔁 Revenir au quiz
+              </button>
             </div>
           )}
         </div>
@@ -130,12 +171,20 @@ export default function StrateReinvention() {
             Tes fiches sont en route vers ta boîte mail.  
             Tu peux maintenant passer à l’étape suivante et apprendre à **automatiser ton quotidien**.
           </p>
-          <a
-            href="/strate-automatisation"
-            className="inline-block bg-gold text-dark font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition"
-          >
-            ⚙️ Passer à la Strate 2 — Automatisation
-          </a>
+          <div className="flex flex-col gap-3">
+            <a
+              href="/strate-automatisation"
+              className="inline-block bg-gold text-dark font-bold px-8 py-4 rounded-xl hover:bg-yellow-400 transition"
+            >
+              ⚙️ Passer à la Strate 2 — Automatisation
+            </a>
+            <button
+              onClick={() => navigate("/")}
+              className="text-gray-300 underline hover:text-white mt-2"
+            >
+              ⬅️ Retour à l’accueil
+            </button>
+          </div>
         </motion.div>
       )}
     </motion.main>
