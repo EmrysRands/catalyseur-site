@@ -3,7 +3,6 @@ import Features from "./components/Features";
 import Nova from "./components/Nova";
 import AboutSection from "./components/sections/AboutSection";
 import ContactSection from "./components/sections/ContactSection";
-import ResourcesSection from "./components/sections/ResourcesSection";
 
 export default function App() {
   return (
@@ -13,7 +12,7 @@ export default function App() {
       <Nova />
       <AboutSection />
       <ContactSection />
-      <ResourcesSection />
+    
     </div>
   );
 }

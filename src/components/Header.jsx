@@ -23,16 +23,14 @@ export default function Header() {
 
   // 🌐 Liens principaux visibles sur desktop
   const desktopLinks = [
-    { label: "Commencer", href: "#features" },
-
+    { label: "Les 4 Strates", href: "#features" },
+    { label: "À propos", href: "#about" },
   ];
-
 
   // 📱 Liens supplémentaires visibles uniquement dans le menu mobile
   const mobileExtraLinks = [
-    { label: "À propos", href: "#about" },
+    { label: "Diagnostic Nova", href: "#nova" },
     { label: "Contact", href: "#contact" },
-    { label: "Ressources", href: "#resources" },
   ];
 
   return (
@@ -42,10 +40,13 @@ export default function Header() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="fixed top-0 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center py-2 px-3 text-sm font-semibold shadow-md backdrop-blur-md z-[1001]"
+        className="fixed top-0 w-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 text-black text-center py-2 px-3 text-sm font-semibold shadow-md backdrop-blur-md z-[1001]"
       >
-        ✨ <strong>Renaissance IA :</strong> Plus que{" "}
-        <span className="text-yellow-400 font-bold">127 places</span> · 🎁 Bonus offert aux 50 premiers
+        <span className="hidden sm:inline">🎁 </span>
+        <strong>77 Fiches Nova disponibles</strong>
+        <span className="hidden sm:inline"> • </span>
+        <span className="text-white font-bold">100% Gratuit</span> jusqu'à la Strate 3
+        <span className="hidden sm:inline"> 🚀</span>
       </motion.div>
 
       {/* 💎 Header principal */}
@@ -61,12 +62,15 @@ export default function Header() {
           whileHover={{ scale: 1.05 }}
           onClick={(e) => handleSmoothScroll(e, "#hero")}
         >
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-md">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-md">
             <span className="text-2xl">⚡</span>
           </div>
-          <span className="text-white font-semibold text-lg sm:text-xl tracking-wide font-[Inter]">
-            Catalyseur Digital
-          </span>
+          <div className="flex flex-col">
+            <span className="text-white font-semibold text-lg sm:text-xl tracking-wide font-[Inter]">
+              Catalyseur Digital
+            </span>
+            <span className="text-xs text-gray-400 hidden sm:block">v3.0 • Parcours Progressif</span>
+          </div>
         </motion.div>
 
         {/* 🔗 Menu Desktop */}
@@ -82,6 +86,15 @@ export default function Header() {
               {item.label}
             </motion.a>
           ))}
+          
+          {/* CTA Desktop */}
+          <motion.a
+            href="/strate-reinvention"
+            whileHover={{ scale: 1.05 }}
+            className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-5 py-2.5 rounded-lg hover:from-yellow-300 hover:to-orange-400 transition shadow-lg"
+          >
+            Commencer
+          </motion.a>
         </div>
 
         {/* ☰ Burger Menu Mobile */}
@@ -122,11 +135,20 @@ export default function Header() {
                   href={item.href}
                   onClick={(e) => handleSmoothScroll(e, item.href)}
                   whileHover={{ scale: 1.05 }}
-                  className="hover:text-purple-300"
+                  className="hover:text-purple-300 transition"
                 >
                   {item.label}
                 </motion.a>
               ))}
+              
+              {/* CTA Mobile */}
+              <motion.a
+                href="/strate-reinvention"
+                whileHover={{ scale: 1.05 }}
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-bold px-8 py-3 rounded-lg hover:from-yellow-300 hover:to-orange-400 transition shadow-lg mt-2"
+              >
+                🚀 Commencer
+              </motion.a>
             </motion.nav>
           )}
         </AnimatePresence>
