@@ -7,9 +7,10 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 
-                 bg-gradient-to-b from-[#0f172a] via-[#1e1a4d] to-[#1a1444] text-white overflow-hidden"
+      className="relative min-h-screen pt-[120px] flex flex-col items-center justify-center text-center px-6 
+                bg-gradient-to-b from-[#0f172a] via-[#1e1a4d] to-[#1a1444] text-white overflow-hidden"
     >
+
       {/* Halo lumineux d'arrière-plan */}
       <div className="absolute inset-0 bg-gradient-radial from-purple-600/20 via-blue-500/10 to-transparent blur-3xl opacity-70 pointer-events-none"></div>
 
