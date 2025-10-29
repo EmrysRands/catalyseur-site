@@ -89,7 +89,7 @@ export default function StrateReinvention() {
 
   return (
     <motion.main
-      className="flex flex-col items-center min-h-screen bg-gradient-to-b from-[#1a1444] via-[#312e81] to-[#0f172a] text-yellow-50 overflow-x-hidden px-6"
+      className="flex flex-col items-center min-h-screen pt-[120px] bg-gradient-to-b from-[#1a1444] via-[#312e81] to-[#0f172a] text-yellow-50 overflow-x-hidden px-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
