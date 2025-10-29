@@ -2,6 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom/client";
+import ScrollToTop from "./components/ScrollToTop.jsx";
 import {
   BrowserRouter as Router,
   Routes,
@@ -124,6 +125,7 @@ function AnimatedRoutes() {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
+      <ScrollToTop />
       <AnimatedRoutes />
     </Router>
   </React.StrictMode>
