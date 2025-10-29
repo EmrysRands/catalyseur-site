@@ -14,12 +14,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import App from "./App.jsx";
 import Layout from "./components/Layout";
 
-// ✅ Active les pages Strate
+// ✅ Pages Strate
 import StrateReinvention from "./pages/StrateReinvention.jsx";
 import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
 import StrateApplication from "./pages/StrateApplication.jsx";
 import StrateLiberte from "./pages/StrateLiberte.jsx";
-
 
 import "./index.css";
 
@@ -32,6 +31,7 @@ function BackgroundGradient() {
     "/strate-automatisation": "from-indigo-700 via-blue-500 to-sky-400",
     "/strate-application": "from-cyan-700 via-blue-600 to-indigo-800",
     "/strate-liberte": "from-[#1a1444] via-[#312e81] to-[#0f172a]",
+    "/espace-nova": "from-[#0f172a] via-[#1e1a4d] to-[#1a1444]",
     default: "from-[#0f0f0f] via-[#111] to-[#1a1a1a]",
   };
 
@@ -117,16 +117,17 @@ function AnimatedRoutes() {
               </Layout>
             }
           />
+
+          {/* 👤 Nouvelle page Espace Nova */}
+          <Route
+            path="/espace-nova"
+            element={
+              <Layout>
+                <EspaceNova />
+              </Layout>
+            }
+          />
         </Routes>
-        {/* 👤 Nouvelle page Espace Nova */}
-        <Route
-          path="/espace-nova"
-          element={
-            <Layout>
-              <EspaceNova />
-            </Layout>
-          }
-        />
       </PageTransition>
     </>
   );
