@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // 🔒 Ferme le menu mobile automatiquement quand on scrolle
   useEffect(() => {
@@ -13,12 +16,24 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [menuOpen]);
 
-  // 🌈 Navigation fluide au clic (pour les ancres internes)
+  // 🌈 Navigation fluide + redirection douce vers l'accueil si besoin
   const handleSmoothScroll = (e, target) => {
     e.preventDefault();
-    const el = document.querySelector(target);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-    setMenuOpen(false);
+
+    const scrollToTarget = () => {
+      const el = document.querySelector(target);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+      setMenuOpen(false);
+    };
+
+    // Si on est déjà sur l'accueil, scroll direct
+    if (location.pathname === "/") {
+      scrollToTarget();
+    } else {
+      // Sinon, on retourne à l'accueil puis on scrolle
+      navigate("/");
+      setTimeout(scrollToTarget, 600); // délai pour que la page se charge
+    }
   };
 
   // 🌐 Liens principaux visibles sur desktop
@@ -69,12 +84,14 @@ export default function Header() {
             <span className="text-white font-semibold text-lg sm:text-xl tracking-wide font-[Inter]">
               Catalyseur Digital
             </span>
-            <span className="text-xs text-gray-400 hidden sm:block">v3.0 • Parcours Progressif</span>
+            <span className="text-xs text-gray-400 hidden sm:block">
+              v3.0 • Parcours Progressif
+            </span>
           </div>
         </motion.div>
 
         {/* 🔗 Menu Desktop */}
-        <div className="hidden md:flex items-center gap-8 text-slate-200 font-semibold">
+        <div className="hidden md:flex items-center gap-6 text-slate-200 font-semibold">
           {desktopLinks.map((item, i) => (
             <motion.a
               key={i}
@@ -86,8 +103,17 @@ export default function Header() {
               {item.label}
             </motion.a>
           ))}
-          
-          {/* CTA Desktop */}
+
+          {/* 👤 Espace Nova */}
+          <motion.button
+            onClick={() => navigate("/espace-nova")}
+            whileHover={{ scale: 1.05 }}
+            className="text-yellow-400 border border-yellow-400 px-4 py-2 rounded-lg font-bold hover:bg-yellow-400 hover:text-black transition"
+          >
+            👤 Espace Nova
+          </motion.button>
+
+          {/* 🚀 CTA Desktop */}
           <motion.a
             href="/strate-reinvention"
             whileHover={{ scale: 1.05 }}
@@ -140,8 +166,20 @@ export default function Header() {
                   {item.label}
                 </motion.a>
               ))}
-              
-              {/* CTA Mobile */}
+
+              {/* 👤 Espace Nova mobile */}
+              <motion.button
+                onClick={() => {
+                  setMenuOpen(false);
+                  navigate("/espace-nova");
+                }}
+                whileHover={{ scale: 1.05 }}
+                className="text-yellow-400 border border-yellow-400 px-6 py-2 rounded-lg font-bold hover:bg-yellow-400 hover:text-black transition"
+              >
+                👤 Espace Nova
+              </motion.button>
+
+              {/* 🚀 CTA Mobile */}
               <motion.a
                 href="/strate-reinvention"
                 whileHover={{ scale: 1.05 }}

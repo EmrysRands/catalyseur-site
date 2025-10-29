@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen pt-[120px] flex flex-col items-center justify-center text-center px-6 
+      className="relative min-h-screen pt-[140px] flex flex-col items-center justify-center text-center px-6 
                 bg-gradient-to-b from-[#0f172a] via-[#1e1a4d] to-[#1a1444] text-white overflow-hidden"
     >
 

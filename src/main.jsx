@@ -3,6 +3,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import EspaceNova from "./pages/EspaceNova.jsx";
 import {
   BrowserRouter as Router,
   Routes,
@@ -18,6 +19,7 @@ import StrateReinvention from "./pages/StrateReinvention.jsx";
 import StrateAutomatisation from "./pages/StrateAutomatisation.jsx";
 import StrateApplication from "./pages/StrateApplication.jsx";
 import StrateLiberte from "./pages/StrateLiberte.jsx";
+
 
 import "./index.css";
 
@@ -116,6 +118,15 @@ function AnimatedRoutes() {
             }
           />
         </Routes>
+        {/* 👤 Nouvelle page Espace Nova */}
+        <Route
+          path="/espace-nova"
+          element={
+            <Layout>
+              <EspaceNova />
+            </Layout>
+          }
+        />
       </PageTransition>
     </>
   );
