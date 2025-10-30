@@ -4,6 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import EspaceNova from "./pages/EspaceNova.jsx";
+import NovaChat from "./pages/NovaChat"; // à créer
 import {
   BrowserRouter as Router,
   Routes,
@@ -117,6 +118,17 @@ function AnimatedRoutes() {
               </Layout>
             }
           />
+
+          {/* 💬 Page interne du chat Nova */}
+          <Route
+            path="/nova"
+            element={
+              <Layout>
+                <NovaChat />
+              </Layout>
+            }
+          />
+
 
           {/* 👤 Nouvelle page Espace Nova */}
           <Route
