@@ -753,34 +753,71 @@ export default function StrateLiberte() {
 
           {/* BÉNÉFICES NIVEAU 1 */}
           <div className="bg-black/40 border border-blue-500/30 p-6 rounded-xl mb-8">
-            <h4 className="font-bold text-blue-300 mb-4 text-center">
-              Ce que tu obtiendras lors de ton Bilan :
+            <h4 className="font-bold text-yellow-300 mb-6 text-center text-2xl">
+              🎯 Ce que tu obtiens pour 300-500€
             </h4>
-            <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-300">
-              <div className="flex items-start gap-2">
-                <span className="text-blue-400">✓</span>
-                <span>Diagnostic complet de tes fondations</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-blue-400">✓</span>
-                <span>Identification des 5 pièges fatals</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-blue-400">✓</span>
-                <span>Plan d'action stratégique sur mesure</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-blue-400">✓</span>
-                <span>Validation de la durabilité de ton modèle</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-blue-400">✓</span>
-                <span>Accès débloqué au Niveau 2 (si éligible)</span>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="text-blue-400">✓</span>
-                <span>Réponse à : "Mon succès est-il durable ?"</span>
-              </div>
+            
+            {/* OFFRE PRINCIPALE */}
+            <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-2 border-purple-500/50 p-6 rounded-xl mb-6">
+              <h5 className="text-xl font-bold text-purple-300 mb-4 text-center">
+                AUDIT STRATÉGIQUE PERSONNALISÉ
+              </h5>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-400">✓</span>
+                  <span>Session 1-to-1 de 90-120 min</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-400">✓</span>
+                  <span>Diagnostic complet de tes fondations</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-400">✓</span>
+                  <span>Plan d'action stratégique sur mesure</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-400">✓</span>
+                  <span>Validation durabilité de ton modèle</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-purple-400">✓</span>
+                  <span>Roadmap 90 jours personnalisée</span>
+                </li>
+              </ul>
+              <p className="text-yellow-400 font-bold text-center mt-4">Valeur : 1200€</p>
+            </div>
+
+            {/* BONUS INCLUS */}
+            <div className="bg-gradient-to-r from-green-900/30 to-teal-900/30 border-2 border-green-500/50 p-6 rounded-xl mb-6">
+              <h5 className="text-xl font-bold text-green-300 mb-4 text-center">
+                + BONUS INCLUS (OFFERT)
+              </h5>
+              <ul className="space-y-2 text-gray-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-400">🎁</span>
+                  <span>31 fiches premium Solopreneur (format web interactif)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-400">🎁</span>
+                  <span>Pack de 15 templates automatisation</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-400">🎁</span>
+                  <span>Accès bibliothèque outils no-code</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-400">🎁</span>
+                  <span>30 jours de support email</span>
+                </li>
+              </ul>
+              <p className="text-yellow-400 font-bold text-center mt-4">Valeur : 497€</p>
+            </div>
+
+            {/* TOTAL */}
+            <div className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-2 border-yellow-500/50 p-6 rounded-xl text-center">
+              <p className="text-gray-300 text-lg mb-2">Valeur totale : <span className="line-through">1697€</span></p>
+              <p className="text-3xl font-bold text-yellow-300 mb-2">Ton prix : 300-500€</p>
+              <p className="text-green-400 font-semibold">+ 100% remboursé si non satisfait</p>
             </div>
           </div>
 
