@@ -751,73 +751,94 @@ export default function StrateLiberte() {
             </p>
           </div>
 
-          {/* BÉNÉFICES NIVEAU 1 */}
-          <div className="bg-black/40 border border-blue-500/30 p-6 rounded-xl mb-8">
-            <h4 className="font-bold text-yellow-300 mb-6 text-center text-2xl">
+          {/* CE QUE TU OBTIENS POUR 300-500€ */}
+          <div className="bg-black/40 border-2 border-blue-500/50 p-8 rounded-2xl mb-8">
+            <h3 className="text-3xl font-bold text-center text-yellow-400 mb-8">
               🎯 Ce que tu obtiens pour 300-500€
-            </h4>
-            
+            </h3>
+
             {/* OFFRE PRINCIPALE */}
-            <div className="bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-2 border-purple-500/50 p-6 rounded-xl mb-6">
-              <h5 className="text-xl font-bold text-purple-300 mb-4 text-center">
+            <div className="bg-gradient-to-r from-blue-900/40 to-cyan-900/40 border-2 border-blue-400/50 p-6 rounded-xl mb-6">
+              <h4 className="text-2xl font-bold text-blue-300 mb-4 text-center">
                 AUDIT STRATÉGIQUE PERSONNALISÉ
-              </h5>
-              <ul className="space-y-2 text-gray-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-400">✓</span>
-                  <span>Session 1-to-1 de 90-120 min</span>
+              </h4>
+              <ul className="space-y-3 text-gray-200 mb-4">
+                <li className="flex items-start gap-3">
+                  <span className="text-blue-400 text-xl font-bold">✓</span>
+                  <span><strong>Session 1-to-1 de 90-120 min</strong> en visio avec analyse approfondie de ta situation</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-400">✓</span>
-                  <span>Diagnostic complet de tes fondations</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-blue-400 text-xl font-bold">✓</span>
+                  <span><strong>Diagnostic complet de tes fondations</strong> : forces, faiblesses, opportunités</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-400">✓</span>
-                  <span>Plan d'action stratégique sur mesure</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-blue-400 text-xl font-bold">✓</span>
+                  <span><strong>Plan d'action stratégique sur mesure</strong> adapté à ton profil (salarié/entrepreneur/indépendant)</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-400">✓</span>
-                  <span>Validation durabilité de ton modèle</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-blue-400 text-xl font-bold">✓</span>
+                  <span><strong>Validation durabilité de ton modèle</strong> : est-ce que ça tient sur le long terme ?</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-purple-400">✓</span>
-                  <span>Roadmap 90 jours personnalisée</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-blue-400 text-xl font-bold">✓</span>
+                  <span><strong>Roadmap 90 jours personnalisée</strong> avec jalons et métriques claires</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-blue-400 text-xl font-bold">✓</span>
+                  <span><strong>Document PDF stratégique</strong> (15-20 pages) livré sous 48h après la session</span>
                 </li>
               </ul>
-              <p className="text-yellow-400 font-bold text-center mt-4">Valeur : 1200€</p>
+              <div className="bg-blue-900/30 border border-blue-400/40 p-4 rounded-lg text-center">
+                <p className="text-blue-300 font-bold text-lg">Valeur : 1200€</p>
+              </div>
             </div>
 
             {/* BONUS INCLUS */}
-            <div className="bg-gradient-to-r from-green-900/30 to-teal-900/30 border-2 border-green-500/50 p-6 rounded-xl mb-6">
-              <h5 className="text-xl font-bold text-green-300 mb-4 text-center">
+            <div className="bg-gradient-to-r from-green-900/40 to-emerald-900/40 border-2 border-green-400/50 p-6 rounded-xl mb-6">
+              <h4 className="text-2xl font-bold text-green-300 mb-4 text-center">
                 + BONUS INCLUS (OFFERT)
-              </h5>
-              <ul className="space-y-2 text-gray-300">
-                <li className="flex items-start gap-2">
-                  <span className="text-green-400">🎁</span>
-                  <span>31 fiches premium Solopreneur (format web interactif)</span>
+              </h4>
+              <ul className="space-y-3 text-gray-200 mb-4">
+                <li className="flex items-start gap-3">
+                  <span className="text-green-400 text-xl font-bold">🎁</span>
+                  <span><strong>31 fiches premium Solopreneur</strong> (format web interactif) : approfondis les concepts après l'audit</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-400">🎁</span>
-                  <span>Pack de 15 templates automatisation</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-400 text-xl font-bold">🎁</span>
+                  <span><strong>Pack de 15 templates automatisation</strong> : grilles, calculateurs, dashboards prêts à l'emploi</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-400">🎁</span>
-                  <span>Accès bibliothèque outils no-code</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-400 text-xl font-bold">🎁</span>
+                  <span><strong>Accès bibliothèque outils no-code</strong> : scripts n8n, prompts IA, tutoriels vidéo</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-green-400">🎁</span>
-                  <span>30 jours de support email</span>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-400 text-xl font-bold">🎁</span>
+                  <span><strong>30 jours de support email prioritaire</strong> : réponse garantie sous 24-48h</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-green-400 text-xl font-bold">🎁</span>
+                  <span><strong>Accès espace membre VIP</strong> : dashboard de suivi, communauté privée, ressources exclusives</span>
                 </li>
               </ul>
-              <p className="text-yellow-400 font-bold text-center mt-4">Valeur : 497€</p>
+              <div className="bg-green-900/30 border border-green-400/40 p-4 rounded-lg text-center">
+                <p className="text-green-300 font-bold text-lg">Valeur : 497€</p>
+              </div>
             </div>
 
             {/* TOTAL */}
-            <div className="bg-gradient-to-r from-yellow-900/30 to-orange-900/30 border-2 border-yellow-500/50 p-6 rounded-xl text-center">
-              <p className="text-gray-300 text-lg mb-2">Valeur totale : <span className="line-through">1697€</span></p>
-              <p className="text-3xl font-bold text-yellow-300 mb-2">Ton prix : 300-500€</p>
-              <p className="text-green-400 font-semibold">+ 100% remboursé si non satisfait</p>
+            <div className="bg-gradient-to-r from-yellow-900/40 to-orange-900/40 border-2 border-yellow-400/50 p-6 rounded-xl">
+              <div className="text-center space-y-3">
+                <p className="text-gray-300 text-lg line-through">Valeur totale : 1697€</p>
+                <p className="text-4xl font-bold text-yellow-400">Ton prix : 300-500€</p>
+                <p className="text-green-400 font-semibold text-xl">+ 100% remboursé si non satisfait</p>
+                <div className="bg-yellow-900/30 border border-yellow-400/40 p-4 rounded-lg mt-4">
+                  <p className="text-yellow-300 font-bold mb-2">🎯 RAPPEL IMPORTANT :</p>
+                  <p className="text-gray-300 text-sm">
+                    Ces 300-500€ sont <strong className="text-green-400">ENTIÈREMENT DÉDUITS</strong> si tu passes au Niveau 2.
+                    Tu ne paies donc cette somme que si tu décides de ne PAS continuer.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
