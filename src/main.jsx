@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import EspaceNova from "./pages/EspaceNova.jsx";
-import NovaChat from "./pages/NovaChat.jsx"; // à créer
+import NovaChat from "./pages/NovaChat.jsx";
 import {
   BrowserRouter as Router,
   Routes,
@@ -33,6 +33,7 @@ function BackgroundGradient() {
     "/strate-application": "from-cyan-700 via-blue-600 to-indigo-800",
     "/strate-liberte": "from-[#1a1444] via-[#312e81] to-[#0f172a]",
     "/espace-nova": "from-[#0f172a] via-[#1e1a4d] to-[#1a1444]",
+    "/nova": "from-[#0f172a] via-[#1e1a4d] to-[#1a1444]",
     default: "from-[#0f0f0f] via-[#111] to-[#1a1a1a]",
   };
 
@@ -119,18 +120,7 @@ function AnimatedRoutes() {
             }
           />
 
-          {/* 💬 Page interne du chat Nova */}
-          <Route
-            path="/nova"
-            element={
-              <Layout>
-                <NovaChat />
-              </Layout>
-            }
-          />
-
-
-          {/* 👤 Nouvelle page Espace Nova */}
+          {/* 👤 Espace Nova principal */}
           <Route
             path="/espace-nova"
             element={
@@ -139,6 +129,9 @@ function AnimatedRoutes() {
               </Layout>
             }
           />
+
+          {/* 💬 Chat Nova (sans Layout ni header) */}
+          <Route path="/nova" element={<NovaChat />} />
         </Routes>
       </PageTransition>
     </>
