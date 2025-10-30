@@ -4,7 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import ScrollToTop from "./components/ScrollToTop.jsx";
 import EspaceNova from "./pages/EspaceNova.jsx";
-import NovaChat from "./pages/NovaChat"; // à créer
+import NovaChat from "./pages/NovaChat.jsx"; // à créer
 import {
   BrowserRouter as Router,
   Routes,
