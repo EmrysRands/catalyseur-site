@@ -7,72 +7,100 @@ export default function Features() {
   const strates = [
     {
       icon: "🧠",
-      title: "Strate 1 – Réinvention",
-      desc: "36 Fiches Nova gratuites pour construire ta VISION de la liberté digitale et découvrir le concept du Nouveau Riche.",
-      link: "/strate-reinvention",
-      btn: "Recevoir les 36 Fiches",
+      title: "Strate 1 — Réinvention",
       badge: "🎯 Commence ici",
       badgeColor: "bg-green-500",
-      highlights: [
-        "✓ Le Nouveau Riche vs l'Ancien Riche",
-        "✓ Actifs Digitaux : la nouvelle richesse",
-        "✓ Deep Work à l'ère de l'IA",
-        "✓ Prototyper ta vie professionnelle"
+      problemeSolu: "Arrêter de t'éparpiller",
+      desc: "En 7 jours, tu vas identifier les 3 actions qui comptent VRAIMENT, éliminer 80% du bruit digital, et clarifier ton offre/projet en 1 phrase.",
+      resultat: [
+        "Tu sais EXACTEMENT sur quoi te concentrer",
+        "Tu as 1 plan clair pour les 90 prochains jours",
+        "Tu as supprimé 10 tâches inutiles de ton quotidien"
       ],
+      link: "/strate-reinvention",
+      btn: "Commencer Strate 1",
+      highlights: [
+        "✓ Diagnostic personnalisé de ton chaos actuel",
+        "✓ Les 3 actions à 80% d'impact (ta loi de Pareto)",
+        "✓ Ton offre clarifiée en 1 phrase",
+        "✓ Plan 90 jours mesurable et réaliste"
+      ],
+      contenu: "36 Fiches Nova + Templates",
       gradient: "from-blue-900/70 to-cyan-900/70",
       borderColor: "border-blue-500/40",
       hoverShadow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
     },
     {
       icon: "⚙️",
-      title: "Strate 2 – Automatisation",
-      desc: "16 Fiches Organisation (GTD + Atomic Habits) + Blueprint n8n pour installer ton SYSTÈME et créer des habitudes durables.",
-      link: "/strate-automatisation",
-      btn: "Télécharger le Blueprint",
+      title: "Strate 2 — Automatisation",
       badge: "🔓 Après Strate 1",
       badgeColor: "bg-orange-500",
-      highlights: [
-        "✓ GTD : La méthode en 5 étapes",
-        "✓ Atomic Habits : Petites actions composées",
-        "✓ Blueprint n8n pour automatiser",
-        "✓ Revue hebdomadaire intelligente"
+      problemeSolu: "Avoir un plan quotidien mesurable",
+      desc: "En 7 jours, tu vas créer ton workflow quotidien, automatiser 3 flux clés (prospection, suivi, livraison), et installer ton dashboard de suivi.",
+      resultat: [
+        "Tu sais QUOI faire chaque jour (plus de procrastination)",
+        "Tu as récupéré 10h/semaine (temps mesuré)",
+        "Tu as 3 flux qui tournent sans toi 24/7"
       ],
+      link: "/strate-automatisation",
+      btn: "Automatiser mes flux",
+      highlights: [
+        "✓ Workflow quotidien GTD adapté à ton profil",
+        "✓ 3 flux automatisés (prospection, suivi, livraison)",
+        "✓ Dashboard temps réel de tes KPIs",
+        "✓ Revue hebdomadaire de 15 min (vs 2h avant)"
+      ],
+      contenu: "16 Fiches Organisation + Blueprint n8n",
       gradient: "from-purple-900/70 to-indigo-900/70",
       borderColor: "border-purple-500/40",
       hoverShadow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]"
     },
     {
       icon: "🧩",
-      title: "Strate 3 – Application",
-      desc: "2 Démos interactives (Générateur IA + Calculateur) pour obtenir la PREUVE concrète que Catalyseur Digital fonctionne pour toi.",
-      link: "/strate-application",
-      btn: "Tester Catalyseur Digital",
+      title: "Strate 3 — Application",
       badge: "🔓 Après Strate 2",
       badgeColor: "bg-orange-500",
-      highlights: [
-        "✓ Générateur de Contenu IA (30 sec)",
-        "✓ Calculateur de Temps Libéré",
-        "✓ 17 Fiches IA & Automatisation",
-        "✓ Micro-succès garanti"
+      problemeSolu: "Voir un résultat concret",
+      desc: "En 7 jours, tu vas lancer ton MVP, obtenir tes 3 premiers clients/leads/ventes, et prouver que ton système MARCHE pour toi.",
+      resultat: [
+        "Tu as généré ton 1er revenu (même 500€ = victoire)",
+        "Tu as la PREUVE que ça fonctionne pour TOI",
+        "Tu as validé ton concept auprès de vrais clients"
       ],
+      link: "/strate-application",
+      btn: "Lancer mon MVP",
+      highlights: [
+        "✓ MVP lancé en 48h (template prêt)",
+        "✓ 3 premiers clients/leads obtenus",
+        "✓ Système de vente automatisé opérationnel",
+        "✓ Preuve tangible de ton ROI temps/argent"
+      ],
+      contenu: "17 Fiches IA + 2 Démos interactives",
       gradient: "from-orange-900/70 to-red-900/70",
       borderColor: "border-orange-500/40",
       hoverShadow: "hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]"
     },
     {
       icon: "🏆",
-      title: "Strate 4 – Liberté",
-      desc: "Tunnel d'Exclusivité en 3 niveaux (Stabilisation → Accélération → Liberté Totale) pour construire un système DURABLE.",
-      link: "/strate-liberte",
-      btn: "Voir l'Accompagnement",
+      title: "Strate 4 — Liberté",
       badge: "🔒 Qualification requise",
       badgeColor: "bg-red-500",
-      highlights: [
-        "✓ Bilan Solopreneur Durable (N1)",
-        "✓ Labo Solopreneur : Plan 2500€+ (N2)",
-        "✓ Liberté au Leadership (N3)",
-        "✓ 31 Fiches Scaling & Durabilité"
+      problemeSolu: "Ressentir la cohérence durable",
+      desc: "En 9 jours, tu vas créer ton système evergreen (ventes automatiques), déléguer/automatiser le reste, et construire ton plan 90 jours durable.",
+      resultat: [
+        "Ton système tourne SEUL (même quand tu dors)",
+        "Tu as une vision claire des 90 prochains jours",
+        "Tout ce que tu fais a du SENS dans ta vision globale"
       ],
+      link: "/strate-liberte",
+      btn: "Voir l'Accompagnement",
+      highlights: [
+        "✓ Tunnel evergreen (ventes pendant ton sommeil)",
+        "✓ Plan de délégation/automatisation avancé",
+        "✓ Vision 90 jours alignée sur tes valeurs",
+        "✓ Accompagnement 1:1 personnalisé"
+      ],
+      contenu: "31 Fiches Scaling + Accompagnement",
       gradient: "from-yellow-900/70 to-orange-900/70",
       borderColor: "border-yellow-500/40",
       hoverShadow: "hover:shadow-[0_0_30px_rgba(251,191,36,0.3)]"
@@ -87,7 +115,7 @@ export default function Features() {
       {/* Lueur douce d'arrière-plan */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-indigo-600/10 via-purple-500/10 to-transparent blur-3xl opacity-60 pointer-events-none"></div>
 
-      {/* TITRE */}
+      {/* TITRE - MODIFIÉ */}
       <motion.h2
         className="text-4xl md:text-5xl font-bold mb-6 text-center text-gold relative z-10"
         initial={{ y: -30, opacity: 0 }}
@@ -95,7 +123,7 @@ export default function Features() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        Les 4 Strates de Transformation
+        Le Parcours en 4 Strates
       </motion.h2>
 
       <motion.p
@@ -105,8 +133,8 @@ export default function Features() {
         transition={{ delay: 0.3, duration: 1 }}
         viewport={{ once: true }}
       >
-        Le Catalyseur Digital 3.0 est un <strong className="text-yellow-400">parcours progressif</strong> qui 
-        t'aide à passer du chaos digital à la clarté, puis à la liberté.
+        <strong className="text-yellow-400">1 Strate = 1 problème résolu</strong><br />
+        À la fin des 4 Strates, tu as arrêté le chaos, un plan clair, des résultats prouvés, et un système cohérent.
       </motion.p>
 
       {/* NOTE EXPLICATIVE */}
@@ -129,26 +157,26 @@ export default function Features() {
             </p>
             <div className="flex flex-wrap gap-2 text-xs">
               <span className="bg-blue-900/50 border border-blue-500/30 px-3 py-1 rounded-full text-blue-300">
-                1. Réinvention (VISION)
+                1. Réinvention (Clarté)
               </span>
               <span className="text-gray-500">→</span>
               <span className="bg-purple-900/50 border border-purple-500/30 px-3 py-1 rounded-full text-purple-300">
-                2. Automatisation (SYSTÈME)
+                2. Automatisation (Plan)
               </span>
               <span className="text-gray-500">→</span>
               <span className="bg-orange-900/50 border border-orange-500/30 px-3 py-1 rounded-full text-orange-300">
-                3. Application (PREUVE)
+                3. Application (Preuve)
               </span>
               <span className="text-gray-500">→</span>
               <span className="bg-yellow-900/50 border border-yellow-500/30 px-3 py-1 rounded-full text-yellow-300">
-                4. Liberté (DURABLE)
+                4. Liberté (Cohérence)
               </span>
             </div>
           </div>
         </div>
       </motion.div>
 
-      {/* CARTES DES STRATES */}
+      {/* CARTES DES STRATES - MODIFIÉES */}
       <div className="relative z-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl w-full">
         {strates.map((strate, index) => (
           <motion.div
@@ -173,24 +201,56 @@ export default function Features() {
               {strate.title}
             </h3>
 
+            {/* PROBLÈME RÉSOLU - NOUVEAU */}
+            <div className="bg-red-900/20 border border-red-500/30 px-3 py-2 rounded-lg mb-4">
+              <p className="text-xs font-semibold text-red-300 uppercase tracking-wide mb-1">
+                Problème résolu :
+              </p>
+              <p className="text-sm font-bold text-white">
+                {strate.problemeSolu}
+              </p>
+            </div>
+
             {/* DESCRIPTION */}
-            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
+            <p className="text-gray-300 mb-4 text-sm leading-relaxed">
               {strate.desc}
             </p>
 
+            {/* RÉSULTAT JOUR X - NOUVEAU */}
+            <div className="bg-green-900/20 border border-green-500/30 p-4 rounded-lg mb-4">
+              <p className="text-xs font-semibold text-green-400 uppercase tracking-wide mb-2">
+                Résultat Jour {index < 3 ? (index + 1) * 7 : 30} :
+              </p>
+              <ul className="space-y-2 text-left">
+                {strate.resultat.map((res, idx) => (
+                  <li key={idx} className="text-xs text-gray-300 flex items-start gap-2">
+                    <span className="text-green-400 mt-0.5">→</span>
+                    <span>{res}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
             {/* HIGHLIGHTS */}
-            <div className="bg-black/30 border border-white/10 p-4 rounded-lg mb-6 text-left">
+            <div className="bg-black/30 border border-white/10 p-4 rounded-lg mb-4 text-left">
               <p className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
                 Contenu inclus :
               </p>
               <ul className="space-y-1.5">
                 {strate.highlights.map((highlight, idx) => (
                   <li key={idx} className="text-xs text-gray-300 flex items-start gap-2">
-                    <span className="text-green-400 mt-0.5">✓</span>
+                    <span className="text-cyan-400 mt-0.5">✓</span>
                     <span>{highlight}</span>
                   </li>
                 ))}
               </ul>
+            </div>
+
+            {/* CONTENU BOX - NOUVEAU */}
+            <div className="bg-blue-900/20 border border-blue-500/30 px-3 py-2 rounded-lg mb-6">
+              <p className="text-xs text-blue-300">
+                📦 {strate.contenu}
+              </p>
             </div>
 
             {/* CTA */}
@@ -227,7 +287,7 @@ export default function Features() {
 
         <div className="grid sm:grid-cols-3 gap-6">
           <div className="text-center">
-            <p className="text-4xl font-bold text-blue-400 mb-2">77</p>
+            <p className="text-4xl font-bold text-blue-400 mb-2">100</p>
             <p className="text-sm text-gray-300">Fiches Nova complètes</p>
             <p className="text-xs text-gray-500 mt-1">
               (36 + 16 + 17 + 31 = 4 phases)
