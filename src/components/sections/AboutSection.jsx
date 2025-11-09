@@ -5,7 +5,7 @@ export default function AboutSection() {
   const navigate = useNavigate();
 
   return (
-    <section id="about" className="py-24 bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#581c87] text-white px-6">
+    <section id="about" className="py-24 bg-gradient-to-b from-[#0f172a] via-[#0A2540] to-[#1a1444] text-white px-6">
       <motion.div
         className="max-w-5xl mx-auto"
         initial={{ opacity: 0, y: 30 }}
@@ -13,7 +13,7 @@ export default function AboutSection() {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-[#D4AF37] to-[#FFD700] bg-clip-text text-transparent">
+        <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center font-['Montserrat']" style={{ color: '#D4AF37' }}>
           Pourquoi Catalyseur Digital 3.0 ?
         </h2>
 
@@ -24,38 +24,39 @@ export default function AboutSection() {
             et l'IA te semble être une énième complexité à gérer ?
           </p>
 
-          <div className="bg-red-900/20 border border-red-500/30 rounded-2xl p-6 backdrop-blur-sm">
-            <h3 className="text-xl font-semibold text-red-300 mb-4 flex items-center gap-2">
+          <div className="bg-[#C4322A]/20 border border-[#C4322A]/30 rounded-2xl p-6 backdrop-blur-sm">
+            <h3 className="text-xl font-semibold mb-4 flex items-center gap-2" style={{ color: '#C4322A' }}>
               <span>⚠️</span>
               <span>Le Problème que Personne ne Dit</span>
             </h3>
             <ul className="space-y-3 text-gray-300">
               <li className="flex items-start gap-3">
-                <span className="text-red-400 mt-1">❌</span>
-                <span>Les <strong>"formations IA"</strong> te donnent des outils, mais pas de SYSTÈME pour les intégrer</span>
+                <span style={{ color: '#C4322A' }} className="mt-1">✗</span>
+                <span>Les <strong>"formations IA"</strong> te donnent des outils, mais pas de <strong style={{ color: '#D4AF37' }}>SYSTÈME</strong> pour les intégrer</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-red-400 mt-1">❌</span>
-                <span>Les <strong>"coachs de productivité"</strong> te vendent des méthodes, mais sans l'AUTOMATISATION</span>
+                <span style={{ color: '#C4322A' }} className="mt-1">✗</span>
+                <span>Les <strong>"coachs de productivité"</strong> te vendent des méthodes, mais sans l'<strong style={{ color: '#D4AF37' }}>AUTOMATISATION</strong></span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-red-400 mt-1">❌</span>
-                <span>Tu accumules les connaissances, mais tu ne PASSES PAS À L'ACTION</span>
+                <span style={{ color: '#C4322A' }} className="mt-1">✗</span>
+                <span>Tu accumules les connaissances, mais tu ne <strong>PASSES PAS À L'ACTION</strong></span>
               </li>
             </ul>
           </div>
         </div>
 
         {/* SOLUTION */}
-        <div className="bg-white/5 rounded-2xl p-8 backdrop-blur-sm border border-white/10 mb-12">
-          <p className="text-2xl font-semibold text-[#D4AF37] mb-4 text-center">
+        <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 rounded-2xl p-8 backdrop-blur-sm mb-12">
+          <p className="text-2xl font-semibold mb-4 text-center font-['Montserrat']" style={{ color: '#D4AF37' }}>
             ✨ Nous pensons que tu mérites mieux.
           </p>
-          <p className="text-gray-200 text-center mb-6">
-            <strong className="text-yellow-400">Catalyseur Digital 3.0</strong> existe pour transformer 
-            le chaos en système, la confusion en clarté, et la surcharge en liberté.
+          <p className="text-gray-200 text-center mb-6 leading-relaxed">
+            <strong style={{ color: '#D4AF37' }}>Catalyseur Digital 3.0</strong> existe pour transformer 
+            le chaos en <strong style={{ color: '#D4AF37' }}>SYSTÈME</strong>, la confusion en <strong style={{ color: '#D4AF37' }}>CLARTÉ</strong>, 
+            et la surcharge en <strong style={{ color: '#D4AF37' }}>LIBÉRATION</strong>.
           </p>
-          <p className="text-gray-300 text-center">
+          <p className="text-gray-300 text-center leading-relaxed">
             Pas avec des promesses vides. Avec des <strong>méthodes concrètes</strong>, 
             testées, et adaptées à ton rythme à travers un <strong>parcours progressif en 4 Strates</strong>.
           </p>
@@ -63,46 +64,46 @@ export default function AboutSection() {
 
         {/* NOTRE APPROCHE UNIQUE */}
         <div className="mb-12">
-          <h3 className="text-3xl font-bold text-center text-yellow-400 mb-8">
+          <h3 className="text-3xl font-bold text-center mb-8 font-['Montserrat']" style={{ color: '#D4AF37' }}>
             🎯 Notre Approche Unique
           </h3>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* VISION d'abord */}
-            <div className="bg-gradient-to-br from-blue-900/30 to-cyan-900/30 border border-blue-500/30 p-6 rounded-xl">
+            {/* CLARTÉ d'abord */}
+            <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
               <div className="text-4xl mb-3">🧠</div>
-              <h4 className="font-semibold text-blue-300 mb-2 text-lg">1. VISION d'abord</h4>
-              <p className="text-sm text-slate-300">
+              <h4 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>1. CLARTÉ d'abord</h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
                 Avant les outils, tu dois comprendre <strong>POURQUOI</strong> tu veux la liberté digitale. 
                 C'est la Strate 1 : <strong>36 Fiches Nova</strong> pour construire ta vision du Nouveau Riche.
               </p>
             </div>
 
             {/* SYSTÈME ensuite */}
-            <div className="bg-gradient-to-br from-purple-900/30 to-indigo-900/30 border border-purple-500/30 p-6 rounded-xl">
+            <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
               <div className="text-4xl mb-3">⚙️</div>
-              <h4 className="font-semibold text-purple-300 mb-2 text-lg">2. SYSTÈME ensuite</h4>
-              <p className="text-sm text-slate-300">
+              <h4 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>2. SYSTÈME ensuite</h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
                 Ensuite, tu installes les <strong>méthodes d'organisation</strong> (GTD + Atomic Habits). 
                 C'est la Strate 2 : <strong>16 Fiches + Blueprint n8n</strong>.
               </p>
             </div>
 
-            {/* PREUVE concrète */}
-            <div className="bg-gradient-to-br from-orange-900/30 to-red-900/30 border border-orange-500/30 p-6 rounded-xl">
+            {/* TRANSFORMATION concrète */}
+            <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
               <div className="text-4xl mb-3">🧩</div>
-              <h4 className="font-semibold text-orange-300 mb-2 text-lg">3. PREUVE concrète</h4>
-              <p className="text-sm text-slate-300">
+              <h4 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>3. TRANSFORMATION concrète</h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
                 Tu testes en live avec <strong>2 démos interactives</strong> (Générateur IA + Calculateur). 
                 C'est la Strate 3 : <strong>Micro-succès garanti</strong>.
               </p>
             </div>
 
-            {/* ACCOMPAGNEMENT durable */}
-            <div className="bg-gradient-to-br from-yellow-900/30 to-orange-900/30 border border-yellow-500/30 p-6 rounded-xl">
+            {/* LIBÉRATION durable */}
+            <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
               <div className="text-4xl mb-3">🏆</div>
-              <h4 className="font-semibold text-yellow-300 mb-2 text-lg">4. ACCOMPAGNEMENT durable</h4>
-              <p className="text-sm text-slate-300">
+              <h4 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>4. LIBÉRATION durable</h4>
+              <p className="text-sm text-slate-300 leading-relaxed">
                 Tu construis un <strong>système durable</strong> avec le Tunnel d'Exclusivité. 
                 C'est la Strate 4 : <strong>De 0 à 1000€/mois stable</strong>.
               </p>
@@ -112,28 +113,28 @@ export default function AboutSection() {
 
         {/* NOS 3 PRINCIPES */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
-          <div className="text-center bg-white/5 border border-white/10 p-6 rounded-xl">
+          <div className="text-center bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
             <div className="text-4xl mb-3">🧭</div>
-            <h3 className="font-semibold text-[#D4AF37] mb-2 text-lg">Clarté</h3>
-            <p className="text-sm text-slate-300">
+            <h3 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>Clarté</h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
               Comprendre avant d'agir. Pas de jargon, que des solutions concrètes 
               expliquées dans les <strong>77 Fiches Nova</strong>.
             </p>
           </div>
           
-          <div className="text-center bg-white/5 border border-white/10 p-6 rounded-xl">
+          <div className="text-center bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
             <div className="text-4xl mb-3">⚡</div>
-            <h3 className="font-semibold text-[#D4AF37] mb-2 text-lg">Action</h3>
-            <p className="text-sm text-slate-300">
+            <h3 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>Action</h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
               Des résultats visibles en <strong>30 secondes</strong> (démos Strate 3), 
               pas en 5 mois. Tu TESTES avant d'investir.
             </p>
           </div>
           
-          <div className="text-center bg-white/5 border border-white/10 p-6 rounded-xl">
+          <div className="text-center bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
             <div className="text-4xl mb-3">🌱</div>
-            <h3 className="font-semibold text-[#D4AF37] mb-2 text-lg">Liberté</h3>
-            <p className="text-sm text-slate-300">
+            <h3 className="font-semibold mb-2 text-lg font-['Montserrat']" style={{ color: '#D4AF37' }}>Liberté</h3>
+            <p className="text-sm text-slate-300 leading-relaxed">
               Reprends le contrôle de ton temps et de ton énergie avec des 
               <strong> systèmes automatisés durables</strong>.
             </p>
@@ -141,51 +142,51 @@ export default function AboutSection() {
         </div>
 
         {/* CE QUI NOUS DIFFÉRENCIE */}
-        <div className="bg-gradient-to-br from-green-900/20 to-teal-900/20 border border-green-500/30 rounded-2xl p-8 mb-12">
-          <h3 className="text-2xl font-bold text-green-300 mb-6 text-center">
+        <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 rounded-2xl p-8 mb-12">
+          <h3 className="text-2xl font-bold mb-6 text-center font-['Montserrat']" style={{ color: '#D4AF37' }}>
             💎 Ce qui Nous Différencie
           </h3>
 
           <div className="grid md:grid-cols-2 gap-6 text-sm">
             <div>
-              <h4 className="font-semibold text-green-400 mb-3">❌ Les Autres</h4>
+              <h4 className="font-semibold mb-3" style={{ color: '#C4322A' }}>✗ Les Autres</h4>
               <ul className="space-y-2 text-gray-300">
                 <li className="flex items-start gap-2">
-                  <span className="text-red-400">→</span>
+                  <span style={{ color: '#C4322A' }}>→</span>
                   <span>Vendent des outils IA sans système d'intégration</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-red-400">→</span>
+                  <span style={{ color: '#C4322A' }}>→</span>
                   <span>Promettent des résultats sans parcours progressif</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-red-400">→</span>
+                  <span style={{ color: '#C4322A' }}>→</span>
                   <span>Te laissent seul(e) après l'achat</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-red-400">→</span>
+                  <span style={{ color: '#C4322A' }}>→</span>
                   <span>Pas de qualification = clients non-prêts qui échouent</span>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold text-green-400 mb-3">✅ Catalyseur Digital 3.0</h4>
+              <h4 className="font-semibold mb-3" style={{ color: '#D4AF37' }}>✓ Catalyseur Digital 3.0</h4>
               <ul className="space-y-2 text-gray-300">
                 <li className="flex items-start gap-2">
-                  <span className="text-green-400">→</span>
+                  <span style={{ color: '#D4AF37' }}>→</span>
                   <span><strong>Parcours progressif</strong> : chaque strate prépare la suivante</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-400">→</span>
+                  <span style={{ color: '#D4AF37' }}>→</span>
                   <span><strong>100% gratuit</strong> jusqu'à la Strate 3 (preuve de valeur)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-400">→</span>
+                  <span style={{ color: '#D4AF37' }}>→</span>
                   <span><strong>Tunnel d'Exclusivité</strong> : accompagnement qualifié</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-green-400">→</span>
+                  <span style={{ color: '#D4AF37' }}>→</span>
                   <span><strong>77 Fiches Nova</strong> : curriculum complet inclus</span>
                 </li>
               </ul>
@@ -195,13 +196,13 @@ export default function AboutSection() {
 
         {/* CITATION INSPIRANTE */}
         <div className="mt-12 pt-8 border-t border-white/10">
-          <div className="bg-purple-900/20 border border-purple-500/30 p-6 rounded-xl">
-            <p className="text-center text-lg text-slate-200 mb-4">
-              <span className="text-3xl text-purple-400">"</span>
-              L'IA n'est pas ton ennemi. C'est un <strong className="text-yellow-400">levier</strong>. 
+          <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-6 rounded-xl">
+            <p className="text-center text-lg text-slate-200 mb-4 leading-relaxed">
+              <span className="text-3xl" style={{ color: '#D4AF37' }}>"</span>
+              L'IA n'est pas ton ennemi. C'est un <strong style={{ color: '#D4AF37' }}>levier</strong>. 
               Et nous sommes là pour te montrer comment t'en servir — 
               sans perdre ton humanité, sans sacrifier ta liberté.
-              <span className="text-3xl text-purple-400">"</span>
+              <span className="text-3xl" style={{ color: '#D4AF37' }}>"</span>
             </p>
             <p className="text-center text-sm text-gray-400 italic">
               — La promesse Catalyseur Digital 3.0
@@ -209,24 +210,29 @@ export default function AboutSection() {
           </div>
         </div>
 
-        {/* STATISTIQUES DE CONFIANCE */}
-        <div className="mt-12 grid sm:grid-cols-3 gap-6">
-          <div className="text-center">
-            <p className="text-4xl font-bold text-yellow-400 mb-2">77</p>
-            <p className="text-sm text-gray-300">Fiches Nova complètes</p>
-            <p className="text-xs text-gray-500 mt-1">4 phases progressives</p>
-          </div>
-          
-          <div className="text-center">
-            <p className="text-4xl font-bold text-green-400 mb-2">87%</p>
-            <p className="text-sm text-gray-300">Atteignent la Strate 3</p>
-            <p className="text-xs text-gray-500 mt-1">Taux de complétion élevé</p>
-          </div>
-          
-          <div className="text-center">
-            <p className="text-4xl font-bold text-cyan-400 mb-2">4.8/5</p>
-            <p className="text-sm text-gray-300">Satisfaction moyenne</p>
-            <p className="text-xs text-gray-500 mt-1">2,547 avis vérifiés</p>
+        {/* MESSAGE COMMUNAUTÉ BETA - REMPLACE LES STATS */}
+        <div className="mt-12 bg-[#0A2540]/40 border border-[#D4AF37]/30 rounded-xl p-6 text-center">
+          <p className="text-xl font-bold mb-3 font-['Montserrat']" style={{ color: '#D4AF37' }}>
+            🌱 Rejoins la Communauté Beta
+          </p>
+          <p className="text-sm text-gray-300 leading-relaxed mb-4">
+            Tu fais partie des premiers à tester ce système en vrai. 
+            Chaque utilisateur aide à affiner le parcours pour construire 
+            le meilleur <strong style={{ color: '#D4AF37' }}>SYSTÈME</strong> de transformation digitale.
+          </p>
+          <div className="flex justify-center gap-8 text-sm">
+            <div>
+              <p className="text-2xl font-bold" style={{ color: '#D4AF37' }}>77</p>
+              <p className="text-gray-400">Fiches Nova complètes</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold" style={{ color: '#D4AF37' }}>4</p>
+              <p className="text-gray-400">Strates progressives</p>
+            </div>
+            <div>
+              <p className="text-2xl font-bold" style={{ color: '#D4AF37' }}>100%</p>
+              <p className="text-gray-400">Gratuit jusqu'à Strate 3</p>
+            </div>
           </div>
         </div>
 
@@ -234,7 +240,8 @@ export default function AboutSection() {
         <div className="mt-12 text-center">
           <button
             onClick={() => navigate('/strate-reinvention')}
-            className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-black font-bold px-10 py-4 rounded-xl shadow-2xl hover:shadow-[0_0_40px_rgba(251,191,36,0.5)] transition-all text-lg"
+            className="text-black font-bold px-10 py-4 rounded-xl shadow-2xl transition-all text-lg font-['Montserrat']"
+            style={{ backgroundColor: '#D4AF37' }}
           >
             🚀 Commencer mon Parcours (Gratuit)
           </button>
