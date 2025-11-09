@@ -10,100 +10,104 @@ export default function Features() {
       title: "Strate 1 — Réinvention",
       badge: "🎯 Commence ici",
       badgeColor: "bg-green-500",
-      problemeSolu: "Arrêter de t'éparpiller",
-      desc: "En 7 jours, tu vas identifier les 3 actions qui comptent VRAIMENT, éliminer 80% du bruit digital, et clarifier ton offre/projet en 1 phrase.",
+      besoinClient: "J'ai essayé plein de trucs, mais je ne sais plus ce qui marche.",
+      motCle: "CLARTÉ",
+      desc: "En 7 jours, je vais te révéler comment identifier les 3 actions qui libèrent vraiment ton ÉNERGIE, éliminer le bruit qui te parasite, et construire le PONT entre ton chaos actuel et ta direction claire.",
       resultat: [
-        "Tu sais EXACTEMENT sur quoi te concentrer",
-        "Tu as 1 plan clair pour les 90 prochains jours",
-        "Tu as supprimé 10 tâches inutiles de ton quotidien"
+        "CLARTÉ totale sur ce qui compte vraiment pour toi",
+        "SYSTÈME de priorisation qui filtre 80% du bruit",
+        "LIBÉRATION de 10h/semaine d'activités inutiles"
       ],
       link: "/strate-reinvention",
-      btn: "Commencer Strate 1",
+      btn: "Retrouver la CLARTÉ",
       highlights: [
         "✓ Diagnostic personnalisé de ton chaos actuel",
-        "✓ Les 3 actions à 80% d'impact (ta loi de Pareto)",
+        "✓ Les 3 actions à 80% d'impact (loi de Pareto)",
         "✓ Ton offre clarifiée en 1 phrase",
-        "✓ Plan 90 jours mesurable et réaliste"
+        "✓ Plan 90 jours qui libère ton ÉNERGIE"
       ],
       contenu: "36 Fiches Nova + Templates",
-      gradient: "from-blue-900/70 to-cyan-900/70",
-      borderColor: "border-blue-500/40",
-      hoverShadow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.3)]"
+      gradient: "from-[#0A2540]/70 to-[#1a1444]/70",
+      borderColor: "border-[#D4AF37]/40",
+      hoverShadow: "hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
     },
     {
       icon: "⚙️",
       title: "Strate 2 — Automatisation",
       badge: "🔓 Après Strate 1",
       badgeColor: "bg-orange-500",
-      problemeSolu: "Avoir un plan quotidien mesurable",
-      desc: "En 7 jours, tu vas créer ton workflow quotidien, automatiser 3 flux clés (prospection, suivi, livraison), et installer ton dashboard de suivi.",
+      besoinClient: "Dis-moi quoi faire chaque jour pour avancer vraiment.",
+      motCle: "SYSTÈME",
+      desc: "En 7 jours, je vais te montrer comment installer ton SYSTÈME quotidien, automatiser 3 flux clés qui libèrent ton ÉNERGIE, et construire le PONT entre tes intentions et tes actions concrètes.",
       resultat: [
-        "Tu sais QUOI faire chaque jour (plus de procrastination)",
-        "Tu as récupéré 10h/semaine (temps mesuré)",
-        "Tu as 3 flux qui tournent sans toi 24/7"
+        "SYSTÈME quotidien qui élimine la procrastination",
+        "TRANSFORMATION de 10h/semaine en temps libéré",
+        "CLARTÉ parfaite sur ce que tu dois faire chaque jour"
       ],
       link: "/strate-automatisation",
-      btn: "Automatiser mes flux",
+      btn: "Installer mon SYSTÈME",
       highlights: [
-        "✓ Workflow quotidien GTD adapté à ton profil",
+        "✓ Workflow quotidien qui libère ton ÉNERGIE",
         "✓ 3 flux automatisés (prospection, suivi, livraison)",
-        "✓ Dashboard temps réel de tes KPIs",
-        "✓ Revue hebdomadaire de 15 min (vs 2h avant)"
+        "✓ Dashboard de CLARTÉ temps réel",
+        "✓ Revue hebdo de 15 min (vs 2h avant)"
       ],
       contenu: "16 Fiches Organisation + Blueprint n8n",
-      gradient: "from-purple-900/70 to-indigo-900/70",
-      borderColor: "border-purple-500/40",
-      hoverShadow: "hover:shadow-[0_0_30px_rgba(168,85,247,0.3)]"
+      gradient: "from-[#0A2540]/70 to-purple-900/70",
+      borderColor: "border-[#D4AF37]/40",
+      hoverShadow: "hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
     },
     {
       icon: "🧩",
       title: "Strate 3 — Application",
       badge: "🔓 Après Strate 2",
       badgeColor: "bg-orange-500",
-      problemeSolu: "Voir un résultat concret",
-      desc: "En 7 jours, tu vas lancer ton MVP, obtenir tes 3 premiers clients/leads/ventes, et prouver que ton système MARCHE pour toi.",
+      besoinClient: "Je veux prouver que je peux créer un revenu, même petit.",
+      motCle: "PREUVE",
+      desc: "En 7 jours, je vais te guider pour lancer ton MVP, obtenir tes 3 premiers clients, et vivre la TRANSFORMATION concrète qui prouve que ton SYSTÈME fonctionne pour toi.",
       resultat: [
-        "Tu as généré ton 1er revenu (même 500€ = victoire)",
-        "Tu as la PREUVE que ça fonctionne pour TOI",
-        "Tu as validé ton concept auprès de vrais clients"
+        "PREUVE concrète : ton 1er revenu généré (même 500€)",
+        "TRANSFORMATION validée par de vrais clients",
+        "LIBÉRATION du doute : tu sais que ça marche pour toi"
       ],
       link: "/strate-application",
-      btn: "Lancer mon MVP",
+      btn: "Obtenir la PREUVE",
       highlights: [
-        "✓ MVP lancé en 48h (template prêt)",
-        "✓ 3 premiers clients/leads obtenus",
-        "✓ Système de vente automatisé opérationnel",
-        "✓ Preuve tangible de ton ROI temps/argent"
+        "✓ MVP lancé en 48h avec CLARTÉ",
+        "✓ SYSTÈME de vente automatisé opérationnel",
+        "✓ 3 premiers clients obtenus",
+        "✓ PONT construit entre idée et réalité"
       ],
       contenu: "17 Fiches IA + 2 Démos interactives",
-      gradient: "from-orange-900/70 to-red-900/70",
-      borderColor: "border-orange-500/40",
-      hoverShadow: "hover:shadow-[0_0_30px_rgba(249,115,22,0.3)]"
+      gradient: "from-[#C4322A]/70 to-orange-900/70",
+      borderColor: "border-[#D4AF37]/40",
+      hoverShadow: "hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
     },
     {
       icon: "🏆",
       title: "Strate 4 — Liberté",
       badge: "🔒 Qualification requise",
       badgeColor: "bg-red-500",
-      problemeSolu: "Ressentir la cohérence durable",
-      desc: "En 9 jours, tu vas créer ton système evergreen (ventes automatiques), déléguer/automatiser le reste, et construire ton plan 90 jours durable.",
+      besoinClient: "Je veux que tout ce que je fais ait enfin du sens.",
+      motCle: "COHÉRENCE",
+      desc: "En 9 jours, je vais te révéler comment créer ton SYSTÈME evergreen, automatiser ta LIBÉRATION complète, et construire le PONT entre ton présent et ta vision à long terme.",
       resultat: [
-        "Ton système tourne SEUL (même quand tu dors)",
-        "Tu as une vision claire des 90 prochains jours",
-        "Tout ce que tu fais a du SENS dans ta vision globale"
+        "COHÉRENCE totale : tout a du sens dans ta vision",
+        "LIBÉRATION complète : ton SYSTÈME tourne seul",
+        "TRANSFORMATION durable : plan 90 jours aligné"
       ],
       link: "/strate-liberte",
-      btn: "Voir l'Accompagnement",
+      btn: "Atteindre la COHÉRENCE",
       highlights: [
-        "✓ Tunnel evergreen (ventes pendant ton sommeil)",
-        "✓ Plan de délégation/automatisation avancé",
-        "✓ Vision 90 jours alignée sur tes valeurs",
+        "✓ SYSTÈME evergreen (ventes pendant ton sommeil)",
+        "✓ ÉNERGIE focalisée sur ce qui compte vraiment",
+        "✓ Vision 90 jours qui donne du SENS à tout",
         "✓ Accompagnement 1:1 personnalisé"
       ],
       contenu: "31 Fiches Scaling + Accompagnement",
-      gradient: "from-yellow-900/70 to-orange-900/70",
-      borderColor: "border-yellow-500/40",
-      hoverShadow: "hover:shadow-[0_0_30px_rgba(251,191,36,0.3)]"
+      gradient: "from-[#D4AF37]/70 to-orange-900/70",
+      borderColor: "border-[#D4AF37]/40",
+      hoverShadow: "hover:shadow-[0_0_30px_rgba(212,175,55,0.3)]"
     },
   ];
 
@@ -115,26 +119,27 @@ export default function Features() {
       {/* Lueur douce d'arrière-plan */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-radial from-indigo-600/10 via-purple-500/10 to-transparent blur-3xl opacity-60 pointer-events-none"></div>
 
-      {/* TITRE - MODIFIÉ */}
+      {/* TITRE */}
       <motion.h2
-        className="text-4xl md:text-5xl font-bold mb-6 text-center text-gold relative z-10"
+        className="text-4xl md:text-5xl font-bold mb-6 text-center relative z-10 font-['Montserrat']"
+        style={{ color: '#D4AF37' }}
         initial={{ y: -30, opacity: 0 }}
         whileInView={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        Le Parcours en 4 Strates
+        Le Parcours en 4 TRANSFORMATIONS
       </motion.h2>
 
       <motion.p
-        className="text-lg text-gray-300 max-w-3xl text-center mb-8 relative z-10"
+        className="text-lg text-gray-300 max-w-3xl text-center mb-8 relative z-10 leading-relaxed"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 1 }}
         viewport={{ once: true }}
       >
-        <strong className="text-yellow-400">1 Strate = 1 problème résolu</strong><br />
-        À la fin des 4 Strates, tu as arrêté le chaos, un plan clair, des résultats prouvés, et un système cohérent.
+        <strong style={{ color: '#D4AF37' }}>1 Strate = 1 besoin résolu = 1 PONT construit</strong><br />
+        À la fin des 4 Strates, tu as la CLARTÉ, le SYSTÈME, la PREUVE, et la COHÉRENCE.
       </motion.p>
 
       {/* NOTE EXPLICATIVE */}
@@ -197,17 +202,24 @@ export default function Features() {
             <div className="text-5xl mb-4 mt-2">{strate.icon}</div>
 
             {/* TITRE */}
-            <h3 className="text-2xl font-bold mb-3 text-gold">
+            <h3 className="text-2xl font-bold mb-3 font-['Montserrat']" style={{ color: '#D4AF37' }}>
               {strate.title}
             </h3>
 
-            {/* PROBLÈME RÉSOLU - NOUVEAU */}
-            <div className="bg-red-900/20 border border-red-500/30 px-3 py-2 rounded-lg mb-4">
-              <p className="text-xs font-semibold text-red-300 uppercase tracking-wide mb-1">
-                Problème résolu :
+            {/* BESOIN CLIENT - CITATION EXACTE */}
+            <div className="bg-[#C4322A]/20 border border-[#C4322A]/30 px-3 py-3 rounded-lg mb-4">
+              <p className="text-xs font-semibold uppercase tracking-wide mb-1" style={{ color: '#C4322A' }}>
+                Besoin client :
               </p>
-              <p className="text-sm font-bold text-white">
-                {strate.problemeSolu}
+              <p className="text-sm italic text-gray-300">
+                "{strate.besoinClient}"
+              </p>
+            </div>
+
+            {/* MOT-CLÉ DE LA TRANSFORMATION */}
+            <div className="mb-4">
+              <p className="text-2xl font-bold font-['Montserrat'] text-center" style={{ color: '#D4AF37' }}>
+                {strate.motCle}
               </p>
             </div>
 
@@ -216,15 +228,15 @@ export default function Features() {
               {strate.desc}
             </p>
 
-            {/* RÉSULTAT JOUR X - NOUVEAU */}
-            <div className="bg-green-900/20 border border-green-500/30 p-4 rounded-lg mb-4">
-              <p className="text-xs font-semibold text-green-400 uppercase tracking-wide mb-2">
-                Résultat Jour {index < 3 ? (index + 1) * 7 : 30} :
+            {/* RÉSULTAT - TRANSFORMATION */}
+            <div className="bg-[#0A2540]/30 border border-[#D4AF37]/30 p-4 rounded-lg mb-4">
+              <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: '#D4AF37' }}>
+                Transformation Jour {index < 3 ? (index + 1) * 7 : 30} :
               </p>
               <ul className="space-y-2 text-left">
                 {strate.resultat.map((res, idx) => (
                   <li key={idx} className="text-xs text-gray-300 flex items-start gap-2">
-                    <span className="text-green-400 mt-0.5">→</span>
+                    <span style={{ color: '#D4AF37' }} className="mt-0.5">→</span>
                     <span>{res}</span>
                   </li>
                 ))}
@@ -232,23 +244,23 @@ export default function Features() {
             </div>
 
             {/* HIGHLIGHTS */}
-            <div className="bg-black/30 border border-white/10 p-4 rounded-lg mb-4 text-left">
+            <div className="bg-black/30 border border-[#D4AF37]/20 p-4 rounded-lg mb-4 text-left">
               <p className="text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wide">
                 Contenu inclus :
               </p>
               <ul className="space-y-1.5">
                 {strate.highlights.map((highlight, idx) => (
                   <li key={idx} className="text-xs text-gray-300 flex items-start gap-2">
-                    <span className="text-cyan-400 mt-0.5">✓</span>
+                    <span style={{ color: '#D4AF37' }} className="mt-0.5">✓</span>
                     <span>{highlight}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* CONTENU BOX - NOUVEAU */}
-            <div className="bg-blue-900/20 border border-blue-500/30 px-3 py-2 rounded-lg mb-6">
-              <p className="text-xs text-blue-300">
+            {/* CONTENU BOX */}
+            <div className="bg-[#0A2540]/30 border border-[#D4AF37]/30 px-3 py-2 rounded-lg mb-6">
+              <p className="text-xs" style={{ color: '#D4AF37' }}>
                 📦 {strate.contenu}
               </p>
             </div>
@@ -256,7 +268,8 @@ export default function Features() {
             {/* CTA */}
             <button
               onClick={() => navigate(strate.link)}
-              className="w-full bg-gold text-dark font-bold px-6 py-3 rounded-xl hover:bg-yellow-400 transition shadow-lg hover:shadow-xl"
+              className="w-full text-black font-bold px-6 py-3 rounded-xl transition shadow-lg hover:shadow-xl font-['Montserrat']"
+              style={{ backgroundColor: '#D4AF37' }}
             >
               {strate.btn}
             </button>

@@ -38,7 +38,7 @@ export default function Hero() {
 
         {/* Titre principal */}
         <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-8 leading-tight font-['Montserrat']"
+          className="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight font-['Montserrat']"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
@@ -49,6 +49,18 @@ export default function Hero() {
             mais je ne sais plus ce qui marche.
           </span>
         </motion.h1>
+
+        {/* Phrase d'intention - NOUVEAU */}
+        <motion.p
+          className="text-xl md:text-2xl text-slate-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+        >
+          Ce que tu vas découvrir ici, c'est comment reprendre le contrôle 
+          sur ton <strong style={{ color: '#D4AF37' }}>ÉNERGIE</strong>, 
+          ton temps et ton impact.
+        </motion.p>
 
         {/* Sous-titre avec les 4 besoins - CITATIONS EXACTES */}
         <motion.div
