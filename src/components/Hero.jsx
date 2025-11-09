@@ -46,7 +46,7 @@ export default function Hero() {
           <span className="text-white">Tu as essayé plein de trucs,</span>
           <br />
           <span style={{ color: '#C4322A' }}>
-            mais je ne sais plus ce qui marche.
+            mais tu ne sais plus ce qui marche.
           </span>
         </motion.h1>
 
