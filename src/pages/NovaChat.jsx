@@ -1,14 +1,13 @@
-// src/pages/NovaChat.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function NovaChat() {
   const [messages, setMessages] = useState([
-    { sender: "nova", text: "🧠 Bonjour ! Quelle Strate veux-tu explorer aujourd’hui ?" },
+    { sender: "nova", text: "🧠 Bonjour ! Où en es-tu dans ta TRANSFORMATION ? Quelle Strate veux-tu explorer ?" },
   ]);
   const [input, setInput] = useState("");
 
-  // ⚡ Fonction pour gérer l'envoi du message
+  // Fonction pour gérer l'envoi du message
   const handleSend = () => {
     if (!input.trim()) return;
 
@@ -16,13 +15,14 @@ export default function NovaChat() {
     setMessages((prev) => [...prev, newUserMessage]);
     setInput("");
 
-    // Simule une réponse "intelligente" après 1 seconde
+    // Simule une réponse intelligente
     setTimeout(() => {
       const simulatedReplies = [
-        "✨ Intéressant ! Dis-m'en plus sur ton objectif actuel.",
-        "🚀 Super ! Tu progresses bien. Que veux-tu automatiser ensuite ?",
-        "💡 As-tu déjà testé les outils de la Strate Automatisation ?",
-        "🔥 J’adore ton énergie. Restons focus sur ton plan d’action !",
+        "✨ Intéressant ! Dis-m'en plus sur ta quête de CLARTÉ.",
+        "🚀 Super ! Tu progresses bien. Quel SYSTÈME veux-tu installer ensuite ?",
+        "💡 As-tu déjà construit le PONT entre tes intentions et tes actions ?",
+        "🔥 J'aime ton ÉNERGIE. Restons focus sur ta TRANSFORMATION !",
+        "🎯 Excellent ! Quelle PREUVE concrète cherches-tu à obtenir ?",
       ];
       const reply =
         simulatedReplies[Math.floor(Math.random() * simulatedReplies.length)];
@@ -36,54 +36,64 @@ export default function NovaChat() {
   };
 
   return (
-    <section className="min-h-screen bg-[#0f172a] text-white flex flex-col items-center justify-center px-6 py-10">
+    <section className="min-h-screen bg-gradient-to-b from-[#0f172a] via-[#0A2540] to-[#1a1444] text-white flex flex-col items-center justify-center px-6 py-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
         className="w-full max-w-2xl"
       >
-        <h2 className="text-3xl font-bold text-yellow-400 mb-4 text-center">
-          💬 Chat Nova IA (simulation)
+        <h2 className="text-3xl font-bold mb-2 text-center font-['Montserrat']" style={{ color: '#D4AF37' }}>
+          💬 Chat Nova
         </h2>
+        <p className="text-sm text-gray-400 mb-6 text-center">
+          Simulation locale — Version complète avec IA bientôt disponible
+        </p>
 
-        {/* 💬 Fenêtre de chat */}
-        <div className="bg-white/10 border border-white/10 rounded-xl p-6 h-[420px] overflow-y-auto space-y-3">
+        {/* Fenêtre de chat */}
+        <div className="bg-[#0A2540]/40 border border-[#D4AF37]/20 rounded-xl p-6 h-[420px] overflow-y-auto space-y-3">
           {messages.map((msg, index) => (
             <div
               key={index}
               className={`p-3 rounded-lg max-w-[80%] ${
                 msg.sender === "user"
-                  ? "bg-gradient-to-r from-yellow-400 to-orange-500 text-black self-end ml-auto"
-                  : "bg-white/10 border border-white/20 text-gray-200"
+                  ? "text-black self-end ml-auto"
+                  : "bg-[#0A2540]/60 border border-[#D4AF37]/20 text-gray-200"
               }`}
+              style={msg.sender === "user" ? { backgroundColor: '#D4AF37' } : {}}
             >
               {msg.text}
             </div>
           ))}
         </div>
 
-        {/* 🧠 Champ de saisie */}
+        {/* Champ de saisie */}
         <div className="flex mt-4 gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Écris ici ta question..."
-            className="flex-grow px-4 py-2 rounded-lg bg-white/5 border border-white/20 text-gray-200 focus:outline-none focus:border-yellow-400"
+            placeholder="Pose ta question à Nova..."
+            className="flex-grow px-4 py-3 rounded-lg bg-[#0A2540]/40 border border-[#D4AF37]/30 text-gray-200 focus:outline-none focus:border-[#D4AF37] placeholder-gray-500"
           />
           <button
             onClick={handleSend}
-            className="px-5 py-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-black font-semibold rounded-lg hover:from-yellow-300 hover:to-orange-400 transition"
+            className="px-6 py-3 text-black font-semibold rounded-lg transition font-['Montserrat']"
+            style={{ backgroundColor: '#D4AF37' }}
           >
             Envoyer
           </button>
         </div>
 
-        <p className="text-sm text-gray-500 mt-4 text-center">
-          🔒 Simulation locale — connexion IA désactivée
-        </p>
+        {/* Note technique */}
+        <div className="mt-6 bg-[#0A2540]/40 border border-[#D4AF37]/30 rounded-xl p-4">
+          <p className="text-xs text-gray-400 leading-relaxed">
+            💡 <strong style={{ color: '#D4AF37' }}>Note :</strong> Cette version simule les réponses. 
+            La version complète avec connexion IA arrivera prochainement pour t'accompagner 
+            dans ta <strong style={{ color: '#D4AF37' }}>TRANSFORMATION</strong>.
+          </p>
+        </div>
       </motion.div>
     </section>
   );
