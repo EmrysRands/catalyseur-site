@@ -94,8 +94,36 @@ export default function StrateReinvention() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
+      {/* BOUTON RETOUR AU PLAN */}
+      <div className="max-w-4xl w-full mt-16 mb-8">
+        <button
+          onClick={() => navigate('/espace-nova')}
+          className="flex items-center gap-2 text-gray-400 hover:text-[#D4AF37] transition text-sm"
+        >
+          <span>←</span>
+          <span>Retour à mon plan</span>
+        </button>
+      </div>
+
+      {/* MESSAGE CONTEXTUEL */}
+      <div className="max-w-4xl w-full mb-8">
+        <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-4 rounded-xl">
+          <p className="text-sm text-gray-300">
+            💡 <strong style={{ color: '#D4AF37' }}>Conseil :</strong> Télécharge ces fiches et reviens dans ton 
+            <button 
+              onClick={() => navigate('/espace-nova')}
+              className="underline mx-1 hover:text-[#D4AF37] transition"
+              style={{ color: '#D4AF37' }}
+            >
+              Espace Nova
+            </button>
+            pour suivre ton plan jour par jour.
+          </p>
+        </div>
+      </div>
+
       {/* HERO - CITATION CLIENT */}
-      <section className="max-w-4xl text-center mt-24 mb-16">
+      <section className="max-w-4xl text-center mb-16">
         <motion.h1
           className="text-5xl md:text-7xl font-bold mb-8 font-['Montserrat']"
           style={{ color: '#D4AF37' }}
@@ -120,13 +148,24 @@ export default function StrateReinvention() {
             "J'ai essayé plein de trucs, mais je ne sais plus ce qui marche."
           </p>
           
-          <div className="bg-[#0A2540]/50 border border-[#D4AF37]/30 p-6 rounded-xl">
+          <div className="bg-[#0A2540]/50 border border-[#D4AF37]/30 p-6 rounded-xl mb-6">
             <p className="text-3xl font-bold mb-3 font-['Montserrat']" style={{ color: '#D4AF37' }}>
               CLARTÉ
             </p>
             <p className="text-gray-200 text-lg leading-relaxed">
               En 7 jours, je vais te révéler comment identifier les 3 actions qui libèrent vraiment ton <strong style={{ color: '#D4AF37' }}>ÉNERGIE</strong>, 
               éliminer le bruit qui te parasite, et construire le <strong style={{ color: '#D4AF37' }}>PONT</strong> entre ton chaos actuel et ta direction claire.
+            </p>
+          </div>
+
+          {/* RÉSULTAT ATTENDU - NOUVEAU */}
+          <div className="bg-[#D4AF37]/10 border-l-4 border-[#D4AF37] p-4 rounded-r-lg">
+            <p className="text-sm font-bold mb-2" style={{ color: '#D4AF37' }}>
+              🎯 Résultat attendu Jour 7 :
+            </p>
+            <p className="text-sm text-gray-300 leading-relaxed">
+              Tu sais <strong>exactement</strong> sur quoi concentrer ton ÉNERGIE, 
+              tu as éliminé 80% du bruit, et tu as un plan clair pour les 90 prochains jours.
             </p>
           </div>
         </motion.div>
@@ -265,9 +304,16 @@ export default function StrateReinvention() {
             <p className="text-2xl font-bold mb-2" style={{ color: '#D4AF37' }}>
               GRATUIT aujourd'hui
             </p>
-            <p className="text-gray-300 text-sm">
+            <p className="text-gray-300 text-sm mb-4">
               Ces 36 fiches construisent le <strong style={{ color: '#D4AF37' }}>PONT</strong> vers ta <strong style={{ color: '#D4AF37' }}>CLARTÉ</strong>. Télécharge-les maintenant.
             </p>
+            {/* MESSAGE BETA - NOUVEAU */}
+            <div className="bg-[#0A2540]/50 border border-[#D4AF37]/20 p-3 rounded-lg mt-3">
+              <p className="text-xs text-gray-400">
+                🌱 Tu fais partie des premiers à tester ce système en vrai. 
+                Chaque téléchargement aide à affiner le parcours.
+              </p>
+            </div>
           </div>
         </motion.div>
       </section>

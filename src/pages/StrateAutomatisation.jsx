@@ -92,8 +92,36 @@ export default function StrateAutomatisation() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
+      {/* BOUTON RETOUR AU PLAN */}
+      <div className="max-w-4xl w-full mt-16 mb-8">
+        <button
+          onClick={() => navigate('/espace-nova')}
+          className="flex items-center gap-2 text-gray-400 hover:text-[#D4AF37] transition text-sm"
+        >
+          <span>←</span>
+          <span>Retour à mon plan</span>
+        </button>
+      </div>
+
+      {/* MESSAGE CONTEXTUEL */}
+      <div className="max-w-4xl w-full mb-8">
+        <div className="bg-[#0A2540]/40 border border-[#D4AF37]/30 p-4 rounded-xl">
+          <p className="text-sm text-gray-300">
+            💡 <strong style={{ color: '#D4AF37' }}>Conseil :</strong> Télécharge ces ressources et reviens dans ton 
+            <button 
+              onClick={() => navigate('/espace-nova')}
+              className="underline mx-1 hover:text-[#D4AF37] transition"
+              style={{ color: '#D4AF37' }}
+            >
+              Espace Nova
+            </button>
+            pour suivre ton plan jour par jour.
+          </p>
+        </div>
+      </div>
+
       {/* HERO - CITATION CLIENT */}
-      <section className="max-w-4xl text-center mt-24 mb-16">
+      <section className="max-w-4xl text-center mb-16">
         <motion.h1
           className="text-5xl md:text-6xl font-bold mb-8 font-['Montserrat']"
           style={{ color: '#D4AF37' }}
