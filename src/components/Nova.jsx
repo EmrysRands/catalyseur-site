@@ -1,18 +1,20 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { getProfilInfo } from "../data/parcoursPersonnalises";
 
 export default function Nova() {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({
     besoin: null,
-    progression: null
+    progression: null,
+    profil: null
   });
   const [diagnostic, setDiagnostic] = useState(null);
 
-  // Logique de diagnostic basée sur les 4 besoins clients
-  const calculateDiagnostic = (besoin, progression) => {
+  // Logique de diagnostic basée sur les 4 besoins clients + profil
+  const calculateDiagnostic = (besoin, progression, profil) => {
     let result = {
       niveau: "",
       strateRecommandee: "",
@@ -21,15 +23,18 @@ export default function Nova() {
       motCle: "",
       description: "",
       objectif: "",
-      couleur: ""
+      couleur: "",
+      profil: profil,
+      profilInfo: getProfilInfo(profil)
     };
 
     // Logique de décision alignée sur les 4 besoins
     if (besoin === "éparpillement" && progression === "découverte") {
       result = {
+        ...result,
         niveau: "Découverte",
         strateRecommandee: "Strate 1 : Réinvention",
-        strateUrl: "/strate-reinvention",
+        strateUrl: "/espace-nova",
         citation: "J'ai essayé plein de trucs, mais je ne sais plus ce qui marche.",
         motCle: "CLARTÉ",
         description: "Je vais te révéler comment identifier les 3 actions qui libèrent vraiment ton ÉNERGIE, éliminer le bruit qui te parasite, et construire le PONT entre ton chaos actuel et ta direction claire.",
@@ -38,9 +43,10 @@ export default function Nova() {
       };
     } else if (besoin === "plan" && progression === "action") {
       result = {
+        ...result,
         niveau: "Passage à l'Action",
         strateRecommandee: "Strate 2 : Automatisation",
-        strateUrl: "/strate-automatisation",
+        strateUrl: "/espace-nova",
         citation: "Dis-moi quoi faire chaque jour pour avancer vraiment.",
         motCle: "SYSTÈME",
         description: "Je vais te montrer comment installer ton SYSTÈME quotidien, automatiser 3 flux clés qui libèrent ton ÉNERGIE, et construire le PONT entre tes intentions et tes actions concrètes.",
@@ -49,9 +55,10 @@ export default function Nova() {
       };
     } else if (besoin === "preuve" && (progression === "testé" || progression === "action")) {
       result = {
+        ...result,
         niveau: "Validation",
         strateRecommandee: "Strate 3 : Application",
-        strateUrl: "/strate-application",
+        strateUrl: "/espace-nova",
         citation: "Je veux prouver que je peux créer un revenu, même petit.",
         motCle: "TRANSFORMATION",
         description: "Je vais te guider pour lancer ton MVP, obtenir tes 3 premiers clients, et vivre la TRANSFORMATION concrète qui prouve que ton SYSTÈME fonctionne pour toi.",
@@ -60,9 +67,10 @@ export default function Nova() {
       };
     } else if (besoin === "cohérence" && progression === "engagé") {
       result = {
+        ...result,
         niveau: "Stabilisation & Scaling",
         strateRecommandee: "Strate 4 : Liberté",
-        strateUrl: "/strate-liberte",
+        strateUrl: "/espace-nova",
         citation: "Je veux que tout ce que je fais ait enfin du sens.",
         motCle: "LIBÉRATION",
         description: "Je vais te révéler comment créer ton SYSTÈME evergreen, automatiser ta LIBÉRATION complète, et construire le PONT entre ton présent et ta vision à long terme.",
@@ -72,9 +80,10 @@ export default function Nova() {
     } else {
       // Par défaut : rediriger vers Strate 1
       result = {
+        ...result,
         niveau: "Découverte",
         strateRecommandee: "Strate 1 : Réinvention",
-        strateUrl: "/strate-reinvention",
+        strateUrl: "/espace-nova",
         citation: "J'ai essayé plein de trucs, mais je ne sais plus ce qui marche.",
         motCle: "CLARTÉ",
         description: "Commence par le début ! Je vais te révéler comment retrouver la CLARTÉ et construire le PONT entre ton chaos actuel et ta direction.",
@@ -93,21 +102,44 @@ export default function Nova() {
 
   const handleProgressionSelect = (progression) => {
     setAnswers({ ...answers, progression });
+    setStep(2.5); // Nouvelle étape : profil
+  };
+
+  const handleProfilSelect = (profil) => {
+    setAnswers({ ...answers, profil });
     
     // Animation de calcul
     setStep(3);
     setDiagnostic({ loading: true });
     
     setTimeout(() => {
-      const result = calculateDiagnostic(answers.besoin, progression);
+      const result = calculateDiagnostic(answers.besoin, answers.progression, profil);
       setDiagnostic(result);
+      
+      // Stocker dans localStorage pour EspaceNova
+      localStorage.setItem('novaDiagnostic', JSON.stringify({
+        besoin: answers.besoin,
+        progression: answers.progression,
+        profil: profil,
+        timestamp: new Date().toISOString()
+      }));
     }, 1500);
   };
 
   const handleReset = () => {
     setStep(1);
-    setAnswers({ besoin: null, progression: null });
+    setAnswers({ besoin: null, progression: null, profil: null });
     setDiagnostic(null);
+  };
+
+  const handleStartParcours = () => {
+    // Rediriger vers EspaceNova avec le diagnostic
+    navigate('/espace-nova', { 
+      state: { 
+        diagnostic: diagnostic,
+        fromNova: true 
+      } 
+    });
   };
 
   return (
@@ -137,7 +169,7 @@ export default function Nova() {
         transition={{ delay: 0.3, duration: 0.8 }}
         viewport={{ once: true }}
       >
-        Réponds à 2 questions et Nova te révélera ton <strong style={{ color: '#D4AF37' }}>PONT</strong> personnalisé 
+        Réponds à 3 questions et Nova te révélera ton <strong style={{ color: '#D4AF37' }}>PONT</strong> personnalisé 
         vers la <strong style={{ color: '#D4AF37' }}>TRANSFORMATION</strong>.
       </motion.p>
 
@@ -250,154 +282,186 @@ export default function Nova() {
               </button>
               <button
                 onClick={() => handleProgressionSelect("engagé")}
-                className="text-black font-bold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
+                className="text-white font-semibold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
                 style={{ 
-                  backgroundColor: '#D4AF37',
+                  backgroundColor: '#0A2540',
                   borderColor: '#D4AF37'
                 }}
               >
-                💎 Je veux la LIBÉRATION totale (accompagnement)
+                🏆 J'ai la PREUVE, je veux la LIBÉRATION durable
               </button>
             </div>
-
             <button
-              onClick={handleReset}
-              className="mt-4 text-gray-300 underline hover:text-white transition text-sm"
+              onClick={() => setStep(1)}
+              className="mt-4 text-sm text-gray-400 hover:text-[#D4AF37] transition"
             >
-              ← Retour à la question 1
+              ← Retour
             </button>
           </>
         )}
 
-        {/* ÉTAPE 3 : RÉSULTAT DU DIAGNOSTIC */}
+        {/* ÉTAPE 2.5 : PROFIL - NOUVEAU */}
+        {step === 2.5 && (
+          <>
+            <p className="text-slate-200 mb-6 text-left text-lg font-semibold font-['Montserrat']">
+              3️⃣ Quel est ton profil professionnel ?
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={() => handleProfilSelect("formateur")}
+                className="text-white font-semibold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
+                style={{ 
+                  backgroundColor: '#0A2540',
+                  borderColor: '#D4AF37'
+                }}
+              >
+                <span style={{ color: '#D4AF37' }}>👩‍🏫</span> <strong>Formateur / Coach certifié</strong>
+                <p className="text-sm text-gray-400 italic mt-1">
+                  Tu transmets, mais tu veux un modèle rentable et fluide
+                </p>
+              </button>
+              <button
+                onClick={() => handleProfilSelect("freelance")}
+                className="text-white font-semibold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
+                style={{ 
+                  backgroundColor: '#0A2540',
+                  borderColor: '#D4AF37'
+                }}
+              >
+                <span style={{ color: '#D4AF37' }}>🎨</span> <strong>Freelance créatif</strong>
+                <p className="text-sm text-gray-400 italic mt-1">
+                  Tu crées de la valeur, mais tu te perds dans le désordre
+                </p>
+              </button>
+              <button
+                onClick={() => handleProfilSelect("consultant")}
+                className="text-white font-semibold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
+                style={{ 
+                  backgroundColor: '#0A2540',
+                  borderColor: '#D4AF37'
+                }}
+              >
+                <span style={{ color: '#D4AF37' }}>💼</span> <strong>Consultant / Expert technique</strong>
+                <p className="text-sm text-gray-400 italic mt-1">
+                  Tu veux arrêter d'échanger temps contre argent
+                </p>
+              </button>
+              <button
+                onClick={() => handleProfilSelect("saas")}
+                className="text-white font-semibold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
+                style={{ 
+                  backgroundColor: '#0A2540',
+                  borderColor: '#D4AF37'
+                }}
+              >
+                <span style={{ color: '#D4AF37' }}>💻</span> <strong>Entrepreneur SaaS / Solopreneur tech</strong>
+                <p className="text-sm text-gray-400 italic mt-1">
+                  Tu construis des systèmes qui tournent seuls
+                </p>
+              </button>
+              <button
+                onClick={() => handleProfilSelect("community")}
+                className="text-white font-semibold py-4 px-6 rounded-lg transition text-left border-2 hover:scale-102"
+                style={{ 
+                  backgroundColor: '#0A2540',
+                  borderColor: '#D4AF37'
+                }}
+              >
+                <span style={{ color: '#D4AF37' }}>📱</span> <strong>Community Manager / Support digital</strong>
+                <p className="text-sm text-gray-400 italic mt-1">
+                  Tu aides et organises, mais tu as besoin de structure
+                </p>
+              </button>
+            </div>
+            <button
+              onClick={() => setStep(2)}
+              className="mt-4 text-sm text-gray-400 hover:text-[#D4AF37] transition"
+            >
+              ← Retour
+            </button>
+          </>
+        )}
+
+        {/* ÉTAPE 3 : RÉSULTAT */}
         {step === 3 && diagnostic && (
           <>
-            {/* LOADER */}
-            {diagnostic.loading && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-12"
-              >
-                <div className="text-6xl mb-4 animate-pulse">🔄</div>
-                <p className="text-xl font-['Montserrat']" style={{ color: '#D4AF37' }}>
-                  Nova calcule ton PONT personnalisé...
-                </p>
-              </motion.div>
-            )}
-
-            {/* RÉSULTAT */}
-            {!diagnostic.loading && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6 }}
-              >
-                {/* HEADER */}
+            {diagnostic.loading ? (
+              <div className="text-center py-8">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-4 mx-auto mb-4" 
+                     style={{ borderColor: '#D4AF37' }}></div>
+                <p className="text-slate-200">Nova analyse ton profil...</p>
+              </div>
+            ) : (
+              <>
                 <div className="text-center mb-6">
-                  <div className="text-6xl mb-4">🎯</div>
-                  <h3 className="text-3xl font-bold text-white mb-2 font-['Montserrat']">
-                    Ton PONT vers la TRANSFORMATION
+                  <h3 className="text-3xl font-bold mb-2 font-['Montserrat']" style={{ color: diagnostic.couleur }}>
+                    ✨ Ton Diagnostic
                   </h3>
-                  <div 
-                    className="inline-block text-black font-bold px-6 py-2 rounded-full text-lg font-['Montserrat']"
-                    style={{ backgroundColor: diagnostic.couleur }}
-                  >
-                    Niveau : {diagnostic.niveau}
-                  </div>
+                  <p className="text-sm text-gray-400">
+                    {diagnostic.niveau} • {diagnostic.profilInfo.emoji} {diagnostic.profilInfo.nom}
+                  </p>
                 </div>
 
                 {/* CITATION CLIENT */}
-                <div className="bg-[#C4322A]/20 border border-[#C4322A]/40 p-4 rounded-lg mb-6">
-                  <p className="text-sm italic text-gray-300 leading-relaxed">
+                <div className="bg-[#C4322A]/20 border border-[#C4322A]/40 p-4 rounded-xl mb-6">
+                  <p className="text-lg italic text-gray-200 leading-relaxed">
                     "{diagnostic.citation}"
                   </p>
                 </div>
 
-                {/* MOT-CLÉ TRANSFORMATION */}
-                <div className="mb-6">
-                  <p className="text-3xl font-bold font-['Montserrat']" style={{ color: diagnostic.couleur }}>
+                {/* MOT-CLÉ */}
+                <div className="bg-black/30 border border-[#D4AF37]/40 p-4 rounded-xl mb-6">
+                  <p className="text-3xl font-bold mb-2 font-['Montserrat']" style={{ color: diagnostic.couleur }}>
                     {diagnostic.motCle}
-                  </p>
-                </div>
-
-                {/* STRATE RECOMMANDÉE */}
-                <div className="bg-[#0A2540]/50 border border-[#D4AF37]/40 p-6 rounded-xl mb-6">
-                  <h4 className="text-xl font-bold mb-3 font-['Montserrat']" style={{ color: '#D4AF37' }}>
-                    📍 Prochaine Étape Recommandée
-                  </h4>
-                  <p className="text-2xl font-bold mb-3" style={{ color: diagnostic.couleur }}>
-                    {diagnostic.strateRecommandee}
                   </p>
                   <p className="text-gray-200 text-sm leading-relaxed">
                     {diagnostic.description}
                   </p>
                 </div>
 
-                {/* OBJECTIF */}
-                <div className="bg-[#D4AF37]/10 border border-[#D4AF37]/40 p-4 rounded-xl mb-6">
-                  <p className="font-semibold text-sm mb-1" style={{ color: '#D4AF37' }}>
-                    🎯 Ton Objectif :
-                  </p>
-                  <p className="text-white font-bold">
-                    {diagnostic.objectif}
-                  </p>
-                </div>
-
-                {/* POURQUOI CETTE STRATE */}
-                <div className="bg-[#0A2540]/30 border border-[#D4AF37]/30 p-4 rounded-xl mb-6 text-left">
-                  <p className="font-semibold text-sm mb-2" style={{ color: '#D4AF37' }}>
-                    💡 Pourquoi commencer par cette strate ?
-                  </p>
-                  <p className="text-gray-300 text-sm leading-relaxed">
-                    {diagnostic.niveau === "Découverte" && "Le parcours est PROGRESSIF. Chaque strate construit le PONT vers la suivante. Tu dois d'abord retrouver la CLARTÉ avant d'installer le SYSTÈME."}
-                    {diagnostic.niveau === "Passage à l'Action" && "Tu as déjà la CLARTÉ. Maintenant, tu dois installer ton SYSTÈME quotidien qui libère ton ÉNERGIE avant de chercher la PREUVE."}
-                    {diagnostic.niveau === "Validation" && "Tu as la CLARTÉ et le SYSTÈME. Il est temps d'obtenir la PREUVE concrète avec ton 1er revenu et vivre ta TRANSFORMATION."}
-                    {diagnostic.niveau === "Stabilisation & Scaling" && "Tu as complété les 3 premières strates. Tu es qualifié(e) pour construire le PONT vers ta LIBÉRATION totale."}
-                  </p>
-                </div>
-
-                {/* AVERTISSEMENT SI STRATE 4 */}
-                {diagnostic.strateUrl === "/strate-liberte" && (
-                  <div className="bg-[#C4322A]/20 border border-[#C4322A]/40 p-4 rounded-xl mb-6">
-                    <p className="font-semibold text-sm mb-2" style={{ color: '#C4322A' }}>
-                      ⚠️ Attention : Qualification Requise
-                    </p>
-                    <p className="text-gray-300 text-xs">
-                      La Strate 4 (Liberté) est un parcours d'accompagnement payant. Tu dois avoir complété les Strates 1-2-3 pour être éligible.
-                    </p>
+                {/* PROFIL + OBJECTIF 90J */}
+                <div className="bg-[#0A2540]/60 border border-[#D4AF37]/30 p-4 rounded-xl mb-6">
+                  <div className="flex items-start gap-3 mb-3">
+                    <span className="text-3xl">{diagnostic.profilInfo.emoji}</span>
+                    <div>
+                      <p className="font-bold text-white">{diagnostic.profilInfo.nom}</p>
+                      <p className="text-sm text-gray-400">{diagnostic.profilInfo.description}</p>
+                    </div>
                   </div>
-                )}
+                  <div className="border-t border-[#D4AF37]/20 pt-3">
+                    <p className="text-xs font-bold mb-1" style={{ color: '#D4AF37' }}>
+                      🎯 Ton Objectif 90 jours :
+                    </p>
+                    <p className="text-sm text-white">{diagnostic.profilInfo.objectif90j}</p>
+                  </div>
+                </div>
+
+                {/* PROCHAINE ÉTAPE */}
+                <div className="bg-gradient-to-r from-green-900/20 to-teal-900/20 border border-green-500/40 p-4 rounded-xl mb-6">
+                  <p className="text-lg font-bold mb-2" style={{ color: '#D4AF37' }}>
+                    📍 Prochaine Étape Recommandée
+                  </p>
+                  <p className="text-white font-semibold mb-1">{diagnostic.strateRecommandee}</p>
+                  <p className="text-sm text-gray-300">{diagnostic.objectif}</p>
+                </div>
 
                 {/* CTA PRINCIPAL */}
                 <button
-                  onClick={() => navigate(diagnostic.strateUrl)}
-                  className="w-full text-black font-bold px-8 py-4 rounded-xl transition text-lg mb-4 font-['Montserrat']"
+                  onClick={handleStartParcours}
+                  className="w-full text-black font-bold py-4 px-6 rounded-xl transition text-lg mb-3 font-['Montserrat']"
                   style={{ backgroundColor: diagnostic.couleur }}
                 >
-                  🚀 Commencer : {diagnostic.strateRecommandee}
+                  🚀 Commencer Mon Parcours {diagnostic.profilInfo.nom}
                 </button>
 
-                {/* CTA PARTAGE - NOUVEAU */}
-                <button
-                  onClick={() => {
-                    const text = `Je viens de découvrir mon PONT vers la transformation avec Nova 🎯\n\nMon niveau : ${diagnostic.niveau}\nMa prochaine étape : ${diagnostic.strateRecommandee}\n\n#CatalyseurDigital #Transformation`;
-                    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}&summary=${encodeURIComponent(text)}`;
-                    window.open(url, '_blank');
-                  }}
-                  className="w-full bg-white/10 border border-[#D4AF37]/40 text-gray-300 font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition text-sm mb-4"
-                >
-                  📤 Partager mon résultat sur LinkedIn
-                </button>
-
-                {/* BOUTON REFAIRE */}
+                {/* RESET */}
                 <button
                   onClick={handleReset}
-                  className="w-full bg-white/10 text-gray-300 font-semibold px-6 py-3 rounded-xl hover:bg-white/20 transition text-sm"
+                  className="text-sm text-gray-400 hover:text-[#D4AF37] transition"
                 >
-                  🔄 Refaire le diagnostic
+                  ↻ Refaire le diagnostic
                 </button>
-              </motion.div>
+              </>
             )}
           </>
         )}
@@ -429,16 +493,20 @@ export default function Nova() {
         </p>
       </motion.div>
 
-      {/* STATISTIQUES */}
+      {/* MESSAGE COMMUNAUTÉ BETA */}
       <motion.div
-        className="mt-8 text-sm md:text-base font-semibold relative z-10"
+        className="mt-8 text-sm text-center max-w-2xl relative z-10 bg-[#0A2540]/40 border border-[#D4AF37]/30 rounded-xl p-4"
         style={{ color: '#D4AF37' }}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 1.2, duration: 0.8 }}
         viewport={{ once: true }}
       >
-        📊 +2,547 diagnostics réalisés • 87% atteignent la Strate 3 • 4.8/5 ⭐
+        <p className="font-semibold mb-1">🌱 Communauté en construction</p>
+        <p className="text-xs text-gray-400">
+          Tu fais partie des premiers à tester Nova et à construire ton PONT. 
+          Chaque diagnostic aide à affiner le système pour les suivants.
+        </p>
       </motion.div>
     </section>
   );
